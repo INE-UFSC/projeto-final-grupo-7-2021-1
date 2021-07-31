@@ -7,11 +7,25 @@ class Canvas:
         """ Tamanho da Tela """
         self.__width = width
         self.__height = height
+        self.__display = pygame.display.set_mode((self.__width,self.__height))
+
+    
+    @property
+    def display(self):
+      return self.__display
     
     @property
     def iniciarTela(self):
-        pygame.display.set_mode((self.__width,self.__height))
+      self.display
 
-    @property
-    def desenhar_canvas(self):
-        pass
+    def desenhar_canvas(self,objetos_desenhar:list):
+      """ fundo  """
+      self.display.fill((155,255,165))
+      "Desenhar objetos aqui..."
+
+
+
+
+      """ Update da tela <-- final da função ---> """
+      pygame.display.update()
+        
