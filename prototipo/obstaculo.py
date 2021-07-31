@@ -1,6 +1,14 @@
 from abc import ABC, abstractmethod
-from pygame import Rect
-
 
 class IObstaculo(ABC):
-   pass
+   """ Parametros demais """
+   def __init__(self,width,height,cor,margem,velocidade):
+      self.__width = width
+      self.__height = height
+      self.__cor = cor
+      self.__margem = margem
+      self.__velocidade = velocidade
+
+      @abstractmethod
+      def mover(self):
+         pass
