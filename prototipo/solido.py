@@ -1,0 +1,1 @@
+from obstaculo import IObstaculo
