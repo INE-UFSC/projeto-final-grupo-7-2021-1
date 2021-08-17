@@ -2,30 +2,32 @@ from abc import ABC, abstractmethod
 from pygame import Rect
 
 #Configurações
-SIZE = 10
-PURPLE = (155,0,155)
-WHITE = (255,255,255)
+TAMANHO = 10
+ROXO = (155,0,155)
+BRANCO = (255,255,255)
 
 #Class abstrata de poderes
 
-class Power(Rect, ABC):
+class Poderes(Rect, ABC):
     @abstractmethod
-    def __init__(self, x, y, color, cooldown):
-        self.__color = color
-        self.__cooldown = cooldown
-        super().__init__(x, y- SIZE, SIZE, SIZE)
+    def __init__(self, x, y, cor, recarga):
+        self.__cor = cor
+        self.__recarga = recarga
+        super().__init__(x, y- TAMANHO, TAMANHO, TAMANHO)
     
     @property
-    def color(self):
-        return self.__color
+    def cor(self):
+        return self.__cor
     
     @property
-    def cooldown(self):
-        return self.__cooldown
+    def recarga(self):
+        return self.__recarga
     
-    def __update(self):
-        self.update(self.x, self.y, self.width, self.height)
+    def __atualizar(self):
+        self.atualizar(self.x, self.y, self.width, self.height)
 
     @abstractmethod
     def effect(self, game_speed, jump_speed):
         pass
+
+

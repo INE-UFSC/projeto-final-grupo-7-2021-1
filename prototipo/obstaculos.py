@@ -1,17 +1,17 @@
 from abc import ABC, abstractmethod
 from pygame import Rect
 
-class Obstacle(ABC,Rect):
+class Obstaculo(ABC,Rect):
     @abstractmethod
-    def __init__(self, x, y, width, height, margin):
+    def __init__(self, x, y, width, height, margem):
         super().__init__(x, y, width, height)
-        self.__margin = margin
+        self.__margem = margem
     
     @property
-    def margin(self):
-        return self.__margin
+    def margem(self):
+        return self.__margem
     
     """ update Rect após mudança vel """
-    def move(self,vel):
+    def mover(self,vel):
         self.x -= vel
-        self.update(self)
+        self.atualizar(self)

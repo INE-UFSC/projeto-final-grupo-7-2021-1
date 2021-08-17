@@ -1,15 +1,15 @@
 from prototipo.controller import WIDTH
-from obstaculos import Obstacle
+from obstaculos import Obstaculo
 
-class SmallObs(Obstacle):
-    def __init__(self, x, y, margin):
+class ObsPequeno(Obstaculo):
+    def __init__(self, x, y, margem):
         width = 20
         height = 40
-        super().__init__(x, y-height, width, height, margin)
+        super().__init__(x, y-height, width, height, margem)
 
-class LargeObs(Obstacle):
-    def __init__(self, x, y, margin):
+class ObsGrande(Obstaculo):
+    def __init__(self, x, y, margem):
         width = 30
         height = 60
-        super().__init__(x, y-height, width, height, margin)
+        super().__init__(x, y-height, width, height, margem)
 

@@ -1,7 +1,7 @@
-from obstaculos import Obstacle
+from obstaculos import Obstaculo
 
-class Bird(Obstacle):
-    def __init__(self, x, y, margin):
-        size = 30
-        super().__init__(x, y-size, size, size, margin)
+class Passaro(Obstaculo):
+    def __init__(self, x, y, margem):
+        TAMANHO = 30
+        super().__init__(x, y-TAMANHO, TAMANHO, TAMANHO, margem)
         
