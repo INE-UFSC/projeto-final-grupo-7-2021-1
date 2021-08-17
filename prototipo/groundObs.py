@@ -1,6 +1,7 @@
 from prototipo.controller import WIDTH
 from obstaculos import Obstaculo
 
+
 class ObsPequeno(Obstaculo):
     def __init__(self, x, y, margem):
         width = 20
