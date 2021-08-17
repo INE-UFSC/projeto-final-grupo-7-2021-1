@@ -10,19 +10,24 @@ BRANCO = (255,255,255)
 
 class Poder(Rect, ABC):
     @abstractmethod
-    def __init__(self, x, y, cor, recarga):
+    def __init__(self, x, y, cor, tempo):
         self.__cor = cor
-        self.__recarga = recarga
-        super().__init__(x, y- TAMANHO, TAMANHO, TAMANHO)
+        self.__tempo = tempo
+        super().__init__(x, y-TAMANHO, TAMANHO, TAMANHO)
     
     @property
     def cor(self):
         return self.__cor
     
-    # Tempo recarga
+    # Tempo que o poder permanece ativado
     @property
-    def recarga(self):
-        return self.__recarga
+    def tempo(self):
+        return self.__tempo
+
+    def mover(self, vel):
+        self.x -= vel + 2
+        self.__atualizar()
+
     # Atualiza o Rect 
     def __atualizar(self):
         self.atualizar(self.x, self.y, self.width, self.height)

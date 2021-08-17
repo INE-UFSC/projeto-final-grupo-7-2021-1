@@ -4,12 +4,12 @@ from pygame import Rect
 #configs
 TAMANHO = 40 #quadrado
 X_POS = 300
-RED = (255,0,0)
+VERMELHO = (255,0,0)
 
 class Player(Rect):
     def __init__(self, comeco_chao):
         super().__init__(X_POS, comeco_chao-TAMANHO, TAMANHO, TAMANHO)
-        self.__cor = RED
+        self.__cor = VERMELHO
         self.__pulando = False
         self.__agachando = False
         self.__direcao_pulo = 'UP'

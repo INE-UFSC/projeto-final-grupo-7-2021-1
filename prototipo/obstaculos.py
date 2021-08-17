@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from pygame import Rect
 
-class Obstaculo(ABC,Rect):
+class Obstaculo(Rect, ABC):
     @abstractmethod
     def __init__(self, x, y, width, height, margem):
         super().__init__(x, y, width, height)
@@ -14,4 +14,7 @@ class Obstaculo(ABC,Rect):
     """ update Rect após mudança vel """
     def mover(self,vel):
         self.x -= vel
-        self.atualizar(self)
+        self.__atualizar()
+    
+    def __atualizar(self):
+        self.update(self.x, self.y, self.width, self.height)
