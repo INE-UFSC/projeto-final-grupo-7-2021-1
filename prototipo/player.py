@@ -35,8 +35,17 @@ class Player(Rect):
     def score(self, novo_score):
         self.__score = novo_score
 
-    def pular(self):
-        pass
+    def pular(self, vel_pulo, pulo_max, chao):
+        self.__pulando = True
+        if self.__direcao_pulo == 'UP':
+            self.y -= vel_pulo
+            if self.y + self.height <= pulo_max:
+                self.__direcao_pulo = 'DOWN'
+        else:
+            self.y += vel_pulo
+            if self.y + self.height >= chao:
+                self.__direcao_pulo = 'UP'
+                self.__pulando = False
 
     def agachar(self):
         pass
