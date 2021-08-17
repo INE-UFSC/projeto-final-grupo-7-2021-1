@@ -46,10 +46,20 @@ class Player(Rect):
             if self.y + self.height >= chao:
                 self.__direcao_pulo = 'UP'
                 self.__pulando = False
+        self.__atualizar()
 
     def agachar(self):
-        pass
+        self.__agachando = True
+        self.height -= TAMANHO/2
+        self.y += TAMANHO/2
+        self.__atualizar()
 
-    def __update(self):
+    def soltar(self):
+        self.__agachando = False
+        self.height = TAMANHO
+        self.y -= TAMANHO/2
+        self.__atualizar()
+
+    def __atualizar(self):
         self.update(self.x, self.y, self.width, self.height)
 

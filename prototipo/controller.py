@@ -51,6 +51,12 @@ class Controller:
         if keys[K_w] or keys[K_UP]:
             if not self.__player.pulando:
                 self.__player.pular(vel_pulo, PULO_MAX, COMECO_CHAO)
+        if keys[K_s] or keys[K_DOWN]:
+            if not self.__player.pulando and not self.__player.agachando:
+                self.__player.agachar()
+        else:
+            if self.__player.agachando:
+                self.__player.soltar()
 
     def checar_pulando(self):
         if self.__player.pulando:
