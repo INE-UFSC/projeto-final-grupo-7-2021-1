@@ -14,4 +14,4 @@ class Obstacle(ABC,Rect):
     """ update Rect após mudança vel """
     def move(self,vel):
         self.x -= vel
-        self.update(self.x, self.y, self.width, self.height)
+        self.update(self)
