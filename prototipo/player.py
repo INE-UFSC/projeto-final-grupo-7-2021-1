@@ -18,6 +18,10 @@ class Player(Rect):
     @property
     def cor(self):
         return self.__cor
+    
+    @cor.setter
+    def cor(self,cor):
+        self.__cor = cor
 
     @property
     def pulando(self):
@@ -59,6 +63,9 @@ class Player(Rect):
         self.height = TAMANHO
         self.y -= TAMANHO/2
         self.__atualizar()
+    
+    def resetarCor(self):
+        self.cor = VERMELHO
 
     def __atualizar(self):
         self.update(self.x, self.y, self.width, self.height)

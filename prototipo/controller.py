@@ -14,7 +14,12 @@ PULO_MAX = COMECO_CHAO - 120 #pulo de 120 px
 
 #variaveis auxiliares
 vel_jogo = 4
+vel_jogo_salvo = 4
 vel_pulo = 5
+vel_pulo_salvo = 5
+poder_usado = None
+poder_tempo = 0
+
 
 class Controller:
     def __init__(self):
@@ -23,6 +28,7 @@ class Controller:
         self.__view = View(self, WIDTH, HEIGHT)
         self.__running = True
         self.__paused = False
+        self.__habilitaColisao = True
 
     @property
     def player(self):
@@ -54,6 +60,8 @@ class Controller:
         self.checar_pulando()
         self.__cenario.gerar_elementos(now)
         self.__cenario.mover_elementos(vel_jogo)
+        self.checar_colissoes(now)
+        self.terminar_efeito(now)
 
     def key_handler(self):
         keys = pygame.key.get_pressed()
@@ -70,4 +78,42 @@ class Controller:
     def checar_pulando(self):
         if self.__player.pulando:
             self.__player.pular(vel_pulo, PULO_MAX, COMECO_CHAO)
+    
+    #colisões player x obstaculo/poder
+    def checar_colissoes(self, now):
+        self.__checar_obstaculo_colide()
+        self.__checar_poder_colide(now)
+    
+    # colisão para obstaculos x player    
+    def __checar_obstaculo_colide(self):
+        for obstaculo in self.__cenario.obstaculos:
+            if self.__player.colliderect(obstaculo):
+                print('colidiu')
+
+    # colisão entre player x poder
+    def __checar_poder_colide(self, now):
+        global vel_jogo, poder_usado, poder_tempo, vel_pulo
+        for poder in self.__cenario.poderes:
+            if self.__player.colliderect(poder):
+                self.__player.cor = poder.cor
+                poder_usado = poder
+                poder_tempo = now
+                self.__habilitaColisao, vel_jogo, vel_pulo = poder.efeito(vel_jogo, vel_pulo)
+                self.__cenario.removePoder(poder)
+
+    #Encerra efeito do poder
+    def terminar_efeito(self, now):
+        global game_speed, vel_jogo, vel_jogo_salvo, poder_usado, poder_tempo, vel_pulo
+        if poder_usado != None:
+            if now - poder_tempo >= poder_usado.tempo:
+                vel_jogo = vel_jogo_salvo
+                poder_usado = None
+                poder_tempo = now
+                vel_pulo = 4
+                self.__habilitaColisao = True
+                self.__player.resetarCor()
+
+    
+
+
 
