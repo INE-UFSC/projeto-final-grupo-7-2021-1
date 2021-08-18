@@ -3,7 +3,7 @@ from pygame import Rect
 
 
 #configs
-TEMPO_GERA_PODER = 5000
+TEMPO_GERA_PODER = 20000
 
 #variavel auxiliar
 tempo_ultimo_poder = 0
@@ -65,12 +65,11 @@ class Cenario:
             tempo_ultimo_poder = now
             poder = self.__gerador.gerarPoder(self.__screen_width, self.__comeco_chao)
             self.__poderes.append(poder)
-            print('gerou')
 
     #por criterios de legibilidade
     def mover_elementos(self, vel_jogo):
         self.__moverObs(vel_jogo)
-        self.__moverPoderes()
+        self.__moverPoderes(vel_jogo)
 
     def __moverObs(self, vel):
         for obs in self.__obstaculos[:]:
@@ -78,5 +77,8 @@ class Cenario:
             if obs.x < 0:
                 self.__obstaculos.remove(obs)
 
-    def __moverPoderes(self):
-        pass
+    def __moverPoderes(self, vel):
+        for poder in self.__poderes[:]:
+            poder.mover(vel)
+            if poder.x < 0:
+                self.__poderes.remove(poder)

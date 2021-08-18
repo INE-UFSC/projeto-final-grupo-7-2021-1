@@ -17,8 +17,9 @@ class View:
 
     def desenhar(self):
         self.__desenhar_cenario()
-        self.__desenhar_player()
         self.__desenhar_obstaculos()
+        self.__desenhar_poderes()
+        self.__desenhar_player()
 
     def __desenhar_player(self):
         pygame.draw.rect(self.__window, self.__controlador.player.cor, self.__controlador.player)
@@ -31,4 +32,6 @@ class View:
         for obs in self.__controlador.cenario.obstaculos:
             pygame.draw.rect(self.__window, AMARELO, obs)
 
-
+    def __desenhar_poderes(self):
+        for poder in self.__controlador.cenario.poderes:
+            pygame.draw.rect(self.__window, poder.cor, poder)
