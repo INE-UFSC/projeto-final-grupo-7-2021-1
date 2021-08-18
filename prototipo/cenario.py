@@ -38,6 +38,7 @@ class Cenario:
     def poderes(self):
         return self.__poderes
 
+    #por criterios de legibilidade
     def gerar_elementos(self):
         self.__gerarObs()
         self.__gerarPoder()
@@ -48,16 +49,23 @@ class Cenario:
             self.__obstaculos.append(obs)
         else:
             ultimo_obs = self.__obstaculos[-1]
-            if ultimo_obs.x + ultimo_obs.width < self.__screen_width + ultimo_obs.margem:
+            if ultimo_obs.x + ultimo_obs.width < self.__screen_width - ultimo_obs.margem:
                 obs = self.__gerador.gerarObs(self.__screen_width, self.__comeco_chao)
                 self.__obstaculos.append(obs)
-                print('Gerou!')
 
     def __gerarPoder(self):
         pass
 
-    def moverObs(self):
-        pass
+    #por criterios de legibilidade
+    def mover_elementos(self, vel_jogo):
+        self.__moverObs(vel_jogo)
+        self.__moverPoderes()
 
-    def moverPoderes(self):
+    def __moverObs(self, vel):
+        for obs in self.__obstaculos[:]:
+            obs.mover(vel)
+            if obs.x < 0:
+                self.__obstaculos.remove(obs)
+
+    def __moverPoderes(self):
         pass

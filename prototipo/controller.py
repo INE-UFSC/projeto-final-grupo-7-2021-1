@@ -13,6 +13,7 @@ COMECO_CHAO = 380
 PULO_MAX = COMECO_CHAO - 120 #pulo de 120 px
 
 #variaveis auxiliares
+vel_jogo = 4
 vel_pulo = 5
 
 class Controller:
@@ -36,6 +37,8 @@ class Controller:
         while self.__running:
             clock.tick(FPS)
 
+            now = pygame.time.get_ticks()
+
             self.__view.desenhar()
             self.perform_actions()
 
@@ -49,7 +52,8 @@ class Controller:
     def perform_actions(self):
         self.key_handler()
         self.checar_pulando()
-        self.cenario.gerar_elementos()
+        self.__cenario.gerar_elementos()
+        self.__cenario.mover_elementos(vel_jogo)
 
     def key_handler(self):
         keys = pygame.key.get_pressed()
