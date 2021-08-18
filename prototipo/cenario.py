@@ -1,3 +1,4 @@
+from gerador import Gerador
 from pygame import Rect
 
 
@@ -17,6 +18,7 @@ class Cenario:
         self.__comeco_chao = chao
         self.__ceu = Ceu(self.__screen_width, self.__screen_height)
         self.__chao = Chao(self.__screen_width, self.__screen_height, self.__comeco_chao)
+        self.__gerador = Gerador()
         self.__obstaculos = []
         self.__poderes = []
 
@@ -36,10 +38,22 @@ class Cenario:
     def poderes(self):
         return self.__poderes
 
-    def gerarObs(self):
-        pass
+    def gerar_elementos(self):
+        self.__gerarObs()
+        self.__gerarPoder()
 
-    def gerarPoder(self):
+    def __gerarObs(self):
+        if len(self.__obstaculos) == 0:
+            obs = self.__gerador.gerarObs(self.__screen_width, self.__comeco_chao)
+            self.__obstaculos.append(obs)
+        else:
+            ultimo_obs = self.__obstaculos[-1]
+            if ultimo_obs.x + ultimo_obs.width < self.__screen_width + ultimo_obs.margem:
+                obs = self.__gerador.gerarObs(self.__screen_width, self.__comeco_chao)
+                self.__obstaculos.append(obs)
+                print('Gerou!')
+
+    def __gerarPoder(self):
         pass
 
     def moverObs(self):

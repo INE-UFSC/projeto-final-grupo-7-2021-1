@@ -37,14 +37,19 @@ class Controller:
             clock.tick(FPS)
 
             self.__view.desenhar()
-            self.key_handler()
-            self.checar_pulando()
+            self.perform_actions()
 
             for event in pygame.event.get():
                 if event.type == WINDOWCLOSE:
                     self.__running = False
 
             pygame.display.update()
+
+    #apenas para criterios de legibilidade
+    def perform_actions(self):
+        self.key_handler()
+        self.checar_pulando()
+        self.cenario.gerar_elementos()
 
     def key_handler(self):
         keys = pygame.key.get_pressed()
