@@ -1,4 +1,3 @@
-from prototipo.controller import WIDTH
 from obstaculos import Obstaculo
 
 
