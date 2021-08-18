@@ -68,5 +68,5 @@ class Player(Rect):
         self.cor = VERMELHO
 
     def __atualizar(self):
-        self.update(self.x, self.y, self.width, self.height)
+        self.update(self)
 

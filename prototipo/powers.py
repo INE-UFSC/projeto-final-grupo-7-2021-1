@@ -30,7 +30,7 @@ class Poder(Rect, ABC):
 
     # Atualiza o Rect 
     def __atualizar(self):
-        self.update(self.x, self.y, self.width, self.height)
+        self.update(self)
 
     #Efeito gerado pelo poder
     @abstractmethod

@@ -17,4 +17,4 @@ class Obstaculo(Rect, ABC):
         self.__atualizar()
     
     def __atualizar(self):
-        self.update(self.x, self.y, self.width, self.height)
+        self.update(self)
