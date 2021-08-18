@@ -37,10 +37,10 @@ class Controller:
         while self.__running:
             clock.tick(FPS)
 
-            now = pygame.time.get_ticks()
+            now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
 
             self.__view.desenhar()
-            self.perform_actions()
+            self.perform_actions(now)
 
             for event in pygame.event.get():
                 if event.type == WINDOWCLOSE:
@@ -49,10 +49,10 @@ class Controller:
             pygame.display.update()
 
     #apenas para criterios de legibilidade
-    def perform_actions(self):
+    def perform_actions(self, now):
         self.key_handler()
         self.checar_pulando()
-        self.__cenario.gerar_elementos()
+        self.__cenario.gerar_elementos(now)
         self.__cenario.mover_elementos(vel_jogo)
 
     def key_handler(self):

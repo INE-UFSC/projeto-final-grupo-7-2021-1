@@ -2,6 +2,12 @@ from gerador import Gerador
 from pygame import Rect
 
 
+#configs
+TEMPO_GERA_PODER = 5000
+
+#variavel auxiliar
+tempo_ultimo_poder = 0
+
 #Duas classes auxiliares só pra diferenciar o cenário
 class Chao(Rect):
     def __init__(self, width, height, chao):
@@ -39,9 +45,9 @@ class Cenario:
         return self.__poderes
 
     #por criterios de legibilidade
-    def gerar_elementos(self):
+    def gerar_elementos(self, now):
         self.__gerarObs()
-        self.__gerarPoder()
+        self.__gerarPoder(now)
 
     def __gerarObs(self):
         if len(self.__obstaculos) == 0:
@@ -53,8 +59,13 @@ class Cenario:
                 obs = self.__gerador.gerarObs(self.__screen_width, self.__comeco_chao)
                 self.__obstaculos.append(obs)
 
-    def __gerarPoder(self):
-        pass
+    def __gerarPoder(self, now):
+        global tempo_ultimo_poder
+        if now - tempo_ultimo_poder > TEMPO_GERA_PODER:
+            tempo_ultimo_poder = now
+            poder = self.__gerador.gerarPoder(self.__screen_width, self.__comeco_chao)
+            self.__poderes.append(poder)
+            print('gerou')
 
     #por criterios de legibilidade
     def mover_elementos(self, vel_jogo):
