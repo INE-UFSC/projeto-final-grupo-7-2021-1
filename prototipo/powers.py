@@ -48,7 +48,7 @@ class PoderLento(Poder):
 
 class PoderInvulnerabilidade(Poder):
     def __init__(self, x, y):
-        super().__init__(x, y, BRANCO, 2000)
+        super().__init__(x, y, BRANCO, 4000)
     
     def efeito(self, velocidadeJogo, velocidadePulo):
         return False, velocidadeJogo + 20 , velocidadePulo

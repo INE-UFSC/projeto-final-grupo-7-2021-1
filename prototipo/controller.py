@@ -60,8 +60,10 @@ class Controller:
         self.checar_pulando()
         self.__cenario.gerar_elementos(now)
         self.__cenario.mover_elementos(vel_jogo)
-        self.checar_colissoes(now)
         self.terminar_efeito(now)
+        if self.__habilitaColisao:
+            self.checar_colissoes(now)
+
 
     def key_handler(self):
         keys = pygame.key.get_pressed()
