@@ -4,6 +4,7 @@ from pygame.mixer import pause
 from view import View
 from player import Player
 from cenario import Cenario
+from highScore import HighScoreDAO
 
 
 #configs
@@ -31,6 +32,8 @@ class Controller:
         self.__player = Player(COMECO_CHAO)
         self.__cenario = Cenario(WIDTH, HEIGHT, COMECO_CHAO)
         self.__view = View(self, WIDTH, HEIGHT)
+        self.__hsDAO = HighScoreDAO('highScores.pkl')
+        self.__highScore = self.__hsDAO.getHighScore()
         #ponteiros que controlam o jogo
         self.__running = True
         self.__pausado = False
@@ -48,6 +51,9 @@ class Controller:
     @property
     def pausado(self):
         return self.__pausado
+    @property
+    def highScore(self):
+        return self.__highScore
 
     def mainloop(self):
         clock = pygame.time.Clock()
@@ -69,6 +75,7 @@ class Controller:
     def perform_actions(self, now):
         self.key_handler(now)
         if not self.__pausado:
+            self.updateHighScore()
             self.checar_pulando()
             self.__cenario.gerar_elementos(now)
             self.__cenario.mover_elementos(vel_jogo)
@@ -174,6 +181,8 @@ class Controller:
     def end_game(self):
         self.__pausado = True
         self.__endGame = True
+        self.__hsDAO.add(self.__player.score)
+        self.__highScore = self.__hsDAO.getHighScore()
         pygame.time.wait(1500)
         self.__view.tela_endgame()
 
@@ -185,4 +194,9 @@ class Controller:
         self.__endGame = False
         self.__player.resetar(COMECO_CHAO)
         self.__cenario.limpar(now)
+
+    def updateHighScore(self):
+        print(self.__player.score, self.__highScore, self.__hsDAO.getHighScore())
+        if self.__player.score > self.__highScore:
+            self.__highscore = self.__player.score        
 
