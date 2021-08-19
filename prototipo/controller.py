@@ -13,7 +13,7 @@ FPS = 60
 COMECO_CHAO = 380
 PULO_MAX = COMECO_CHAO - 120 #pulo de 120 px
 TEMPO_PAUSE = 500 #esc deve ficar pressionado por 500 ms para entrar na tela de pause
-TEMPO_ACRES_SCORE = 100 #a cada 100 ms o poder aumenta 1
+TEMPO_ACRES_SCORE = 100 #a cada 100 ms o score aumenta 1
 
 #variaveis auxiliares
 vel_jogo = 4
@@ -22,7 +22,8 @@ vel_pulo = 5
 poder_usado = None
 poder_tempo = 0 #registra o tempo que o player colidiu com o poder
 pause_tempo = 0 #registra o tempo que a tecla de pause foi pressionada (para evitar bugs)
-ultimo_acres_poder = 0
+ultimo_acres_score = 0
+ultimo_acres_vel = 0 #a cada 100 pontos a velocidade aumenta em 0.5
 
 
 class Controller:
@@ -146,11 +147,21 @@ class Controller:
                 self.__player.resetarCor()
 
     def contador_score(self, now):
-        global ultimo_acres_poder
-        if now - ultimo_acres_poder > TEMPO_ACRES_SCORE:
+        global ultimo_acres_score, poder_usado
+        if now - ultimo_acres_score > TEMPO_ACRES_SCORE:
             self.__player.score += 1
-            ultimo_acres_poder = now
+            ultimo_acres_score = now
+            if poder_usado != None: 
+                #como alguns poderes mexem com a velocidade do jogo
+                #não podemos afetar essa velocidade durante o tempo de uso do poder
+                self.incrementar_vel(self.__player.score)
 
+    def incrementar_vel(self, score):
+        global vel_jogo, vel_jogo_salvo, ultimo_acres_vel
+        if score - ultimo_acres_vel == 100:
+            ultimo_acres_vel = score
+            vel_jogo += 0.5
+            vel_jogo_salvo = vel_jogo
 
 
 
