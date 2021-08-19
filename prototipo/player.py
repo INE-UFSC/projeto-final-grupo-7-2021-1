@@ -67,6 +67,15 @@ class Player(Rect):
     def resetarCor(self):
         self.cor = VERMELHO
 
+    def resetar(self, comeco_chao):
+        self.resetarCor()
+        self.x = X_POS
+        self.y = comeco_chao-TAMANHO
+        self.__score = 0
+        self.__pulando = False
+        self.__agachando = False
+        self.__atualizar()
+
     def __atualizar(self):
         self.update(self)
 

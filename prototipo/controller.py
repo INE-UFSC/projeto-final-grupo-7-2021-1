@@ -81,6 +81,7 @@ class Controller:
         keys = pygame.key.get_pressed()
         self.__keys_player(keys)
         self.__key_escape(keys, now)
+        self.__key_return(keys, now)
         
     def __keys_player(self, keys):
         if keys[K_w] or keys[K_UP]:
@@ -100,6 +101,10 @@ class Controller:
                 self.__view.tela_pause()
             else:
                 self.__pausado = False
+
+    def __key_return(self, keys, now):
+        if self.__endGame and keys[K_RETURN]:
+            self.reiniciar(now)
 
     def __pauseTimer(self,now):
         global pause_tempo
@@ -171,4 +176,13 @@ class Controller:
         self.__endGame = True
         pygame.time.wait(1500)
         self.__view.tela_endgame()
+
+    def reiniciar(self, now):
+        global vel_jogo, vel_jogo_salvo
+        vel_jogo = 4
+        vel_jogo_salvo = vel_jogo
+        self.__pausado = False
+        self.__endGame = False
+        self.__player.resetar(COMECO_CHAO)
+        self.__cenario.limpar(now)
 
