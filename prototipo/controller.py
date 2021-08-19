@@ -183,7 +183,7 @@ class Controller:
         self.__endGame = True
         self.__hsDAO.add(self.__player.score)
         self.__highScore = self.__hsDAO.getHighScore()
-        pygame.time.wait(1500)
+        pygame.time.wait(500)
         self.__view.tela_endgame()
 
     def reiniciar(self, now):
