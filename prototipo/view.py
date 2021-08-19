@@ -28,6 +28,7 @@ class View:
             self.__desenhar_obstaculos()
             self.__desenhar_poderes()
             self.__desenhar_player()
+            self.__desenhar_scores()
 
     def __desenhar_player(self):
         pygame.draw.rect(self.__window, self.__controlador.player.cor, self.__controlador.player)
@@ -43,6 +44,10 @@ class View:
     def __desenhar_poderes(self):
         for poder in self.__controlador.cenario.poderes:
             pygame.draw.rect(self.__window, poder.cor, poder)
+
+    def __desenhar_scores(self):
+        texto_score = MAIN_FONT.render(f'Score: {self.__controlador.player.score}', False, BRANCO)
+        self.__window.blit(texto_score, (10,10))
 
     def tela_pause(self):
         texto_pausado = PAUSED_FONT.render('JOGO PAUSADO', False, BRANCO)
