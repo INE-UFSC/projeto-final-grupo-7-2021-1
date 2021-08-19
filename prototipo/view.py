@@ -13,7 +13,8 @@ COR_CHAO = (50,150,50)
 COR_CEU = (100,100,255)
 MAIN_FONT = SysFont('Helvetica',25)
 PAUSED_FONT = SysFont('Helvetica', 40)
-
+END_FONT = SysFont('Helvetica', 40)
+BG_ENDGAME = (151,72,247)
 
 class View:
     def __init__(self, controlador, width, height):
@@ -62,3 +63,19 @@ class View:
         self.__window.blit(background, (0,0))
         self.__window.blit(texto_pausado,pausado_pos)
         self.__window.blit(texto_sair_pause,text_sair_pos)
+
+    def tela_endgame(self):
+        endgame = END_FONT.render('Game Over!', False, BRANCO)
+        pontuacao = END_FONT.render(f'Pontuação: {self.__controlador.player.score}', False, BRANCO)
+        reiniciar = MAIN_FONT.render('Aperte Enter para reiniciar', False, BRANCO)
+
+        endgame_pos = ((self.__screen_width - endgame.get_rect().width)/2, (self.__screen_height - endgame.get_rect().height)/2 - 80)
+        pontuacao_pos = ((self.__screen_width-pontuacao.get_rect().width)/2, (self.__screen_height - pontuacao.get_rect().height)/2)
+        reiniciar_pos = ((self.__screen_width- reiniciar.get_rect().width)/2, (self.__screen_height - reiniciar.get_rect().height)/2 + 100)
+        
+        background = pygame.Rect(0,0,self.__screen_width,self.__screen_height)
+        pygame.draw.rect(self.__window, BG_ENDGAME, background)
+        
+        self.__window.blit(endgame, endgame_pos)
+        self.__window.blit(pontuacao, pontuacao_pos)
+        self.__window.blit(reiniciar, reiniciar_pos)

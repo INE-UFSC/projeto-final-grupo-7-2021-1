@@ -121,7 +121,7 @@ class Controller:
     def __checar_obstaculo_colide(self):
         for obstaculo in self.__cenario.obstaculos:
             if self.__player.colliderect(obstaculo):
-                print('colidiu')
+                self.end_game()
 
     # colisão entre player x poder
     def __checar_poder_colide(self, now):
@@ -163,5 +163,9 @@ class Controller:
             vel_jogo += 0.5
             vel_jogo_salvo = vel_jogo
 
-
+    def end_game(self):
+        self.__pausado = True
+        self.__endGame = True
+        pygame.time.wait(1500)
+        self.__view.tela_endgame()
 
