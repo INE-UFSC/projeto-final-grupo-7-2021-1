@@ -1,5 +1,6 @@
 import pygame
 from pygame.constants import *
+from pygame.mixer import pause
 from view import View
 from player import Player
 from cenario import Cenario
@@ -11,23 +12,25 @@ HEIGHT = 500
 FPS = 60
 COMECO_CHAO = 380
 PULO_MAX = COMECO_CHAO - 120 #pulo de 120 px
+TEMPO_PAUSE = 500 #esc deve ficar pressionado por 500 ms para entrar na tela de pause
 
 #variaveis auxiliares
 vel_jogo = 4
-vel_jogo_salvo = 4
+vel_jogo_salvo = vel_jogo
 vel_pulo = 5
-vel_pulo_salvo = 5
 poder_usado = None
-poder_tempo = 0
-
+poder_tempo = 0 #registra o tempo que o player colidiu com o poder
+pause_tempo = 0 #registra o tempo que a tecla de pause foi pressionada (para evitar bugs)
 
 class Controller:
     def __init__(self):
         self.__player = Player(COMECO_CHAO)
         self.__cenario = Cenario(WIDTH, HEIGHT, COMECO_CHAO)
         self.__view = View(self, WIDTH, HEIGHT)
+        #ponteiros que controlam o jogo
         self.__running = True
-        self.__paused = False
+        self.__pausado = False
+        self.__endGame = False
         self.__habilitaColisao = True
 
     @property
@@ -37,6 +40,10 @@ class Controller:
     @property
     def cenario(self):
         return self.__cenario
+
+    @property
+    def pausado(self):
+        return self.__pausado
 
     def mainloop(self):
         clock = pygame.time.Clock()
@@ -56,17 +63,22 @@ class Controller:
 
     #apenas para criterios de legibilidade
     def perform_actions(self, now):
-        self.key_handler()
-        self.checar_pulando()
-        self.__cenario.gerar_elementos(now)
-        self.__cenario.mover_elementos(vel_jogo)
-        self.terminar_efeito(now)
-        if self.__habilitaColisao:
-            self.checar_colissoes(now)
+        self.key_handler(now)
+        if not self.__pausado:
+            self.checar_pulando()
+            self.__cenario.gerar_elementos(now)
+            self.__cenario.mover_elementos(vel_jogo)
+            self.terminar_efeito(now)
+            if self.__habilitaColisao:
+                self.checar_colissoes(now)
 
 
-    def key_handler(self):
+    def key_handler(self, now):
         keys = pygame.key.get_pressed()
+        self.__keys_player(keys)
+        self.__key_escape(keys, now)
+        
+    def __keys_player(self, keys):
         if keys[K_w] or keys[K_UP]:
             if not self.__player.pulando:
                 self.__player.pular(vel_pulo, PULO_MAX, COMECO_CHAO)
@@ -76,6 +88,21 @@ class Controller:
         else:
             if self.__player.agachando:
                 self.__player.soltar()
+    
+    def __key_escape(self, keys, now):
+        if keys[K_ESCAPE] and self.__pauseTimer(now):
+            if not self.__pausado:
+                self.__pausado = True
+                self.__view.tela_pause()
+            else:
+                self.__pausado = False
+
+    def __pauseTimer(self,now):
+        global pause_tempo
+        if not self.__endGame:
+            if now - pause_tempo >= TEMPO_PAUSE:
+                pause_tempo = now
+                return True
 
     def checar_pulando(self):
         if self.__player.pulando:
@@ -97,9 +124,9 @@ class Controller:
         global vel_jogo, poder_usado, poder_tempo, vel_pulo
         for poder in self.__cenario.poderes:
             if self.__player.colliderect(poder):
-                self.__player.cor = poder.cor
                 poder_usado = poder
                 poder_tempo = now
+                self.__player.cor = poder.cor
                 self.__habilitaColisao, vel_jogo, vel_pulo = poder.efeito(vel_jogo, vel_pulo)
                 self.__cenario.removePoder(poder)
 
