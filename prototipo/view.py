@@ -47,7 +47,7 @@ class View:
             pygame.draw.rect(self.__window, poder.cor, poder)
 
     def __desenhar_scores(self):
-        texto_score = MAIN_FONT.render(f'Score: {self.__controlador.player.score}', False, BRANCO)
+        texto_score = MAIN_FONT.render(f'Score: {self.__controlador.get_score()}', False, BRANCO)
         self.__window.blit(texto_score, (10,10))
 
     def tela_pause(self):
@@ -66,7 +66,7 @@ class View:
 
     def tela_endgame(self):
         endgame = END_FONT.render('Game Over!', False, BRANCO)
-        pontuacao = END_FONT.render(f'Pontuação: {self.__controlador.player.score}', False, BRANCO)
+        pontuacao = END_FONT.render(f'Pontuação: {self.__controlador.get_score()}', False, BRANCO)
         reiniciar = MAIN_FONT.render('Aperte Enter para reiniciar', False, BRANCO)
 
         endgame_pos = ((self.__screen_width - endgame.get_rect().width)/2, (self.__screen_height - endgame.get_rect().height)/2 - 80)

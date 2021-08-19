@@ -156,6 +156,9 @@ class Controller:
                 #não podemos afetar essa velocidade durante o tempo de uso do poder
                 self.incrementar_vel(self.__player.score)
 
+    def get_score(self):
+        return self.__player.score
+
     def incrementar_vel(self, score):
         global vel_jogo, vel_jogo_salvo, ultimo_acres_vel
         if score - ultimo_acres_vel == 100:
