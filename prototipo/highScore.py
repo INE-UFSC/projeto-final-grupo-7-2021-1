@@ -3,8 +3,8 @@ import pickle
 
 class HighScoreDAO:
     def __init__(self, datasource="default.pkl"):
-        self.__cache = []
         self.__datasource = datasource
+        self.__cache = []
         try:
             self.__load()
         except FileNotFoundError:

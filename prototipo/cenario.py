@@ -74,13 +74,13 @@ class Cenario:
     def __moverObs(self, vel):
         for obs in self.__obstaculos[:]:
             obs.mover(vel)
-            if obs.x < 0:
+            if obs.x + obs.width < 0:
                 self.__obstaculos.remove(obs)
 
     def __moverPoderes(self, vel):
         for poder in self.__poderes[:]:
             poder.mover(vel)
-            if poder.x < 0:
+            if poder.x + poder.width < 0:
                 self.__poderes.remove(poder)
 
     def removePoder(self, poder):

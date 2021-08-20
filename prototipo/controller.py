@@ -33,7 +33,7 @@ class Controller:
         self.__cenario = Cenario(WIDTH, HEIGHT, COMECO_CHAO)
         self.__view = View(self, WIDTH, HEIGHT)
         self.__hsDAO = HighScoreDAO('highScores.pkl')
-        self.__highScore = self.__hsDAO.getHighScore()
+        self.__highscore = self.__hsDAO.getHighScore()
         #ponteiros que controlam o jogo
         self.__running = True
         self.__pausado = False
@@ -52,8 +52,8 @@ class Controller:
     def pausado(self):
         return self.__pausado
     @property
-    def highScore(self):
-        return self.__highScore
+    def highscore(self):
+        return self.__highscore
 
     def mainloop(self):
         clock = pygame.time.Clock()
@@ -75,12 +75,12 @@ class Controller:
     def perform_actions(self, now):
         self.key_handler(now)
         if not self.__pausado:
-            self.updateHighScore()
             self.checar_pulando()
             self.__cenario.gerar_elementos(now)
             self.__cenario.mover_elementos(vel_jogo)
             self.contador_score(now)
             self.terminar_efeito(now)
+            self.update_highscore()
             if self.__habilitaColisao:
                 self.checar_colissoes(now)
 
@@ -182,7 +182,7 @@ class Controller:
         self.__pausado = True
         self.__endGame = True
         self.__hsDAO.add(self.__player.score)
-        self.__highScore = self.__hsDAO.getHighScore()
+        self.__highscore = self.__hsDAO.getHighScore()
         pygame.time.wait(500)
         self.__view.tela_endgame()
 
@@ -195,8 +195,7 @@ class Controller:
         self.__player.resetar(COMECO_CHAO)
         self.__cenario.limpar(now)
 
-    def updateHighScore(self):
-        print(self.__player.score, self.__highScore, self.__hsDAO.getHighScore())
-        if self.__player.score > self.__highScore:
-            self.__highscore = self.__player.score        
+    def update_highscore(self):
+        if self.__player.score > self.__highscore:
+            self.__highscore = self.__player.score  
 

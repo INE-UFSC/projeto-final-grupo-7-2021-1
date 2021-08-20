@@ -49,8 +49,8 @@ class View:
     def __desenhar_scores(self):
         texto_score = MAIN_FONT.render(f'Score: {self.__controlador.get_score()}', False, BRANCO)
         self.__window.blit(texto_score, (10,10))
-        texto_highscore = MAIN_FONT.render(f'High Score: {self.__controlador.highScore}', False, BRANCO)
-        self.__window.blit(texto_highscore, (650,10))
+        texto_highscore = MAIN_FONT.render(f'High Score: {self.__controlador.highscore}', False, BRANCO)
+        self.__window.blit(texto_highscore, ((self.__screen_width - texto_highscore.get_rect().width - 10),10))
 
     def tela_pause(self):
         texto_pausado = PAUSED_FONT.render('JOGO PAUSADO', False, BRANCO)
