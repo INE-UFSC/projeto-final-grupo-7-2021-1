@@ -1,6 +1,5 @@
 import pygame
 from pygame.constants import *
-from pygame.mixer import pause
 from view import View
 from player import Player
 from cenario import Cenario
