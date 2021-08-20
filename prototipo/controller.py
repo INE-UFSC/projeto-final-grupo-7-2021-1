@@ -176,7 +176,7 @@ class Controller:
             ultimo_acres_vel = self.__player.score
             vel_jogo += 0.5
             vel_jogo_salvo = vel_jogo
-            print(vel_jogo)
+
 
     def end_game(self):
         self.__pausado = True
