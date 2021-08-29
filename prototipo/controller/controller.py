@@ -1,9 +1,9 @@
 import pygame
 from pygame.constants import *
-from view import View
-from player import Player
-from cenario import Cenario
-from highScore import HighScoreDAO
+from views.view import View
+from model.player import Player
+from model.cenario import Cenario
+from controller.highScore import HighScoreDAO
 
 
 #configs

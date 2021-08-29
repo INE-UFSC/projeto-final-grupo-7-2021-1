@@ -1,4 +1,4 @@
-from obstaculos import Obstaculo
+from model.obstaculos import Obstaculo
 
 
 TAMANHO = 30

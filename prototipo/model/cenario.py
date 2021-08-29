@@ -1,4 +1,4 @@
-from gerador import Gerador
+from model.gerador import Gerador
 from pygame import Rect
 
 
