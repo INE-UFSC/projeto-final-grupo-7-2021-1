@@ -1,15 +1,14 @@
 from pygame import Rect
-
-
-#configs
-TAMANHO = 40 #quadrado
-X_POS = 300
-VERMELHO = (255,0,0)
+from versao_final.settings.playerSettings import PlayerSettings
+from versao_final.settings.gameSettings import GameSettings
 
 class Player(Rect):
     def __init__(self, comeco_chao):
-        super().__init__(X_POS, comeco_chao-TAMANHO, TAMANHO, TAMANHO)
-        self.__cor = VERMELHO
+        super().__init__(PlayerSettings.DEFAULT_X_POS,
+                         GameSettings.COMECO_CHAO-PlayerSettings.SIZE,
+                         PlayerSettings.SIZE,
+                         PlayerSettings.SIZE)
+        self.__cor = PlayerSettings.DEFAULT_COLOR
         self.__pulando = False
         self.__agachando = False
         self.__direcao_pulo = 'UP'
@@ -54,23 +53,23 @@ class Player(Rect):
 
     def agachar(self):
         self.__agachando = True
-        self.height -= TAMANHO/2
-        self.y += TAMANHO/2
+        self.height -= PlayerSettings.SIZE/2
+        self.y += PlayerSettings.SIZE/2
         self.__atualizar()
 
     def soltar(self):
         self.__agachando = False
-        self.height = TAMANHO
-        self.y -= TAMANHO/2
+        self.height = PlayerSettings.SIZE
+        self.y -= PlayerSettings.SIZE/2
         self.__atualizar()
     
     def resetarCor(self):
-        self.cor = VERMELHO
+        self.cor = PlayerSettings.DEFAULT_COLOR
 
-    def resetar(self, comeco_chao):
+    def resetar(self):
         self.resetarCor()
-        self.x = X_POS
-        self.y = comeco_chao-TAMANHO
+        self.x = PlayerSettings.DEFAULT_X_POS
+        self.y = GameSettings.COMECO_CHAO - PlayerSettings.SIZE
         self.__score = 0
         self.__pulando = False
         self.__agachando = False

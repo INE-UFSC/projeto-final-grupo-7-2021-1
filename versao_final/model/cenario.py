@@ -1,29 +1,23 @@
 from model.gerador import Gerador
 from pygame import Rect
-
-
-#configs
-TEMPO_GERA_PODER = 20000
+from versao_final.settings.gameSettings import GameSettings
 
 #variavel auxiliar
 tempo_ultimo_poder = 0
 
 #Duas classes auxiliares só pra diferenciar o cenário
 class Chao(Rect):
-    def __init__(self, width, height, chao):
-        super().__init__(0, chao, width, height)
+    def __init__(self):
+        super().__init__(0, GameSettings.COMECO_CHAO, GameSettings.WIDTH, GameSettings.HEIGHT)
 
 class Ceu(Rect):
-    def __init__(self, width, heigth):
-        super().__init__(0, 0, width, heigth)
+    def __init__(self):
+        super().__init__(0, 0,GameSettings.WIDTH, GameSettings.HEIGHT)
 
 class Cenario:
-    def __init__(self, width, height, chao):
-        self.__screen_width = width
-        self.__screen_height = height
-        self.__comeco_chao = chao
-        self.__ceu = Ceu(self.__screen_width, self.__screen_height)
-        self.__chao = Chao(self.__screen_width, self.__screen_height, self.__comeco_chao)
+    def __init__(self):
+        self.__ceu = Ceu()
+        self.__chao = Chao()
         self.__gerador = Gerador()
         self.__obstaculos = []
         self.__poderes = []
@@ -50,20 +44,20 @@ class Cenario:
         self.__gerarPoder(now)
 
     def __gerarObs(self):
-        if len(self.__obstaculos) == 0:
-            obs = self.__gerador.gerarObs(self.__screen_width, self.__comeco_chao)
-            self.__obstaculos.append(obs)
-        else:
+        try:
             ultimo_obs = self.__obstaculos[-1]
-            if ultimo_obs.x + ultimo_obs.width < self.__screen_width - ultimo_obs.margem:
-                obs = self.__gerador.gerarObs(self.__screen_width, self.__comeco_chao)
+            if ultimo_obs.x + ultimo_obs.width < GameSettings.WIDTH - ultimo_obs.margem:
+                obs = self.__gerador.gerarObs()
                 self.__obstaculos.append(obs)
+        except IndexError:
+            obs = self.__gerador.gerarObs()
+            self.__obstaculos.append(obs)
 
     def __gerarPoder(self, now):
         global tempo_ultimo_poder
-        if now - tempo_ultimo_poder > TEMPO_GERA_PODER:
+        if now - tempo_ultimo_poder > GameSettings.TEMPO_GERA_PODER:
             tempo_ultimo_poder = now
-            poder = self.__gerador.gerarPoder(self.__screen_width, self.__comeco_chao)
+            poder = self.__gerador.gerarPoder()
             self.__poderes.append(poder)
 
     #por criterios de legibilidade

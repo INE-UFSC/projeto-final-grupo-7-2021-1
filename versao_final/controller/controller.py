@@ -4,16 +4,9 @@ from views.view import View
 from model.player import Player
 from model.cenario import Cenario
 from controller.highScore import HighScoreDAO
+from versao_final.settings.gameSettings import GameSettings
+from versao_final.settings.gameStates import GameStates
 
-
-#configs
-WIDTH = 900
-HEIGHT = 500
-FPS = 60
-COMECO_CHAO = 380
-PULO_MAX = COMECO_CHAO - 120 #pulo de 120 px
-TEMPO_PAUSE = 500 #esc deve ficar pressionado por 500 ms para entrar na tela de pause
-TEMPO_ACRES_SCORE = 100 #a cada 100 ms o score aumenta 1
 
 #variaveis auxiliares
 vel_jogo = 4
@@ -28,15 +21,13 @@ ultimo_acres_vel = 0 #a cada 100 pontos a velocidade aumenta em 0.5
 
 class Controller:
     def __init__(self):
-        self.__player = Player(COMECO_CHAO)
-        self.__cenario = Cenario(WIDTH, HEIGHT, COMECO_CHAO)
-        self.__view = View(self, WIDTH, HEIGHT)
+        self.__player = Player()
+        self.__cenario = Cenario()
+        self.__view = View(self)
         self.__hsDAO = HighScoreDAO('highScores.pkl')
         self.__highscore = self.__hsDAO.getHighScore()
         #ponteiros que controlam o jogo
-        self.__running = True
-        self.__pausado = False
-        self.__endGame = False
+        self.__gameState = GameStates.MENU
         self.__habilitaColisao = True
 
     @property
@@ -48,16 +39,18 @@ class Controller:
         return self.__cenario
 
     @property
-    def pausado(self):
-        return self.__pausado
+    def gameState(self):
+        return self.__gameState
+
     @property
     def highscore(self):
         return self.__highscore
 
     def mainloop(self):
         clock = pygame.time.Clock()
-        while self.__running:
-            clock.tick(FPS)
+        running = True
+        while running:
+            clock.tick(GameSettings.FPS)
 
             now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
 
@@ -66,14 +59,14 @@ class Controller:
 
             for event in pygame.event.get():
                 if event.type == WINDOWCLOSE:
-                    self.__running = False
+                    running = False
 
             pygame.display.update()
 
     #apenas para criterios de legibilidade
     def perform_actions(self, now):
         self.key_handler(now)
-        if not self.__pausado:
+        if self.__gameState == GameStates.JOGANDO:
             self.checar_pulando()
             self.__cenario.gerar_elementos(now)
             self.__cenario.mover_elementos(vel_jogo)
@@ -92,7 +85,7 @@ class Controller:
     def __keys_player(self, keys):
         if keys[K_w] or keys[K_UP]:
             if not self.__player.pulando:
-                self.__player.pular(vel_pulo, PULO_MAX, COMECO_CHAO)
+                self.__player.pular(vel_pulo)
         if keys[K_s] or keys[K_DOWN]:
             if not self.__player.pulando and not self.__player.agachando:
                 self.__player.agachar()
@@ -103,25 +96,24 @@ class Controller:
     def __key_escape(self, keys, now):
         if keys[K_ESCAPE] and self.__pauseTimer(now):
             if not self.__pausado:
-                self.__pausado = True
+                self.__gameState = GameStates.PAUSADO
                 self.__view.tela_pause()
             else:
-                self.__pausado = False
+                self.__gameState = GameStates.JOGANDO
 
     def __key_return(self, keys, now):
-        if self.__endGame and keys[K_RETURN]:
+        if self.__gameState == GameStates.ENDGAME and keys[K_RETURN]:
             self.reiniciar(now)
 
     def __pauseTimer(self,now):
         global pause_tempo
-        if not self.__endGame:
-            if now - pause_tempo >= TEMPO_PAUSE:
-                pause_tempo = now
-                return True
+        if now - pause_tempo >= GameSettings.TEMPO_PAUSE:
+            pause_tempo = now
+            return True
 
     def checar_pulando(self):
         if self.__player.pulando:
-            self.__player.pular(vel_pulo, PULO_MAX, COMECO_CHAO)
+            self.__player.pular(vel_pulo)
     
     #colisões player x obstaculo/poder
     def checar_colissoes(self, now):
@@ -159,10 +151,10 @@ class Controller:
 
     def contador_score(self, now):
         global ultimo_acres_score, poder_usado
-        if now - ultimo_acres_score > TEMPO_ACRES_SCORE:
+        if now - ultimo_acres_score > GameSettings.TEMPO_ACRES_SCORE:
             self.__player.score += 1
             ultimo_acres_score = now
-            if poder_usado == None: 
+            if poder_usado == None:
                 #como alguns poderes mexem com a velocidade do jogo
                 #não podemos afetar essa velocidade durante o tempo de uso do poder
                 self.incrementar_vel()
@@ -179,8 +171,7 @@ class Controller:
 
 
     def end_game(self):
-        self.__pausado = True
-        self.__endGame = True
+        self.__gameState == GameStates.ENDGAME
         self.__hsDAO.add(self.__player.score)
         self.__highscore = self.__hsDAO.getHighScore()
         pygame.time.wait(500)
@@ -190,9 +181,8 @@ class Controller:
         global vel_jogo, vel_jogo_salvo
         vel_jogo = 4
         vel_jogo_salvo = vel_jogo
-        self.__pausado = False
-        self.__endGame = False
-        self.__player.resetar(COMECO_CHAO)
+        self.__gameState == GameStates.JOGANDO
+        self.__player.resetar()
         self.__cenario.limpar(now)
 
     def update_highscore(self):

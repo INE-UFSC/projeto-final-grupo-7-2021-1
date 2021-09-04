@@ -1,10 +1,9 @@
-from abc import ABC, abstractmethod
 from pygame import Rect
+from abc import ABC, abstractmethod
+from versao_final.settings.gameColors import GameColors
 
-#Configurações
+
 TAMANHO = 10
-ROXO = (155,0,155)
-BRANCO = (255,255,255)
 
 #Class abstrata de poderes
 
@@ -40,7 +39,7 @@ class Poder(Rect, ABC):
 
 class PoderLento(Poder):
     def __init__(self, x, y):
-        super().__init__(x, y, ROXO, 5000)
+        super().__init__(x, y, GameColors.ROXO, 5000)
     
     def efeito(self, velocidadeJogo, velocidadePulo):
         return True, 2, 2 
@@ -48,9 +47,7 @@ class PoderLento(Poder):
 
 class PoderInvulnerabilidade(Poder):
     def __init__(self, x, y):
-        super().__init__(x, y, BRANCO, 4000)
+        super().__init__(x, y, GameColors.BRANCO, 4000)
     
     def efeito(self, velocidadeJogo, velocidadePulo):
         return False, velocidadeJogo + 20 , velocidadePulo
-
-
