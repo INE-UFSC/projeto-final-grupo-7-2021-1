@@ -79,6 +79,8 @@ class Controller:
             self.__gameState = self.__view.tela_instrucoes2(mouse_pos, mouse_up)
         elif self.__gameState == GameStates.INSTRUCOES3:
             self.__gameState = self.__view.tela_instrucoes3(mouse_pos, mouse_up)
+        elif self.__gameState == GameStates.RANKING:
+            self.__gameState = self.__view.tela_ranking(mouse_pos, mouse_up)
         elif self.__gameState == GameStates.JOGANDO:
             self.checar_pulando()
             self.__cenario.gerar_elementos(now)
@@ -203,3 +205,5 @@ class Controller:
         if self.__player.score > self.__highscore:
             self.__highscore = self.__player.score  
 
+    def get_highscores(self):
+        return self.__hsDAO.getAllScores()

@@ -186,6 +186,31 @@ class View:
 
         return nextState
 
+    def tela_ranking(self, mouse_pos, mouse_up):
+        bHome = HomeButton((70, 50), GameStates.RANKING)
+        h0 = bHome.hover(mouse_pos)
+        s0 = bHome.click(mouse_pos, mouse_up)
+
+        title_text = GameFonts.SEMIBOLD_LARGE.render('RANKING', False, GameColors.BRANCO)
+        title_pos = ((GameSettings.WIDTH/2 - title_text.get_rect().width/2), GameSettings.HEIGHT/2 - 170)
+
+        top_scores = self.__controlador.get_highscores()
+        highscores_txt = []
+        for pos, value in enumerate(top_scores):
+            highscores_txt.append(GameFonts.REGULAR_LARGE.render(f'{pos+1}. {value}', False, GameColors.BRANCO))
+
+        self.cursor_handler(h0)
+        nextState = self.state_handler(GameStates.RANKING, s0)
+
+        self.__window.fill(GameColors.AZUL)
+        self.__window.blit(bHome.image, (bHome.rect.x, bHome.rect.y))
+        self.__window.blit(title_text, title_pos)
+        for pos, text_surface in enumerate(highscores_txt):
+            text_pos  = (GameSettings.WIDTH/2 - 50, GameSettings.HEIGHT/3 + (pos*40))
+            self.__window.blit(text_surface, text_pos)
+
+        return nextState
+
     def tela_jogo(self):
         pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
         self.__desenhar_cenario()
@@ -238,7 +263,7 @@ class View:
         endgame_pos = ((GameSettings.WIDTH - endgame.get_rect().width)/2, (GameSettings.HEIGHT - endgame.get_rect().height)/2 - 80)
         pontuacao_pos = ((GameSettings.WIDTH - pontuacao.get_rect().width)/2, (GameSettings.HEIGHT - pontuacao.get_rect().height)/2)
         reiniciar_pos = ((GameSettings.WIDTH - reiniciar.get_rect().width)/2, (GameSettings.HEIGHT - reiniciar.get_rect().height)/2 + 100)
-        
+
         self.__window.fill(GameColors.LILAS)
         
         self.__window.blit(endgame, endgame_pos)
