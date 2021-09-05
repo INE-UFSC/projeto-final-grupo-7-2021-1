@@ -1,3 +1,4 @@
+from pygame.transform import scale
 from settings.gameStates import GameStates
 import pygame
 from pygame.sprite import Sprite
@@ -83,4 +84,11 @@ class HomeButton(HoverButton):
         filename = 'versao_final\\assets\\buttons\\button_home.png'
         scale = HOME_BUTTON_SCALE
         next_state = GameStates.MENU
+        super().__init__(center, filename, current_state, next_state, scale)
+
+class ResetButton(HoverButton):
+    def __init__(self, center, current_state):
+        filename = "versao_final\\assets\\buttons\\button_reset.png"
+        next_state = GameStates.JOGANDO
+        scale = HOME_BUTTON_SCALE
         super().__init__(center, filename, current_state, next_state, scale)

@@ -255,22 +255,31 @@ class View:
         self.__window.blit(texto_pausado,pausado_pos)
         self.__window.blit(texto_sair_pause,text_sair_pos)
 
-    def tela_endgame(self):
+    def tela_endgame(self, mouse_pos, mouse_up):
         endgame = GameFonts.SEMIBOLD_LARGE.render('Game Over!', False, GameColors.BRANCO)
-        pontuacao = GameFonts.SEMIBOLD_LARGE.render(f'Pontuação: {self.__controlador.get_score()}', False, GameColors.BRANCO)
-        reiniciar = GameFonts.REGULAR_SMALL.render('Aperte Enter para reiniciar', False, GameColors.BRANCO)
-
         endgame_pos = ((GameSettings.WIDTH - endgame.get_rect().width)/2, (GameSettings.HEIGHT - endgame.get_rect().height)/2 - 80)
+
+        pontuacao = GameFonts.SEMIBOLD_LARGE.render(f'Pontuação: {self.__controlador.get_final_score()}', False, GameColors.BRANCO)
         pontuacao_pos = ((GameSettings.WIDTH - pontuacao.get_rect().width)/2, (GameSettings.HEIGHT - pontuacao.get_rect().height)/2)
-        reiniciar_pos = ((GameSettings.WIDTH - reiniciar.get_rect().width)/2, (GameSettings.HEIGHT - reiniciar.get_rect().height)/2 + 100)
+
+        bHome = HomeButton((GameSettings.WIDTH/2 - 100, GameSettings.HEIGHT/2 + 150), GameStates.ENDGAME)
+        h0 = bHome.hover(mouse_pos)
+        s0 = bHome.click(mouse_pos, mouse_up)
+
+        bReset = ResetButton((GameSettings.WIDTH/2 + 100, GameSettings.HEIGHT/2 + 150), GameStates.ENDGAME)
+        h1 = bReset.hover(mouse_pos)
+        s1 = bReset.click(mouse_pos, mouse_up)
+
+        self.cursor_handler(h0, h1)
+        nextState = self.state_handler(GameStates.ENDGAME, s0, s1)
 
         self.__window.fill(GameColors.LILAS)
-        
         self.__window.blit(endgame, endgame_pos)
         self.__window.blit(pontuacao, pontuacao_pos)
-        self.__window.blit(reiniciar, reiniciar_pos)
+        self.__window.blit(bHome.image, (bHome.rect.x, bHome.rect.y))
+        self.__window.blit(bReset.image, (bReset.rect.x, bReset.rect.y))
 
-        return GameStates.ENDGAME
+        return nextState
 
     def cursor_handler(self, *args):
         for btn in args:

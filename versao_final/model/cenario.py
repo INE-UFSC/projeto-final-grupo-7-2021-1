@@ -83,8 +83,6 @@ class Cenario:
     def removePoder(self, poder):
         self.poderes.remove(poder)
         
-    def limpar(self, now):
-        global tempo_ultimo_poder
-        tempo_ultimo_poder = now
+    def limpar(self):
         self.__obstaculos.clear()
         self.__poderes.clear()

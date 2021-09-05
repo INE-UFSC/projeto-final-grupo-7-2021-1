@@ -26,6 +26,7 @@ class Controller:
         self.__view = View(self)
         self.__hsDAO = HighScoreDAO('highScores.pkl')
         self.__highscore = self.__hsDAO.getHighScore()
+        self.__final_score = 0
         #ponteiros que controlam o jogo
         self.__gameState = GameStates.MENU
         self.__habilitaColisao = True
@@ -81,6 +82,8 @@ class Controller:
             self.__gameState = self.__view.tela_instrucoes3(mouse_pos, mouse_up)
         elif self.__gameState == GameStates.RANKING:
             self.__gameState = self.__view.tela_ranking(mouse_pos, mouse_up)
+        elif self.__gameState == GameStates.ENDGAME:
+            self.__gameState = self.__view.tela_endgame(mouse_pos, mouse_up)
         elif self.__gameState == GameStates.JOGANDO:
             self.checar_pulando()
             self.__cenario.gerar_elementos(now)
@@ -91,14 +94,11 @@ class Controller:
             if self.__habilitaColisao:
                 self.checar_colissoes(now)
             self.__view.tela_jogo()
-        elif self.__gameState == GameStates.ENDGAME:
-            self.__nextState = self.__view.tela_endgame()
 
     def key_handler(self, now):
         keys = pygame.key.get_pressed()
         self.__keys_player(keys)
         self.__key_escape(keys, now)
-        self.__key_return(keys, now)
         
     def __keys_player(self, keys):
         if keys[K_w] or keys[K_UP]:
@@ -118,10 +118,6 @@ class Controller:
                 self.__view.tela_pause()
             elif self.__gameState == GameStates.PAUSADO:
                 self.__gameState = GameStates.JOGANDO
-
-    def __key_return(self, keys, now):
-        if self.__gameState == GameStates.ENDGAME and keys[K_RETURN]:
-            self.reiniciar(now)
 
     def __pauseTimer(self,now):
         global pause_tempo
@@ -180,6 +176,9 @@ class Controller:
     def get_score(self):
         return self.__player.score
 
+    def get_final_score(self):
+        return self.__final_score
+
     def incrementar_vel(self):
         global vel_jogo, vel_jogo_salvo, ultimo_acres_vel
         if self.__player.score - ultimo_acres_vel >= 100:
@@ -187,19 +186,19 @@ class Controller:
             vel_jogo += 0.5
             vel_jogo_salvo = vel_jogo
 
-
     def end_game(self):
+        self.__final_score = self.__player.score
         self.__gameState = GameStates.ENDGAME
         self.__hsDAO.add(self.__player.score)
         self.__highscore = self.__hsDAO.getHighScore()
+        self.reiniciar()
 
-    def reiniciar(self, now):
+    def reiniciar(self):
         global vel_jogo, vel_jogo_salvo
         vel_jogo = 4
         vel_jogo_salvo = vel_jogo
         self.__player.resetar()
-        self.__cenario.limpar(now)
-        self.__gameState = GameStates.JOGANDO
+        self.__cenario.limpar()
 
     def update_highscore(self):
         if self.__player.score > self.__highscore:
