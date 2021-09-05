@@ -61,12 +61,30 @@ class View:
         h1 = b1.hover(mouse_pos)
         s1 = b1.click(mouse_pos, mouse_up)
 
+        title_text = GameFonts.SEMIBOLD_LARGE.render('OBJETIVO DO JOGO', False, GameColors.BRANCO)
+        title_pos = ((GameSettings.WIDTH/2 - title_text.get_rect().width/2), GameSettings.HEIGHT/2 - 150)
+
+        wrap_text = ["Sobreviva a maior quantidade de",
+                     "tempo sem colidir com obstáculos",
+                     " ",
+                     "Poderes serão gerados durante o",
+                     "percurso, e te darão alguma vantagem",
+                     "se você capturá-los."]
+        
+        description_text = []
+        for text in wrap_text:
+            description_text.append(GameFonts.REGULAR_SMALL.render(text, False, GameColors.BRANCO))
+
         self.cursor_handler(h0, h1)
         nextState = self.state_handler(GameStates.INSTRUCOES1, s0, s1)
 
         self.__window.fill(GameColors.AZUL)
         self.__window.blit(bHome.image, (bHome.rect.x, bHome.rect.y))
         self.__window.blit(b1.image, (b1.rect.x, b1.rect.y))
+        self.__window.blit(title_text, title_pos)
+        for pos,text_surface in enumerate(description_text[::-1]):
+            text_pos = ((GameSettings.WIDTH/2 - 200), GameSettings.HEIGHT/1.5 - (pos*30))
+            self.__window.blit(text_surface, text_pos)
 
         return nextState
 
