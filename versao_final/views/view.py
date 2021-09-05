@@ -93,6 +93,24 @@ class View:
 
         return nextState
 
+    def tela_instrucoes3(self, mouse_pos, mouse_up):
+        bHome = HomeButton((70, 50), GameStates.INSTRUCOES3)
+        h0 = bHome.hover(mouse_pos)
+        s0 = bHome.click(mouse_pos, mouse_up)
+
+        b1 = BackwardButton((60, GameSettings.HEIGHT/2), GameStates.INSTRUCOES3, GameStates.INSTRUCOES2)
+        h1 = b1.hover(mouse_pos)
+        s1 = b1.click(mouse_pos, mouse_up)
+
+        self.cursor_handler(h0, h1)
+        nextState = self.state_handler(GameStates.INSTRUCOES3, s0, s1)
+
+        self.__window.fill(GameColors.AZUL)
+        self.__window.blit(bHome.image, (bHome.rect.x, bHome.rect.y))
+        self.__window.blit(b1.image, (b1.rect.x, b1.rect.y))
+
+        return nextState
+
     def tela_jogo(self):
         pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
         self.__desenhar_cenario()
