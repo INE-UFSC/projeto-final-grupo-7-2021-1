@@ -195,9 +195,9 @@ class Controller:
         global vel_jogo, vel_jogo_salvo
         vel_jogo = 4
         vel_jogo_salvo = vel_jogo
-        self.__gameState == GameStates.JOGANDO
         self.__player.resetar()
         self.__cenario.limpar(now)
+        self.__gameState = GameStates.JOGANDO
 
     def update_highscore(self):
         if self.__player.score > self.__highscore:
