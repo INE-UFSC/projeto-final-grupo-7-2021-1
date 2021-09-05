@@ -40,10 +40,11 @@ class Cenario:
 
     #por criterios de legibilidade
     def gerar_elementos(self, now):
-        self.__gerarObs()
+        self.__gerarObs(now)
         self.__gerarPoder(now)
 
-    def __gerarObs(self):
+    def __gerarObs(self, now):
+        global tempo_ultimo_poder
         try:
             ultimo_obs = self.__obstaculos[-1]
             if ultimo_obs.x + ultimo_obs.width < GameSettings.WIDTH - ultimo_obs.margem:
@@ -52,6 +53,8 @@ class Cenario:
         except IndexError:
             obs = self.__gerador.gerarObs()
             self.__obstaculos.append(obs)
+            tempo_ultimo_poder = now    #se chegou até aqui significa que o jogo acabou de começar
+                                        #então faz-se o setup do tempo relativo de geração
 
     def __gerarPoder(self, now):
         global tempo_ultimo_poder
