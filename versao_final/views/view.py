@@ -62,7 +62,7 @@ class View:
         s1 = b1.click(mouse_pos, mouse_up)
 
         title_text = GameFonts.SEMIBOLD_LARGE.render('OBJETIVO DO JOGO', False, GameColors.BRANCO)
-        title_pos = ((GameSettings.WIDTH/2 - title_text.get_rect().width/2), GameSettings.HEIGHT/2 - 150)
+        title_pos = ((GameSettings.WIDTH/2 - title_text.get_rect().width/2), GameSettings.HEIGHT/2 - 170)
 
         wrap_text = ["Sobreviva a maior quantidade de",
                      "tempo sem colidir com obstáculos",
@@ -101,6 +101,21 @@ class View:
         h2 = b2.hover(mouse_pos)
         s2 = b2.click(mouse_pos, mouse_up)
 
+        title_text = GameFonts.SEMIBOLD_LARGE.render('CONTROLES', False, GameColors.BRANCO)
+        title_pos = ((GameSettings.WIDTH/2 - title_text.get_rect().width/2), GameSettings.HEIGHT/2 - 170)
+
+        jump_img = pygame.transform.scale(pygame.image.load(os.path.join("versao_final\\assets\\characters\\ninja_girl\\jump4.png")), (100, 142))
+        jump_pos = (GameSettings.WIDTH/2 - 250, GameSettings.HEIGHT/2 - 100)
+
+        jump_txt = GameFonts.REGULAR_SMALL.render('PULAR: Tecla "W" ou seta para cima', False, GameColors.BRANCO)
+        jump_txt_pos = (jump_pos[0] + jump_img.get_rect().width + 15, jump_pos[1] + 70)
+
+        slide_img = pygame.transform.scale(pygame.image.load(os.path.join("versao_final\\assets\\characters\\adventurer_boy\\slide2.png")), (99, 100))
+        slide_pos = (GameSettings.WIDTH/2 - 250, GameSettings.HEIGHT/2 + 50)
+
+        slide_txt = GameFonts.REGULAR_SMALL.render('DESLIZAR: Tecla "S" ou seta para baixo', False, GameColors.BRANCO)
+        slide_txt_pos = (slide_pos[0] + slide_img.get_rect().width + 15, slide_pos[1] + 70)
+
         self.cursor_handler(h0, h1, h2)
         nextState = self.state_handler(GameStates.INSTRUCOES2, s0, s1, s2)
 
@@ -108,6 +123,11 @@ class View:
         self.__window.blit(bHome.image, (bHome.rect.x, bHome.rect.y))
         self.__window.blit(b1.image, (b1.rect.x, b1.rect.y))
         self.__window.blit(b2.image, (b2.rect.x, b2.rect.y))
+        self.__window.blit(title_text, title_pos)
+        self.__window.blit(jump_img, jump_pos)
+        self.__window.blit(jump_txt, jump_txt_pos)
+        self.__window.blit(slide_img, slide_pos)
+        self.__window.blit(slide_txt, slide_txt_pos)
 
         return nextState
 
@@ -162,7 +182,8 @@ class View:
         texto_pausado = GameFonts.SEMIBOLD_LARGE.render('JOGO PAUSADO', False, GameColors.BRANCO)
         pausado_pos = ((GameSettings.WIDTH - texto_pausado.get_rect().width)/2, (GameSettings.HEIGHT - texto_pausado.get_rect().height)/2)
         texto_sair_pause = GameFonts.REGULAR_SMALL.render('Aperte ESC para sair do pause', False, GameColors.BRANCO)
-        text_sair_pos = ((GameSettings.WIDTH- texto_sair_pause.get_rect().width)/2, (GameSettings.HEIGHT - texto_sair_pause.get_rect().height)/2 + 70)
+        text_sair_pos = ((GameSettings.WIDTH- texto_sair_pause.get_rect().width)/2,
+                         (GameSettings.HEIGHT - texto_sair_pause.get_rect().height)/2 + 70)
         
         background = pygame.Surface((GameSettings.WIDTH, GameSettings.HEIGHT))
         background.set_alpha(100)
