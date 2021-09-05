@@ -2,7 +2,8 @@ import random
 from model.bird import Passaro
 from model.groundObs import ObsPequeno, ObsGrande
 from model.powers import PoderLento, PoderInvulnerabilidade
-from versao_final.settings.gameSettings import GameSettings
+from settings.gameSettings import GameSettings
+
 
 PODERES = (PoderLento, PoderInvulnerabilidade)
 OBSTACULOS = (Passaro, ObsPequeno, ObsGrande)

@@ -1,6 +1,6 @@
 from pygame import Rect
 from abc import ABC, abstractmethod
-from versao_final.settings.gameColors import GameColors
+from settings.gameColors import GameColors
 
 
 TAMANHO = 10

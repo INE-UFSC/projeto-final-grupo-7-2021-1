@@ -1,9 +1,9 @@
 from pygame import Rect
-from versao_final.settings.playerSettings import PlayerSettings
-from versao_final.settings.gameSettings import GameSettings
+from settings.playerSettings import PlayerSettings
+from settings.gameSettings import GameSettings
 
 class Player(Rect):
-    def __init__(self, comeco_chao):
+    def __init__(self):
         super().__init__(PlayerSettings.DEFAULT_X_POS,
                          GameSettings.COMECO_CHAO-PlayerSettings.SIZE,
                          PlayerSettings.SIZE,

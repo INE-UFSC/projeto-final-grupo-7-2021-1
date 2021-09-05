@@ -4,8 +4,8 @@ from views.view import View
 from model.player import Player
 from model.cenario import Cenario
 from controller.highScore import HighScoreDAO
-from versao_final.settings.gameSettings import GameSettings
-from versao_final.settings.gameStates import GameStates
+from settings.gameSettings import GameSettings
+from settings.gameStates import GameStates
 
 
 #variaveis auxiliares
@@ -29,6 +29,7 @@ class Controller:
         #ponteiros que controlam o jogo
         self.__gameState = GameStates.MENU
         self.__habilitaColisao = True
+        self.__mouse_pressed = False
 
     @property
     def player(self):
@@ -52,21 +53,28 @@ class Controller:
         while running:
             clock.tick(GameSettings.FPS)
 
+            self.__mouse_pressed = False
+            mouse_pos = pygame.mouse.get_pos()
             now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
 
-            self.__view.desenhar()
-            self.perform_actions(now)
+            self.perform_actions(now, mouse_pos, self.__mouse_pressed)
 
             for event in pygame.event.get():
                 if event.type == WINDOWCLOSE:
                     running = False
+                elif event.type == MOUSEBUTTONUP:
+                    self.__mouse_pressed = True
 
             pygame.display.update()
 
     #apenas para criterios de legibilidade
-    def perform_actions(self, now):
+    def perform_actions(self, now, mouse_pos, mouse_up):
         self.key_handler(now)
-        if self.__gameState == GameStates.JOGANDO:
+        if self.__gameState == GameStates.MENU:
+            self.__gameState = self.__view.tela_menu(mouse_pos, mouse_up)
+        elif self.__gameState == GameStates.INSTRUCOES1:
+            self.__gameState = None
+        elif self.__gameState == GameStates.JOGANDO:
             self.checar_pulando()
             self.__cenario.gerar_elementos(now)
             self.__cenario.mover_elementos(vel_jogo)
@@ -75,6 +83,7 @@ class Controller:
             self.update_highscore()
             if self.__habilitaColisao:
                 self.checar_colissoes(now)
+            self.__view.tela_jogo()
 
     def key_handler(self, now):
         keys = pygame.key.get_pressed()

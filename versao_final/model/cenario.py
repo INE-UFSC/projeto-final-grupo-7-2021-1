@@ -1,6 +1,6 @@
 from model.gerador import Gerador
 from pygame import Rect
-from versao_final.settings.gameSettings import GameSettings
+from settings.gameSettings import GameSettings
 
 #variavel auxiliar
 tempo_ultimo_poder = 0
