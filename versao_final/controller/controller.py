@@ -74,7 +74,9 @@ class Controller:
         if self.__gameState == GameStates.MENU:
             self.__gameState = self.__view.tela_menu(mouse_pos, mouse_up)
         elif self.__gameState == GameStates.INSTRUCOES1:
-            self.__gameState = None
+            self.__gameState = self.__view.tela_instrucoes1(mouse_pos, mouse_up)
+        elif self.__gameState == GameStates.INSTRUCOES2:
+            self.__gameState = self.__view.tela_instrucoes2(mouse_pos, mouse_up)
         elif self.__gameState == GameStates.JOGANDO:
             self.checar_pulando()
             self.__cenario.gerar_elementos(now)

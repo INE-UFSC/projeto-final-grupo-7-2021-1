@@ -1,3 +1,4 @@
+from settings.gameStates import GameStates
 import pygame
 from pygame.sprite import Sprite
 from abc import ABC, abstractmethod
@@ -5,7 +6,7 @@ import os
 
 
 MENU_BUTTONS_SCALE = (161, 42)
-HOME_BUTTON_SCALE = (67, 51)
+HOME_BUTTON_SCALE = (77, 61)
 ARROW_BUTTONS_SCALE = (87, 58)
 
 class HoverButton(Sprite, ABC):
@@ -78,7 +79,8 @@ class BackwardButton(HoverButton):
         super().__init__(center, filename, current_state, next_state, scale)
 
 class HomeButton(HoverButton):
-    def __init__(self, center, current_state, next_state):
+    def __init__(self, center, current_state):
         filename = 'versao_final\\assets\\buttons\\button_home.png'
         scale = HOME_BUTTON_SCALE
+        next_state = GameStates.MENU
         super().__init__(center, filename, current_state, next_state, scale)

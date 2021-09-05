@@ -52,6 +52,47 @@ class View:
 
         return nextState
 
+    def tela_instrucoes1(self, mouse_pos, mouse_up):
+        bHome = HomeButton((70, 50), GameStates.INSTRUCOES1)
+        h0 = bHome.hover(mouse_pos)
+        s0 = bHome.click(mouse_pos, mouse_up)
+
+        b1 = FowardButton((GameSettings.WIDTH - 60, GameSettings.HEIGHT/2), GameStates.INSTRUCOES1, GameStates.INSTRUCOES2)
+        h1 = b1.hover(mouse_pos)
+        s1 = b1.click(mouse_pos, mouse_up)
+
+        self.cursor_handler(h0, h1)
+        nextState = self.state_handler(GameStates.INSTRUCOES1, s0, s1)
+
+        self.__window.fill(GameColors.AZUL)
+        self.__window.blit(bHome.image, (bHome.rect.x, bHome.rect.y))
+        self.__window.blit(b1.image, (b1.rect.x, b1.rect.y))
+
+        return nextState
+
+    def tela_instrucoes2(self, mouse_pos, mouse_up):
+        bHome = HomeButton((70, 50), GameStates.INSTRUCOES2)
+        h0 = bHome.hover(mouse_pos)
+        s0 = bHome.click(mouse_pos, mouse_up)
+
+        b1 = BackwardButton((60, GameSettings.HEIGHT/2), GameStates.INSTRUCOES2, GameStates.INSTRUCOES1)
+        h1 = b1.hover(mouse_pos)
+        s1 = b1.click(mouse_pos, mouse_up)
+
+        b2 = FowardButton((GameSettings.WIDTH - 60, GameSettings.HEIGHT/2), GameStates.INSTRUCOES2, GameStates.INSTRUCOES3)
+        h2 = b2.hover(mouse_pos)
+        s2 = b2.click(mouse_pos, mouse_up)
+
+        self.cursor_handler(h0, h1, h2)
+        nextState = self.state_handler(GameStates.INSTRUCOES2, s0, s1, s2)
+
+        self.__window.fill(GameColors.AZUL)
+        self.__window.blit(bHome.image, (bHome.rect.x, bHome.rect.y))
+        self.__window.blit(b1.image, (b1.rect.x, b1.rect.y))
+        self.__window.blit(b2.image, (b2.rect.x, b2.rect.y))
+
+        return nextState
+
     def tela_jogo(self):
         pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
         self.__desenhar_cenario()
@@ -76,9 +117,9 @@ class View:
             pygame.draw.rect(self.__window, poder.cor, poder)
 
     def __desenhar_scores(self):
-        texto_score = GameFonts.SEMIBOLD_LARGE.render(f'Score: {self.__controlador.get_score()}', False, GameColors.BRANCO)
+        texto_score = GameFonts.SEMIBOLD_SMALL.render(f'Score: {self.__controlador.get_score()}', False, GameColors.BRANCO)
         self.__window.blit(texto_score, (10,10))
-        texto_highscore = GameFonts.SEMIBOLD_LARGE.render(f'High Score: {self.__controlador.highscore}', False, GameColors.BRANCO)
+        texto_highscore = GameFonts.SEMIBOLD_SMALL.render(f'High Score: {self.__controlador.highscore}', False, GameColors.BRANCO)
         self.__window.blit(texto_highscore, ((GameSettings.WIDTH - texto_highscore.get_rect().width - 10),10))
 
     def tela_pause(self):
