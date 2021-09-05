@@ -38,15 +38,15 @@ class Player(Rect):
     def score(self, novo_score):
         self.__score = novo_score
 
-    def pular(self, vel_pulo, pulo_max, chao):
+    def pular(self, vel_pulo):
         self.__pulando = True
         if self.__direcao_pulo == 'UP':
             self.y -= vel_pulo
-            if self.y + self.height <= pulo_max:
+            if self.y + self.height <= GameSettings.PULO_MAX:
                 self.__direcao_pulo = 'DOWN'
         else:
             self.y += vel_pulo
-            if self.y + self.height >= chao:
+            if self.y + self.height >= GameSettings.COMECO_CHAO:
                 self.__direcao_pulo = 'UP'
                 self.__pulando = False
         self.__atualizar()

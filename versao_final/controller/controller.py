@@ -53,11 +53,12 @@ class Controller:
         while running:
             clock.tick(GameSettings.FPS)
 
-            self.__mouse_pressed = False
             mouse_pos = pygame.mouse.get_pos()
             now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
 
             self.perform_actions(now, mouse_pos, self.__mouse_pressed)
+
+            self.__mouse_pressed = False
 
             for event in pygame.event.get():
                 if event.type == WINDOWCLOSE:
@@ -84,6 +85,8 @@ class Controller:
             if self.__habilitaColisao:
                 self.checar_colissoes(now)
             self.__view.tela_jogo()
+        elif self.__gameState == GameStates.ENDGAME:
+            self.__nextState = self.__view.tela_endgame()
 
     def key_handler(self, now):
         keys = pygame.key.get_pressed()
@@ -104,10 +107,10 @@ class Controller:
     
     def __key_escape(self, keys, now):
         if keys[K_ESCAPE] and self.__pauseTimer(now):
-            if not self.__pausado:
+            if self.__gameState == GameStates.JOGANDO:
                 self.__gameState = GameStates.PAUSADO
                 self.__view.tela_pause()
-            else:
+            elif self.__gameState == GameStates.PAUSADO:
                 self.__gameState = GameStates.JOGANDO
 
     def __key_return(self, keys, now):
@@ -180,11 +183,9 @@ class Controller:
 
 
     def end_game(self):
-        self.__gameState == GameStates.ENDGAME
+        self.__gameState = GameStates.ENDGAME
         self.__hsDAO.add(self.__player.score)
         self.__highscore = self.__hsDAO.getHighScore()
-        pygame.time.wait(500)
-        self.__view.tela_endgame()
 
     def reiniciar(self, now):
         global vel_jogo, vel_jogo_salvo

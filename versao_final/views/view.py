@@ -53,6 +53,7 @@ class View:
         return nextState
 
     def tela_jogo(self):
+        pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
         self.__desenhar_cenario()
         self.__desenhar_obstaculos()
         self.__desenhar_poderes()
@@ -78,15 +79,15 @@ class View:
         texto_score = GameFonts.SEMIBOLD_LARGE.render(f'Score: {self.__controlador.get_score()}', False, GameColors.BRANCO)
         self.__window.blit(texto_score, (10,10))
         texto_highscore = GameFonts.SEMIBOLD_LARGE.render(f'High Score: {self.__controlador.highscore}', False, GameColors.BRANCO)
-        self.__window.blit(texto_highscore, ((self.__screen_width - texto_highscore.get_rect().width - 10),10))
+        self.__window.blit(texto_highscore, ((GameSettings.WIDTH - texto_highscore.get_rect().width - 10),10))
 
     def tela_pause(self):
         texto_pausado = GameFonts.SEMIBOLD_LARGE.render('JOGO PAUSADO', False, GameColors.BRANCO)
-        pausado_pos = ((self.__screen_width - texto_pausado.get_rect().width)/2, (self.__screen_height - texto_pausado.get_rect().height)/2)
+        pausado_pos = ((GameSettings.WIDTH - texto_pausado.get_rect().width)/2, (GameSettings.HEIGHT - texto_pausado.get_rect().height)/2)
         texto_sair_pause = GameFonts.REGULAR_SMALL.render('Aperte ESC para sair do pause', False, GameColors.BRANCO)
-        text_sair_pos = ((self.__screen_width - texto_sair_pause.get_rect().width)/2, (self.__screen_height - texto_sair_pause.get_rect().height)/2 + 70)
+        text_sair_pos = ((GameSettings.WIDTH- texto_sair_pause.get_rect().width)/2, (GameSettings.HEIGHT - texto_sair_pause.get_rect().height)/2 + 70)
         
-        background = pygame.Surface((self.__screen_width, self.__screen_height))
+        background = pygame.Surface((GameSettings.WIDTH, GameSettings.HEIGHT))
         background.set_alpha(100)
         background.fill(GameColors.PRETO)
 
@@ -97,18 +98,19 @@ class View:
     def tela_endgame(self):
         endgame = GameFonts.SEMIBOLD_LARGE.render('Game Over!', False, GameColors.BRANCO)
         pontuacao = GameFonts.SEMIBOLD_LARGE.render(f'Pontuação: {self.__controlador.get_score()}', False, GameColors.BRANCO)
-        reiniciar = GameFonts.LIGHT_SMALL.render('Aperte Enter para reiniciar', False, GameColors.BRANCO)
+        reiniciar = GameFonts.REGULAR_SMALL.render('Aperte Enter para reiniciar', False, GameColors.BRANCO)
 
-        endgame_pos = ((self.__screen_width - endgame.get_rect().width)/2, (self.__screen_height - endgame.get_rect().height)/2 - 80)
-        pontuacao_pos = ((self.__screen_width-pontuacao.get_rect().width)/2, (self.__screen_height - pontuacao.get_rect().height)/2)
-        reiniciar_pos = ((self.__screen_width- reiniciar.get_rect().width)/2, (self.__screen_height - reiniciar.get_rect().height)/2 + 100)
+        endgame_pos = ((GameSettings.WIDTH - endgame.get_rect().width)/2, (GameSettings.HEIGHT - endgame.get_rect().height)/2 - 80)
+        pontuacao_pos = ((GameSettings.WIDTH - pontuacao.get_rect().width)/2, (GameSettings.HEIGHT - pontuacao.get_rect().height)/2)
+        reiniciar_pos = ((GameSettings.WIDTH - reiniciar.get_rect().width)/2, (GameSettings.HEIGHT - reiniciar.get_rect().height)/2 + 100)
         
-        background = pygame.Rect(0,0,self.__screen_width,self.__screen_height)
-        pygame.draw.rect(self.__window, GameColors.PRETO, background)
+        self.__window.fill(GameColors.LILAS)
         
         self.__window.blit(endgame, endgame_pos)
         self.__window.blit(pontuacao, pontuacao_pos)
         self.__window.blit(reiniciar, reiniciar_pos)
+
+        return GameStates.ENDGAME
 
     def cursor_handler(self, *args):
         for btn in args:
