@@ -182,7 +182,7 @@ class BackwardButtonDecrease(HoverButton):
         super().__init__(center, filename, scale)
 
     def click(self, mouse_pos, mouse_up, pos):
-        if self.rect.collidepoint(mouse_pos):
+        if self.rect.collidepoint(mouse_pos) and mouse_up:
             return (pos - 1)
         else:
             return pos
@@ -190,13 +190,13 @@ class BackwardButtonDecrease(HoverButton):
 class ButtonConfirm(StateButton):
     def __init__(self, center, current_state):
         filename = "versao_final\\assets\\buttons\\button_check.png"
-        scale = SQUARE_BUTTON_SCALE
+        scale = ARROW_BUTTONS_SCALE
         next_state = GameStates.CONFIGURACOES
         super().__init__(center, filename, current_state, next_state, scale)
 
 class ButtonDecline(StateButton):
     def __init__(self, center, current_state):
         filename = "versao_final\\assets\\buttons\\button_decline.png"
-        scale = SQUARE_BUTTON_SCALE
+        scale = ARROW_BUTTONS_SCALE
         next_state = GameStates.CONFIGURACOES
         super().__init__(center, filename, current_state, next_state, scale)
