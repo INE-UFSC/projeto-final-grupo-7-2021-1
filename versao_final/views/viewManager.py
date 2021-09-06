@@ -11,6 +11,7 @@ from views.instructionView1 import InstructionView1
 from views.instructionView2 import InstructionView2
 from views.instructionView3 import InstructionView3
 from views.avatarView import AvatarView
+from views.backgroundView import BackgroundView
 
 
 class ViewManager:
@@ -26,7 +27,7 @@ class ViewManager:
                         InstructionView3(),
                         SettingsView(),
                         AvatarView(),
-                        None,
+                        BackgroundView(),
                         RankingView()]
 
     def display(self, mouse_pos, mouse_up):
