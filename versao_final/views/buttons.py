@@ -47,7 +47,7 @@ class HoverButton(Sprite, ABC):
     def click(self, mouse_pos, mouse_up):
         raise NotImplementedError
     
-class ButtonState(HoverButton, ABC):
+class StateButton(HoverButton, ABC):
     @abstractmethod
     def __init__(self, center, filename, current_state, next_state, scale):
         self.__current_state = current_state
@@ -60,7 +60,7 @@ class ButtonState(HoverButton, ABC):
         else:
             return self.__current_state
 
-class ButtonConfig(HoverButton, ABC):
+class ConfigButton(HoverButton, ABC):
     @abstractmethod
     def __init__(self, center, filename1, filename2, scale):
         super().__init__(center, filename1, scale)
@@ -83,57 +83,57 @@ class ButtonConfig(HoverButton, ABC):
             else:
                 self.__on = True
 
-class PlayButton(ButtonState):
+class PlayButton(StateButton):
     def __init__(self, center, current_state, next_state):
         filename = "versao_final\\assets\\buttons\\button_jogar.png"
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
-class InstructionButton(ButtonState):
+class InstructionButton(StateButton):
     def __init__(self, center, current_state, next_state):
         filename = 'versao_final\\assets\\buttons\\button_instrucoes.png'
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
-class SettingsButton(ButtonState):
+class SettingsButton(StateButton):
     def __init__(self, center, current_state, next_state):
         filename = 'versao_final\\assets\\buttons\\button_configuracoes.png'
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
-class RankingButton(ButtonState):
+class RankingButton(StateButton):
     def __init__(self, center, current_state, next_state):
         filename = 'versao_final\\assets\\buttons\\button_ranking.png'
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
-class FowardButton(ButtonState):
+class FowardButton(StateButton):
     def __init__(self, center, current_state, next_state):
         filename = 'versao_final\\assets\\buttons\\button_foward.png'
         scale = ARROW_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
-class BackwardButton(ButtonState):
+class BackwardButton(StateButton):
     def __init__(self, center, current_state, next_state):
         filename = 'versao_final\\assets\\buttons\\button_backward.png'
         scale = ARROW_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
-class HomeButton(ButtonState):
+class HomeButton(StateButton):
     def __init__(self, center, current_state):
         filename = 'versao_final\\assets\\buttons\\button_home.png'
         scale = SQUARE_BUTTON_SCALE
         next_state = GameStates.MENU
         super().__init__(center, filename, current_state, next_state, scale)
 
-class ResetButton(ButtonState):
+class ResetButton(StateButton):
     def __init__(self, center, current_state):
         filename = "versao_final\\assets\\buttons\\button_reset.png"
         next_state = GameStates.JOGANDO
         scale = SQUARE_BUTTON_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
-class AvatarButton(ButtonState):
+class AvatarButton(StateButton):
     def __init__(self, center):
         filename = "versao_final\\assets\\buttons\\button_character.png"
         current_state = GameStates.CONFIGURACOES
@@ -141,7 +141,7 @@ class AvatarButton(ButtonState):
         scale = LARGE_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
-class BackgroundButton(ButtonState):
+class BackgroundButton(StateButton):
     def __init__(self, center):
         filename = "versao_final\\assets\\buttons\\button_cenario.png"
         current_state = GameStates.CONFIGURACOES
@@ -149,16 +149,54 @@ class BackgroundButton(ButtonState):
         scale = LARGE_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
-class SFXButton(ButtonConfig):
+class SFXButton(ConfigButton):
     def __init__(self, center):
        filename1 = "versao_final\\assets\\buttons\\button_sfx_on.png"
        filename2 = "versao_final\\assets\\buttons\\button_sfx_off.png"
        scale = MEDIUM_BUTTONS_SCALE
        super().__init__(center, filename1, filename2, scale)
 
-class MusicButton(ButtonConfig):
+class MusicButton(ConfigButton):
     def __init__(self, center):
         filename1 = "versao_final\\assets\\buttons\\button_music_on.png"
         filename2 = "versao_final\\assets\\buttons\\button_music_off.png"
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename1, filename2, scale)
+
+class FowardButtonIncrease(HoverButton):
+    def __init__(self, center):
+        filename = 'versao_final\\assets\\buttons\\button_foward.png'
+        scale = ARROW_BUTTONS_SCALE
+        super().__init__(center, filename, scale)
+
+    def click(self, mouse_pos, mouse_up, pos):
+        if self.rect.collidepoint(mouse_pos) and mouse_up:
+            return (pos+1)
+        else:
+            return pos
+
+class BackwardButtonDecrease(HoverButton):
+    def __init__(self, center):
+        filename = 'versao_final\\assets\\buttons\\button_backward.png'
+        scale = ARROW_BUTTONS_SCALE
+        super().__init__(center, filename, scale)
+
+    def click(self, mouse_pos, mouse_up, pos):
+        if self.rect.collidepoint(mouse_pos):
+            return (pos - 1)
+        else:
+            return pos
+
+class ButtonConfirm(StateButton):
+    def __init__(self, center, current_state):
+        filename = "versao_final\\assets\\buttons\\button_check.png"
+        scale = SQUARE_BUTTON_SCALE
+        next_state = GameStates.CONFIGURACOES
+        super().__init__(center, filename, current_state, next_state, scale)
+
+class ButtonDecline(StateButton):
+    def __init__(self, center, current_state):
+        filename = "versao_final\\assets\\buttons\\button_decline.png"
+        scale = SQUARE_BUTTON_SCALE
+        next_state = GameStates.CONFIGURACOES
+        super().__init__(center, filename, current_state, next_state, scale)
