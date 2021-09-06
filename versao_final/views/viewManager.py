@@ -1,17 +1,16 @@
 import pygame
-from settings.gameFonts import GameFonts
 from settings.gameStates import GameStates
-from settings.gameColors import GameColors
 from settings.gameSettings import GameSettings
 from views.menuView import MenuView
 from views.gameView import GameView
+from views.pauseView import PauseView
+from views.endgameView import EndgameView
+from views.rankingView import RankingView
+from views.settingsView import SettingsView
 from views.instructionView1 import InstructionView1
 from views.instructionView2 import InstructionView2
 from views.instructionView3 import InstructionView3
-from views.rankingView import RankingView
-from views.settingsView import SettingsView
-from views.endgameView import EndgameView
-from views.pauseView import PauseView
+from views.avatarView import AvatarView
 
 
 class ViewManager:
@@ -26,7 +25,7 @@ class ViewManager:
                         InstructionView2(),
                         InstructionView3(),
                         SettingsView(),
-                        None,
+                        AvatarView(),
                         None,
                         RankingView()]
 
@@ -63,4 +62,3 @@ class ViewManager:
         else:
             nextState = currentView.display(self.__window, mouse_pos=mouse_pos, mouse_up=mouse_up)
         return nextState
-

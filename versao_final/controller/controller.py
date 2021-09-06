@@ -1,6 +1,6 @@
 import pygame
 from pygame.constants import *
-from views.view import ViewManager
+from views.viewManager import ViewManager
 from model.player import Player
 from model.cenario import Cenario
 from controller.highScore import HighScoreDAO
