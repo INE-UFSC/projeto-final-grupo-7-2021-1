@@ -5,16 +5,18 @@ from settings.gameFonts import GameFonts
 from settings.gameStates import GameStates
 from settings.gameColors import GameColors
 from settings.gameSettings import GameSettings
-from views.buttons import BackwardButtonDecrease, FowardButtonIncrease, ButtonConfirm, ButtonDecline
+from views.buttons import ButtonConfirm, ButtonDecline
+from views.buttons import BackwardButtonDecrease, FowardButtonIncrease
 
 
 class AvatarView(BaseView):
     def __init__(self):
         self.__pos = 0
-        self.__characters_path = os.listdir("versao_final\\assets\\characters\\")
+        source = "versao_final\\assets\\characters\\"
+        characters_path = os.listdir(source)
         self.__characters = []
-        for path in self.__characters_path:
-            self.__characters.append("versao_final\\assets\\characters\\" + path + "\\idle.png")
+        for path in characters_path:
+            self.__characters.append(source + path + "\\idle.png")
 
     def display(self, screen, **kwargs):
         mouse_pos = kwargs['mouse_pos']
@@ -38,7 +40,7 @@ class AvatarView(BaseView):
         h3 = b3.hover(mouse_pos)
         s3 = b3.click(mouse_pos, mouse_up)
 
-        title_text = GameFonts.SEMIBOLD_LARGE.render('OBJETIVO DO JOGO', False, GameColors.BRANCO)
+        title_text = GameFonts.SEMIBOLD_LARGE.render('SELECIONE SEU PERSONAGEM', False, GameColors.BRANCO)
         title_pos = ((GameSettings.WIDTH/2 - title_text.get_rect().width/2), GameSettings.HEIGHT/2 - 170)
 
         filename = self.__characters[self.__pos]
