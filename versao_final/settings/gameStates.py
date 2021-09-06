@@ -1,14 +1,14 @@
-from enum import Enum, auto
+from enum import Enum
 
 class GameStates(Enum):
-    MENU = auto()
-    JOGANDO = auto()
-    PAUSADO = auto()
-    ENDGAME = auto()
-    INSTRUCOES1 = auto()
-    INSTRUCOES2 = auto()
-    INSTRUCOES3 = auto()
-    CONFIGURACOES = auto()
-    SEL_AVATAR = auto()
-    SEL_BG = auto()
-    RANKING = auto()
+    MENU = 0
+    JOGANDO = 1
+    PAUSADO = 2
+    ENDGAME = 3
+    INSTRUCOES1 = 4
+    INSTRUCOES2 = 5
+    INSTRUCOES3 = 6
+    CONFIGURACOES = 7
+    SEL_AVATAR = 8
+    SEL_BG = 9
+    RANKING = 10

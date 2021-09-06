@@ -1,34 +1,15 @@
 from model.gerador import Gerador
-from pygame import Rect
 from settings.gameSettings import GameSettings
+
 
 #variavel auxiliar
 tempo_ultimo_poder = 0
 
-#Duas classes auxiliares só pra diferenciar o cenário
-class Chao(Rect):
-    def __init__(self):
-        super().__init__(0, GameSettings.COMECO_CHAO, GameSettings.WIDTH, GameSettings.HEIGHT)
-
-class Ceu(Rect):
-    def __init__(self):
-        super().__init__(0, 0,GameSettings.WIDTH, GameSettings.HEIGHT)
-
 class Cenario:
     def __init__(self):
-        self.__ceu = Ceu()
-        self.__chao = Chao()
         self.__gerador = Gerador()
         self.__obstaculos = []
         self.__poderes = []
-
-    @property
-    def ceu(self):
-        return self.__ceu
-
-    @property
-    def chao(self):
-        return self.__chao
 
     @property
     def obstaculos(self):

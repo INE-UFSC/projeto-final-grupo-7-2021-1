@@ -1,6 +1,6 @@
 import pygame
 from pygame.constants import *
-from views.view import View
+from views.view import ViewManager
 from model.player import Player
 from model.cenario import Cenario
 from controller.highScore import HighScoreDAO
@@ -23,7 +23,7 @@ class Controller:
     def __init__(self):
         self.__player = Player()
         self.__cenario = Cenario()
-        self.__view = View(self)
+        self.__view = ViewManager(self)
         self.__hsDAO = HighScoreDAO('highScores.pkl')
         self.__highscore = self.__hsDAO.getHighScore()
         self.__final_score = 0
@@ -57,34 +57,23 @@ class Controller:
             mouse_pos = pygame.mouse.get_pos()
             now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
 
-            self.perform_actions(now, mouse_pos, self.__mouse_pressed)
+            self.__gameState = self.__view.display(mouse_pos, self.__mouse_pressed)
+            self.perform_actions(now)
 
             self.__mouse_pressed = False
-
             for event in pygame.event.get():
                 if event.type == WINDOWCLOSE:
                     running = False
                 elif event.type == MOUSEBUTTONUP:
-                    self.__mouse_pressed = True
+                    if event.button == 1:
+                        self.__mouse_pressed = True
 
             pygame.display.update()
 
     #apenas para criterios de legibilidade
-    def perform_actions(self, now, mouse_pos, mouse_up):
+    def perform_actions(self, now):
         self.key_handler(now)
-        if self.__gameState == GameStates.MENU:
-            self.__gameState = self.__view.tela_menu(mouse_pos, mouse_up)
-        elif self.__gameState == GameStates.INSTRUCOES1:
-            self.__gameState = self.__view.tela_instrucoes1(mouse_pos, mouse_up)
-        elif self.__gameState == GameStates.INSTRUCOES2:
-            self.__gameState = self.__view.tela_instrucoes2(mouse_pos, mouse_up)
-        elif self.__gameState == GameStates.INSTRUCOES3:
-            self.__gameState = self.__view.tela_instrucoes3(mouse_pos, mouse_up)
-        elif self.__gameState == GameStates.RANKING:
-            self.__gameState = self.__view.tela_ranking(mouse_pos, mouse_up)
-        elif self.__gameState == GameStates.ENDGAME:
-            self.__gameState = self.__view.tela_endgame(mouse_pos, mouse_up)
-        elif self.__gameState == GameStates.JOGANDO:
+        if self.__gameState == GameStates.JOGANDO:
             self.checar_pulando()
             self.__cenario.gerar_elementos(now)
             self.__cenario.mover_elementos(vel_jogo)
@@ -93,7 +82,8 @@ class Controller:
             self.update_highscore()
             if self.__habilitaColisao:
                 self.checar_colissoes(now)
-            self.__view.tela_jogo()
+        elif self.__gameState == GameStates.MENU:
+            self.reiniciar()
 
     def key_handler(self, now):
         keys = pygame.key.get_pressed()
@@ -115,7 +105,6 @@ class Controller:
         if keys[K_ESCAPE] and self.__pauseTimer(now):
             if self.__gameState == GameStates.JOGANDO:
                 self.__gameState = GameStates.PAUSADO
-                self.__view.tela_pause()
             elif self.__gameState == GameStates.PAUSADO:
                 self.__gameState = GameStates.JOGANDO
 
