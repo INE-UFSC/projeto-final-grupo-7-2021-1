@@ -7,6 +7,7 @@ from settings.gameStates import GameStates
 from settings.gameSettings import GameSettings
 from views.buttons import HomeButton, BackwardButton
 
+ASSETS_PATH = os.path.join(os.getcwd(),'assets','powers')
 
 class InstructionView3(BaseView):
     def display(self, screen, **kwargs):
@@ -24,7 +25,7 @@ class InstructionView3(BaseView):
         title_text = GameFonts.SEMIBOLD_LARGE.render('PODERES', False, GameColors.BRANCO)
         title_pos = ((GameSettings.WIDTH/2 - title_text.get_rect().width/2), GameSettings.HEIGHT/2 - 170)
 
-        slow_img = pygame.transform.scale(pygame.image.load(os.path.join("versao_final\\assets\\powers\\slow.png")), (42, 106))
+        slow_img = pygame.transform.scale(pygame.image.load(os.path.join(ASSETS_PATH,'slow.png')), (42, 106))
         slow_pos = (GameSettings.WIDTH/2 - 200, GameSettings.HEIGHT/2 - 90)
 
         slow_wrap_text = ["LENTIDÃO: Diminui a velocidade",
@@ -36,7 +37,7 @@ class InstructionView3(BaseView):
         for text in slow_wrap_text:
             slow_txt.append(GameFonts.REGULAR_SMALL.render(text, False, GameColors.BRANCO))
 
-        imortal_img = pygame.transform.scale(pygame.image.load(os.path.join("versao_final\\assets\\powers\\star.png")), (82, 76))
+        imortal_img = pygame.transform.scale(pygame.image.load(os.path.join(ASSETS_PATH,'star.png')), (82, 76))
         imortal_pos = (GameSettings.WIDTH/2 - 230, GameSettings.HEIGHT/2 + 120)
 
         imortal_wrap_text = ["INVENCIBILIDADE: Desativa as",

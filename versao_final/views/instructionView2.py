@@ -7,6 +7,8 @@ from settings.gameSettings import GameSettings
 from settings.gameStates import GameStates
 from views.buttons import HomeButton, BackwardButton, FowardButton
 
+ASSETS_PATH = os.path.join(os.getcwd(),'assets','characters')
+
 class InstructionView2(BaseView):
     def display(self, screen, **kwargs):
         mouse_pos = kwargs['mouse_pos']
@@ -26,14 +28,14 @@ class InstructionView2(BaseView):
 
         title_text = GameFonts.SEMIBOLD_LARGE.render('CONTROLES', False, GameColors.BRANCO)
         title_pos = ((GameSettings.WIDTH/2 - title_text.get_rect().width/2), GameSettings.HEIGHT/2 - 170)
-
-        jump_img = pygame.transform.scale(pygame.image.load(os.path.join("versao_final\\assets\\characters\\ninja_girl\\jump4.png")), (100, 142))
+        
+        jump_img = pygame.transform.scale(pygame.image.load(os.path.join(ASSETS_PATH, 'ninja_girl','jump4.png')), (100, 142))
         jump_pos = (GameSettings.WIDTH/2 - 250, GameSettings.HEIGHT/2 - 100)
 
         jump_txt = GameFonts.REGULAR_SMALL.render('PULAR: Tecla "W" ou seta para cima', False, GameColors.BRANCO)
         jump_txt_pos = (jump_pos[0] + jump_img.get_rect().width + 15, jump_pos[1] + 70)
 
-        slide_img = pygame.transform.scale(pygame.image.load(os.path.join("versao_final\\assets\\characters\\adventurer_boy\\slide2.png")), (99, 100))
+        slide_img = pygame.transform.scale(pygame.image.load(os.path.join(ASSETS_PATH,'adventurer_boy','slide2.png')), (99, 100))
         slide_pos = (GameSettings.WIDTH/2 - 250, GameSettings.HEIGHT/2 + 50)
 
         slide_txt = GameFonts.REGULAR_SMALL.render('DESLIZAR: Tecla "S" ou seta para baixo', False, GameColors.BRANCO)
