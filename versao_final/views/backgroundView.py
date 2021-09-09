@@ -16,7 +16,7 @@ class BackgroundView(BaseView):
         backgrounds_path = os.listdir(source)
         self.__backgrounds = []
         for bg in backgrounds_path:
-            self.__backgrounds.append(source + bg)
+            self.__backgrounds.append(os.path.join(source, bg))
 
     def display(self, screen, **kwargs):
         mouse_pos = kwargs['mouse_pos']

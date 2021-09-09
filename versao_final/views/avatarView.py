@@ -16,7 +16,7 @@ class AvatarView(BaseView):
         characters_path = os.listdir(source)
         self.__characters = []
         for path in characters_path:
-            self.__characters.append(source + path + "\\idle.png")
+            self.__characters.append(os.path.join(source,path,"idle.png"))
 
     def display(self, screen, **kwargs):
         mouse_pos = kwargs['mouse_pos']
