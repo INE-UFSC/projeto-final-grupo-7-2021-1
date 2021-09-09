@@ -85,57 +85,57 @@ class ConfigButton(HoverButton, ABC):
 
 class PlayButton(StateButton):
     def __init__(self, center, current_state, next_state):
-        filename = "versao_final\\assets\\buttons\\button_jogar.png"
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_jogar.png')
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
 class InstructionButton(StateButton):
     def __init__(self, center, current_state, next_state):
-        filename = 'versao_final\\assets\\buttons\\button_instrucoes.png'
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_instrucoes.png')
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
 class SettingsButton(StateButton):
     def __init__(self, center, current_state, next_state):
-        filename = 'versao_final\\assets\\buttons\\button_configuracoes.png'
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_configuracoes.png')
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
 class RankingButton(StateButton):
     def __init__(self, center, current_state, next_state):
-        filename = 'versao_final\\assets\\buttons\\button_ranking.png'
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_ranking.png')
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
 class FowardButton(StateButton):
     def __init__(self, center, current_state, next_state):
-        filename = 'versao_final\\assets\\buttons\\button_foward.png'
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_foward.png')
         scale = ARROW_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
 class BackwardButton(StateButton):
     def __init__(self, center, current_state, next_state):
-        filename = 'versao_final\\assets\\buttons\\button_backward.png'
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_backward.png')
         scale = ARROW_BUTTONS_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
 class HomeButton(StateButton):
     def __init__(self, center, current_state):
-        filename = 'versao_final\\assets\\buttons\\button_home.png'
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_home.png')
         scale = SQUARE_BUTTON_SCALE
         next_state = GameStates.MENU
         super().__init__(center, filename, current_state, next_state, scale)
 
 class ResetButton(StateButton):
     def __init__(self, center, current_state):
-        filename = "versao_final\\assets\\buttons\\button_reset.png"
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_reset.png')
         next_state = GameStates.JOGANDO
         scale = SQUARE_BUTTON_SCALE
         super().__init__(center, filename, current_state, next_state, scale)
 
 class AvatarButton(StateButton):
     def __init__(self, center):
-        filename = "versao_final\\assets\\buttons\\button_character.png"
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_character.png')
         current_state = GameStates.CONFIGURACOES
         next_state = GameStates.SEL_AVATAR
         scale = LARGE_BUTTONS_SCALE
@@ -143,7 +143,7 @@ class AvatarButton(StateButton):
 
 class BackgroundButton(StateButton):
     def __init__(self, center):
-        filename = "versao_final\\assets\\buttons\\button_cenario.png"
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_cenario.png')
         current_state = GameStates.CONFIGURACOES
         next_state = GameStates.SEL_BG
         scale = LARGE_BUTTONS_SCALE
@@ -151,21 +151,21 @@ class BackgroundButton(StateButton):
 
 class SFXButton(ConfigButton):
     def __init__(self, center):
-       filename1 = "versao_final\\assets\\buttons\\button_sfx_on.png"
-       filename2 = "versao_final\\assets\\buttons\\button_sfx_off.png"
+       filename1 = os.path.join(os.getcwd(),'assets','buttons','button_sfx_on.png')
+       filename2 = os.path.join(os.getcwd(),'assets','buttons','button_sfx_off.png')
        scale = MEDIUM_BUTTONS_SCALE
        super().__init__(center, filename1, filename2, scale)
 
 class MusicButton(ConfigButton):
     def __init__(self, center):
-        filename1 = "versao_final\\assets\\buttons\\button_music_on.png"
-        filename2 = "versao_final\\assets\\buttons\\button_music_off.png"
+        filename1 = os.path.join(os.getcwd(),'assets','buttons','button_sfx_on.png')
+        filename2 = os.path.join(os.getcwd(),'assets','buttons','button_sfx_on.png')
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename1, filename2, scale)
 
 class FowardButtonIncrease(HoverButton):
     def __init__(self, center):
-        filename = 'versao_final\\assets\\buttons\\button_foward.png'
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_foward.png')
         scale = ARROW_BUTTONS_SCALE
         super().__init__(center, filename, scale)
 
@@ -177,7 +177,7 @@ class FowardButtonIncrease(HoverButton):
 
 class BackwardButtonDecrease(HoverButton):
     def __init__(self, center):
-        filename = 'versao_final\\assets\\buttons\\button_backward.png'
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_backward.png')
         scale = ARROW_BUTTONS_SCALE
         super().__init__(center, filename, scale)
 
@@ -189,14 +189,14 @@ class BackwardButtonDecrease(HoverButton):
 
 class ButtonConfirm(StateButton):
     def __init__(self, center, current_state):
-        filename = "versao_final\\assets\\buttons\\button_check.png"
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_check.png')
         scale = ARROW_BUTTONS_SCALE
         next_state = GameStates.CONFIGURACOES
         super().__init__(center, filename, current_state, next_state, scale)
 
 class ButtonDecline(StateButton):
     def __init__(self, center, current_state):
-        filename = "versao_final\\assets\\buttons\\button_decline.png"
+        filename = os.path.join(os.getcwd(),'assets','buttons','button_decline.png')
         scale = ARROW_BUTTONS_SCALE
         next_state = GameStates.CONFIGURACOES
         super().__init__(center, filename, current_state, next_state, scale)

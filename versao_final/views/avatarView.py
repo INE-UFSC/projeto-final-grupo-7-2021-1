@@ -12,7 +12,7 @@ from views.buttons import BackwardButtonDecrease, FowardButtonIncrease
 class AvatarView(BaseView):
     def __init__(self):
         self.__pos = 0
-        source = "versao_final\\assets\\characters\\"
+        source = os.path.join(os.getcwd(),'assets', 'characters')
         characters_path = os.listdir(source)
         self.__characters = []
         for path in characters_path:

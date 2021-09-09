@@ -14,8 +14,8 @@ class MenuView(BaseView):
         global menu_bg_x
         mouse_pos = kwargs['mouse_pos']
         mouse_up = kwargs['mouse_up']
-
-        bg = pygame.transform.scale(pygame.image.load(os.path.join("versao_final\\assets\\backgrounds\\background4.png")),
+        source = os.path.join(os.getcwd(),'assets', 'backgrounds', 'background4.png')
+        bg = pygame.transform.scale(pygame.image.load(source),
                                     (GameSettings.WIDTH, GameSettings.HEIGHT))
         
         #background infinito

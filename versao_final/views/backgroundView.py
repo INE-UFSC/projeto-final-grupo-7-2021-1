@@ -12,7 +12,7 @@ from views.buttons import BackwardButtonDecrease, FowardButtonIncrease
 class BackgroundView(BaseView):
     def __init__(self):
         self.__pos = 0
-        source = "versao_final\\assets\\backgrounds\\"
+        source = os.path.join(os.getcwd(),'assets', 'backgrounds')
         backgrounds_path = os.listdir(source)
         self.__backgrounds = []
         for bg in backgrounds_path:
