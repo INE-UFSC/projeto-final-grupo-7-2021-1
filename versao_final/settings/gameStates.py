@@ -5,10 +5,8 @@ class GameStates(Enum):
     JOGANDO = 1
     PAUSADO = 2
     ENDGAME = 3
-    INSTRUCOES1 = 4
-    INSTRUCOES2 = 5
-    INSTRUCOES3 = 6
-    CONFIGURACOES = 7
-    SEL_AVATAR = 8
-    SEL_BG = 9
-    RANKING = 10
+    INSTRUCOES = 4
+    CONFIGURACOES = 5
+    SEL_AVATAR = 6
+    SEL_BG = 7
+    RANKING = 8

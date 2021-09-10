@@ -29,7 +29,7 @@ class MenuView(BaseView):
         h0 = b0.hover(mouse_pos)
         s0 = b0.click(mouse_pos, mouse_up)
 
-        b1 = InstructionButton((GameSettings.WIDTH/2, (GameSettings.HEIGHT/2) - 20), GameStates.MENU, GameStates.INSTRUCOES1)
+        b1 = InstructionButton((GameSettings.WIDTH/2, (GameSettings.HEIGHT/2) - 20), GameStates.MENU, GameStates.INSTRUCOES)
         h1 = b1.hover(mouse_pos)
         s1 = b1.click(mouse_pos, mouse_up)
 

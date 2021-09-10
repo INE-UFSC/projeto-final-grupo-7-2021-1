@@ -7,9 +7,7 @@ from views.pauseView import PauseView
 from views.endgameView import EndgameView
 from views.rankingView import RankingView
 from views.settingsView import SettingsView
-from views.instructionView1 import InstructionView1
-from views.instructionView2 import InstructionView2
-from views.instructionView3 import InstructionView3
+from views.instructionView import InstructionView
 from views.avatarView import AvatarView
 from views.backgroundView import BackgroundView
 
@@ -22,9 +20,7 @@ class ViewManager:
                         GameView(),
                         PauseView(),
                         EndgameView(),
-                        InstructionView1(),
-                        InstructionView2(),
-                        InstructionView3(),
+                        InstructionView(),
                         SettingsView(),
                         AvatarView(),
                         BackgroundView(),
