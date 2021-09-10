@@ -1,22 +1,23 @@
-from pygame import Rect
+from pygame.sprite import Sprite
+import pygame
+import os
 from abc import ABC, abstractmethod
-from settings.gameColors import GameColors
 
 
 TAMANHO = 10
+SLOW = (34, 55)
+STAR = (47, 45) 
 
 #Class abstrata de poderes
 
-class Poder(Rect, ABC):
+class Poder(Sprite,ABC):
     @abstractmethod
-    def __init__(self, x, y, cor, tempo):
-        self.__cor = cor
+    def __init__(self, x, y, tempo, filename, scale):
         self.__tempo = tempo
-        super().__init__(x, y-TAMANHO, TAMANHO, TAMANHO)
-    
-    @property
-    def cor(self):
-        return self.__cor
+        self.image = pygame.transform.scale(pygame.image.load(os.path.join('assets','powers',filename)), scale)
+        self.rect = self.image.get_rect(center = (x,y))
+        
+        
     
     # Tempo que o poder permanece ativado
     @property
@@ -24,7 +25,7 @@ class Poder(Rect, ABC):
         return self.__tempo
 
     def mover(self, vel):
-        self.x -= vel + 2
+        self.rect.x -= vel + 2
         self.__atualizar()
 
     # Atualiza o Rect 
@@ -39,7 +40,10 @@ class Poder(Rect, ABC):
 
 class PoderLento(Poder):
     def __init__(self, x, y):
-        super().__init__(x, y, GameColors.ROXO, 5000)
+        filename = 'slow.png'
+        y -= SLOW[1]
+        super().__init__(x, y, 5000, filename,SLOW)
+
     
     def efeito(self, velocidadeJogo, velocidadePulo):
         return True, 2, 2 
@@ -47,7 +51,9 @@ class PoderLento(Poder):
 
 class PoderInvulnerabilidade(Poder):
     def __init__(self, x, y):
-        super().__init__(x, y, GameColors.BRANCO, 4000)
+        filename = 'star.png'
+        y -= STAR[1]
+        super().__init__(x, y, 4000, filename, STAR)
     
     def efeito(self, velocidadeJogo, velocidadePulo):
         return False, velocidadeJogo + 20 , velocidadePulo

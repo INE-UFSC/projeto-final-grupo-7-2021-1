@@ -37,7 +37,7 @@ class GameView(BaseView):
 
     def __desenhar_poderes(self, screen, poderes):
         for poder in poderes:
-            pygame.draw.rect(screen, poder.cor, poder)
+            screen.blit(poder.image, (poder.rect.x, poder.rect.y))
 
     def __desenhar_scores(self, screen, score, highscore):
         texto_score = GameFonts.SEMIBOLD_SMALL.render(f'Score: {score}', False, GameColors.BRANCO)

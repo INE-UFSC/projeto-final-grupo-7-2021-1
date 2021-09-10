@@ -133,10 +133,9 @@ class Controller:
     def __checar_poder_colide(self, now):
         global vel_jogo, poder_usado, poder_tempo, vel_pulo
         for poder in self.__cenario.poderes:
-            if self.__player.colliderect(poder):
+            if self.__player.colliderect(poder.rect):
                 poder_usado = poder
                 poder_tempo = now
-                self.__player.cor = poder.cor
                 self.__habilitaColisao, vel_jogo, vel_pulo = poder.efeito(vel_jogo, vel_pulo)
                 self.__cenario.removePoder(poder)
 

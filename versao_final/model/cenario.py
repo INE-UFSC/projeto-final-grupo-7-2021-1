@@ -58,7 +58,7 @@ class Cenario:
     def __moverPoderes(self, vel):
         for poder in self.__poderes[:]:
             poder.mover(vel)
-            if poder.x + poder.width < 0:
+            if poder.rect.x + poder.rect.width < 0:
                 self.__poderes.remove(poder)
 
     def removePoder(self, poder):
