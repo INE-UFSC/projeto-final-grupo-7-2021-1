@@ -158,8 +158,8 @@ class SFXButton(ConfigButton):
 
 class MusicButton(ConfigButton):
     def __init__(self, center):
-        filename1 = os.path.join(os.getcwd(),'assets','buttons','button_sfx_on.png')
-        filename2 = os.path.join(os.getcwd(),'assets','buttons','button_sfx_on.png')
+        filename1 = os.path.join(os.getcwd(),'assets','buttons','button_music_on.png')
+        filename2 = os.path.join(os.getcwd(),'assets','buttons','button_music_off.png')
         scale = MEDIUM_BUTTONS_SCALE
         super().__init__(center, filename1, filename2, scale)
 
