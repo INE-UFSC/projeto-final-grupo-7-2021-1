@@ -1,6 +1,7 @@
 import pygame
 from views.baseView import BaseView
 from settings.gameFonts import GameFonts
+from settings.gameStates import GameStates
 from settings.gameColors import GameColors
 from settings.gameSettings import GameSettings
 
@@ -19,6 +20,7 @@ class GameView(BaseView):
         self.__desenhar_poderes(screen, poderes)
         self.__desenhar_player(screen, player_color, player_rect)
         self.__desenhar_scores(screen, score, highscore)
+        return GameStates.JOGANDO
 
     def __desenhar_player(self, screen, player_color, player_rect):
         pygame.draw.rect(screen, player_color, player_rect)
