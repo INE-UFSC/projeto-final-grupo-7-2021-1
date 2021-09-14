@@ -1,11 +1,10 @@
 import pygame
 from pygame.constants import *
-from views.viewManager import ViewManager
 from model.player import Player
 from model.cenario import Cenario
 from controller.highScore import HighScoreDAO
 from settings.gameSettings import GameSettings
-from settings.gameStates import GameStates
+from state_logic.stateMachine import StateMachine
 
 
 #variaveis auxiliares
@@ -23,12 +22,12 @@ class Controller:
     def __init__(self):
         self.__player = Player()
         self.__cenario = Cenario()
-        self.__view = ViewManager(self)
+        self.__window = pygame.display.set_mode((GameSettings.WIDTH, GameSettings.HEIGHT))
+        self.__state_machine = StateMachine()
         self.__hsDAO = HighScoreDAO('highScores.pkl')
         self.__highscore = self.__hsDAO.getHighScore()
         self.__final_score = 0
         #ponteiros que controlam o jogo
-        self.__gameState = GameStates.MENU
         self.__habilitaColisao = True
         self.__mouse_pressed = False
 
@@ -57,8 +56,7 @@ class Controller:
             mouse_pos = pygame.mouse.get_pos()
             now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
 
-            self.__gameState = self.__view.display(mouse_pos, self.__mouse_pressed)
-            self.perform_actions(now)
+            self.__state_machine.run(self.__window, now=now, mouse_up=self.__mouse_pressed)
 
             self.__mouse_pressed = False
             for event in pygame.event.get():
@@ -69,21 +67,6 @@ class Controller:
                         self.__mouse_pressed = True
 
             pygame.display.update()
-
-    #apenas para criterios de legibilidade
-    def perform_actions(self, now):
-        self.key_handler(now)
-        if self.__gameState == GameStates.JOGANDO:
-            self.checar_pulando()
-            self.__cenario.gerar_elementos(now)
-            self.__cenario.mover_elementos(vel_jogo)
-            self.contador_score(now)
-            self.terminar_efeito(now)
-            self.update_highscore()
-            if self.__habilitaColisao:
-                self.checar_colissoes(now)
-        elif self.__gameState == GameStates.MENU:
-            self.reiniciar()
 
     def key_handler(self, now):
         keys = pygame.key.get_pressed()
@@ -103,10 +86,7 @@ class Controller:
     
     def __key_escape(self, keys, now):
         if keys[K_ESCAPE] and self.__pauseTimer(now):
-            if self.__gameState == GameStates.JOGANDO:
-                self.__gameState = GameStates.PAUSADO
-            elif self.__gameState == GameStates.PAUSADO:
-                self.__gameState = GameStates.JOGANDO
+            pass
 
     def __pauseTimer(self,now):
         global pause_tempo
@@ -176,7 +156,6 @@ class Controller:
 
     def end_game(self):
         self.__final_score = self.__player.score
-        self.__gameState = GameStates.ENDGAME
         self.__hsDAO.add(self.__player.score)
         self.__highscore = self.__hsDAO.getHighScore()
         self.reiniciar()
