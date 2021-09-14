@@ -1,5 +1,6 @@
 class GameColors:
-    AMARELO = (255,255,0)
+    AMARELO = (255,221,0)
+    AMARELO_ESCURO = (184,159,0)
     BRANCO = (255,255,255)
     PRETO = (0,0,0)
     VERDE = (50,150,50)

@@ -1,202 +1,159 @@
-from pygame.transform import scale
-from settings.gameStates import GameStates
-import pygame
-from pygame.sprite import Sprite
-from abc import ABC, abstractmethod
 import os
+import pygame
+from settings.gameFonts import GameFonts
+from settings.gameColors import GameColors
+from abc import ABC, abstractmethod
 
 
-MEDIUM_BUTTONS_SCALE = (161, 42)
-LARGE_BUTTONS_SCALE = (224, 42)
-SQUARE_BUTTON_SCALE = (77, 61)
-ARROW_BUTTONS_SCALE = (87, 58)
+PATH = os.path.join(os.getcwd(),'assets','buttons')
 
-class HoverButton(Sprite, ABC):
-    def __init__(self, center, filename, scale):
-        hover_scale = (int(scale[0]*1.2), int(scale[1]*1.2))
-        self.__images = [pygame.transform.scale(pygame.image.load(os.path.join(filename)), scale),
-                         pygame.transform.scale(pygame.image.load(os.path.join(filename)), hover_scale)]
-        
-        self.__rects = [self.__images[0].get_rect(center=center), self.__images[1].get_rect(center=center)]
-        self.__mouse_over = False
+class Button(ABC):
+    def __init__(self, width, height, pos, next_state=None, elevation=6):
+        self.__top_rect = pygame.Rect((pos),(width, height))
+        self.__top_rect.center = pos
+        self.__top_color = GameColors.AMARELO
 
-    @property
-    def image(self):
-        return self.__images[1] if self.__mouse_over else self.__images[0]
+        self.__hover_color = GameColors.ROXO
+        self.__display_color = self.__top_color
 
-    @property
-    def images(self):
-        return self.__images
+        self.__elevation = elevation
+        self.__dynamic_elevation = elevation
+        self.__default_y_pos = pos[1]
 
-    @property
-    def rect(self):
-        return self.__rects[1] if self.__mouse_over else self.__rects[0]
+        self.__bottom_rect = pygame.Rect(pos, (width, height))
+        self.__bottom_color = GameColors.AMARELO_ESCURO
 
-    @property
-    def mouse_over(self):
-        return self.__mouse_over
-
-    def hover(self, mouse_pos):
-        if self.rect.collidepoint(mouse_pos):
-            self.__mouse_over = True
-        else:
-            self.__mouse_over = False
-        return self.__mouse_over
-
-    @abstractmethod
-    def click(self, mouse_pos, mouse_up):
-        raise NotImplementedError
-    
-class StateButton(HoverButton, ABC):
-    @abstractmethod
-    def __init__(self, center, filename, current_state, next_state, scale):
-        self.__current_state = current_state
         self.__next_state = next_state
-        super().__init__(center, filename, scale)
 
-    def click(self, mouse_pos, mouse_up):
-        if self.rect.collidepoint(mouse_pos) and mouse_up:
-            return self.__next_state
-        else:
-            return self.__current_state
-
-class ConfigButton(HoverButton, ABC):
-    @abstractmethod
-    def __init__(self, center, filename1, filename2, scale):
-        super().__init__(center, filename1, scale)
-        hover_scale = (int(scale[0]*1.2), int(scale[1]*1.2))
-        self.__images_off = [pygame.transform.scale(pygame.image.load(os.path.join(filename2)), scale),
-                             pygame.transform.scale(pygame.image.load(os.path.join(filename2)), hover_scale)]
-        self.__on = True
-    
     @property
-    def image(self):
-        if self.__on:
-            return self.images[1] if self.mouse_over else self.images[0]
+    def top_rect(self):
+        return self.__top_rect
+
+    @property
+    def elevation(self):
+        return self.__elevation
+
+    @property
+    def dynamic_elevation(self):
+        return self.__dynamic_elevation
+
+    @dynamic_elevation.setter
+    def dynamic_elevation(self, new_value):
+        self.__dynamic_elevation = new_value
+
+    @property
+    def next_state(self):
+        return self.__next_state
+
+    @abstractmethod
+    def draw(self, screen):
+        self.__top_rect.y = self.__default_y_pos - self.__dynamic_elevation
+
+        self.__bottom_rect.midtop = self.__top_rect.midtop
+        self.__bottom_rect.height = self.__top_rect.height + self.__dynamic_elevation
+
+        pygame.draw.rect(screen, self.__bottom_color, self.__bottom_rect, border_radius=12)
+        pygame.draw.rect(screen, self.__display_color, self.__top_rect, border_radius=12)
+
+    def hover(self):
+        if self.__top_rect.collidepoint(pygame.mouse.get_pos()):
+            self.__display_color = self.__hover_color
         else:
-            return self.__images_off[1] if self.mouse_over else self.__images_off[0]
+            self.__display_color =  self.__top_color
 
-    def click(self, mouse_pos, mouse_up):
-        if self.rect.collidepoint(mouse_pos) and mouse_up:
-            if self.__on:
-                self.__on = False
-            else:
-                self.__on = True
+    @abstractmethod
+    def click(self):
+        raise NotImplementedError
 
-class PlayButton(StateButton):
-    def __init__(self, center, current_state, next_state):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_jogar.png')
-        scale = MEDIUM_BUTTONS_SCALE
-        super().__init__(center, filename, current_state, next_state, scale)
+class TextButton(Button):
+    def __init__(self, text, width, height, pos, next_state=None, elevation=6):
+        super().__init__(width, height, pos, next_state, elevation)
+        self.__text = GameFonts.SEMIBOLD_SMALL.render(text, True, GameColors.BRANCO)
+        self.__text_rect = self.__text.get_rect(center=self.top_rect.center)
 
-class InstructionButton(StateButton):
-    def __init__(self, center, current_state, next_state):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_instrucoes.png')
-        scale = MEDIUM_BUTTONS_SCALE
-        super().__init__(center, filename, current_state, next_state, scale)
+    def draw(self, screen):
+        super().draw(screen)
+        self.__text_rect.center = self.top_rect.center
+        screen.blit(self.__text, self.__text_rect)
 
-class SettingsButton(StateButton):
-    def __init__(self, center, current_state, next_state):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_configuracoes.png')
-        scale = MEDIUM_BUTTONS_SCALE
-        super().__init__(center, filename, current_state, next_state, scale)
-
-class RankingButton(StateButton):
-    def __init__(self, center, current_state, next_state):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_ranking.png')
-        scale = MEDIUM_BUTTONS_SCALE
-        super().__init__(center, filename, current_state, next_state, scale)
-
-class FowardButton(StateButton):
-    def __init__(self, center, current_state, next_state):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_foward.png')
-        scale = ARROW_BUTTONS_SCALE
-        super().__init__(center, filename, current_state, next_state, scale)
-
-class BackwardButton(StateButton):
-    def __init__(self, center, current_state, next_state):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_backward.png')
-        scale = ARROW_BUTTONS_SCALE
-        super().__init__(center, filename, current_state, next_state, scale)
-
-class HomeButton(StateButton):
-    def __init__(self, center, current_state):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_home.png')
-        scale = SQUARE_BUTTON_SCALE
-        next_state = GameStates.MENU
-        super().__init__(center, filename, current_state, next_state, scale)
-
-class ResetButton(StateButton):
-    def __init__(self, center, current_state):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_reset.png')
-        next_state = GameStates.JOGANDO
-        scale = SQUARE_BUTTON_SCALE
-        super().__init__(center, filename, current_state, next_state, scale)
-
-class AvatarButton(StateButton):
-    def __init__(self, center):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_character.png')
-        current_state = GameStates.CONFIGURACOES
-        next_state = GameStates.SEL_AVATAR
-        scale = LARGE_BUTTONS_SCALE
-        super().__init__(center, filename, current_state, next_state, scale)
-
-class BackgroundButton(StateButton):
-    def __init__(self, center):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_cenario.png')
-        current_state = GameStates.CONFIGURACOES
-        next_state = GameStates.SEL_BG
-        scale = LARGE_BUTTONS_SCALE
-        super().__init__(center, filename, current_state, next_state, scale)
-
-class SFXButton(ConfigButton):
-    def __init__(self, center):
-       filename1 = os.path.join(os.getcwd(),'assets','buttons','button_sfx_on.png')
-       filename2 = os.path.join(os.getcwd(),'assets','buttons','button_sfx_off.png')
-       scale = MEDIUM_BUTTONS_SCALE
-       super().__init__(center, filename1, filename2, scale)
-
-class MusicButton(ConfigButton):
-    def __init__(self, center):
-        filename1 = os.path.join(os.getcwd(),'assets','buttons','button_music_on.png')
-        filename2 = os.path.join(os.getcwd(),'assets','buttons','button_music_off.png')
-        scale = MEDIUM_BUTTONS_SCALE
-        super().__init__(center, filename1, filename2, scale)
-
-class FowardButtonIncrease(HoverButton):
-    def __init__(self, center):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_foward.png')
-        scale = ARROW_BUTTONS_SCALE
-        super().__init__(center, filename, scale)
-
-    def click(self, mouse_pos, mouse_up, pos):
-        if self.rect.collidepoint(mouse_pos) and mouse_up:
-            return (pos+1)
+    def click(self, mouse_up):
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()) and mouse_up:
+            self.dynamic_elevation = 0
+            return self.next_state
         else:
+            self.dynamic_elevation = self.elevation
+
+class ImageButton(Button):
+    def __init__(self, width, height, pos, filename, scale, next_state=None, elevation=6):
+        super().__init__(width, height, pos, next_state, elevation)
+        self.__image = pygame.transform.scale(pygame.image.load(os.path.join(PATH, filename)), scale)
+        self.__image_rect = self.__image.get_rect(center=self.top_rect.center)
+
+    def draw(self, screen):
+        super().draw(screen)
+        screen.blit(self.__image, self.__image_rect)
+
+    def click(self, mouse_up):
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()) and mouse_up:
+            self.dynamic_elevation = 0
+            return self.next_state
+        else:
+            self.dynamic_elevation = self.elevation
+
+class MenuButton(TextButton):
+    def __init__(self, text, pos, next_state):
+        width = 200
+        height = 40
+        super().__init__(text, width, height, pos, next_state=next_state)
+
+class HomeButton(ImageButton):
+    def __init__(self, width, height, pos, next_state='menu', elevation=6):
+        filename = 'home.png'
+        scale = (77, 61)
+        super().__init__(width, height, pos, filename, scale, next_state, elevation)
+
+class LeftArrowButton(ImageButton):
+    def __init__(self, width, height, pos, next_state=None, elevation=6):
+        filename = 'arrow_left.png'
+        scale = (87, 58)
+        super().__init__(width, height, pos, filename, scale, next_state, elevation)
+
+    def click(self, pos, mouse_up):
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()) and mouse_up:
+            self.dynamic_elevation = 0
+            return pos - 1
+        else:
+            self.dynamic_elevation = self.elevation
             return pos
 
-class BackwardButtonDecrease(HoverButton):
-    def __init__(self, center):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_backward.png')
-        scale = ARROW_BUTTONS_SCALE
-        super().__init__(center, filename, scale)
+class RightArrowButton(ImageButton):
+    def __init__(self, width, height, pos, next_state=None, elevation=6):
+        filename = 'arrow_right.png'
+        scale = (87, 58)
+        super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
-    def click(self, mouse_pos, mouse_up, pos):
-        if self.rect.collidepoint(mouse_pos) and mouse_up:
-            return (pos - 1)
+    def click(self, pos, mouse_up):
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()) and mouse_up:
+            self.dynamic_elevation = 0
+            return pos + 1
         else:
+            self.dynamic_elevation = self.elevation
             return pos
 
-class ButtonConfirm(StateButton):
-    def __init__(self, center, current_state):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_check.png')
-        scale = ARROW_BUTTONS_SCALE
-        next_state = GameStates.CONFIGURACOES
-        super().__init__(center, filename, current_state, next_state, scale)
+class RestartButton(ImageButton):
+    def __init__(self, width, height, pos, next_state='endgame', elevation=6):
+        filename = 'replay.png'
+        scale = (77, 61)
+        super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
-class ButtonDecline(StateButton):
-    def __init__(self, center, current_state):
-        filename = os.path.join(os.getcwd(),'assets','buttons','button_decline.png')
-        scale = ARROW_BUTTONS_SCALE
-        next_state = GameStates.CONFIGURACOES
-        super().__init__(center, filename, current_state, next_state, scale)
+class ConfirmButton(ImageButton):
+    def __init__(self, width, height, pos, next_state=None, elevation=6):
+        filename = 'confirm.png'
+        scale = (77, 61)
+        super().__init__(width, height, pos, filename, scale, next_state, elevation)
+
+class DeclineButton(ImageButton):
+    def __init__(self, width, height, pos, next_state=None, elevation=6):
+        filename = 'decline.png'
+        scale = (77, 61)
+        super().__init__(width, height, pos, filename, scale, next_state, elevation)
