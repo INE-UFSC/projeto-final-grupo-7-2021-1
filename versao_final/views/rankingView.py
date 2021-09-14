@@ -8,9 +8,8 @@ class RankingView(ViewWithHomeButton):
     def __init__(self):
         super().__init__(GameColors.AZUL, 'RANKING')
 
-    def display(self, screen, **kwargs):
-        super().display(screen)
-        top_scores = kwargs['top_scores']
+    def display(self, screen, mouse_up, top_scores):
+        s0 = super().display(screen, mouse_up)
 
         highscores_txt = []
         for pos, value in enumerate(top_scores):
@@ -19,3 +18,5 @@ class RankingView(ViewWithHomeButton):
         for pos, text_surface in enumerate(highscores_txt):
             text_pos  = (GameSettings.WIDTH/2 - 50, GameSettings.HEIGHT/3 + (pos*40))
             screen.blit(text_surface, text_pos)
+        
+        return self.button_states_handler('ranking', [s0])

@@ -13,17 +13,17 @@ class InstructionView(ViewWithHomeButton):
         self.__contents = [ObjectivesContent(), ControlsContent(), PowersContent()]
         self.__pos = 0
         self.__currentContent = self.__contents[self.__pos]
-        self.__buttons = [LeftArrowButton(100, 90, (50, GameSettings.HEIGHT/2)),
-                          RightArrowButton(100, 90, (GameSettings.WIDTH - 100 - 50, GameSettings.HEIGHT/2)) ]
+        self.__buttons = [LeftArrowButton(100, 70, (20, GameSettings.HEIGHT/2)),
+                          RightArrowButton(100, 70, (GameSettings.WIDTH - 100 - 30, GameSettings.HEIGHT/2)) ]
 
     def display(self, screen, mouse_up):
         s0 = super().display(screen, mouse_up)
         self.__currentContent.display(screen)
-        self.manage_buttons(screen, mouse_up)
+        self.manage_arrow_buttons(screen, mouse_up)
         self.__currentContent = self.__contents[self.__pos]
         return self.button_states_handler('instrucoes',[s0])
 
-    def manage_buttons(self, screen, mouse_up):
+    def manage_arrow_buttons(self, screen, mouse_up):
         if self.__pos == 0:
             self.__buttons[1].draw(screen)
             self.__buttons[1].hover()

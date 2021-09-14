@@ -56,7 +56,10 @@ class Controller:
             mouse_pos = pygame.mouse.get_pos()
             now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
 
-            self.__state_machine.run(self.__window, now=now, mouse_up=self.__mouse_pressed)
+            self.__state_machine.run(self.__window,
+                                     now=now,
+                                     mouse_up=self.__mouse_pressed,
+                                     top_scores=self.__hsDAO.getAllScores())
 
             self.__mouse_pressed = False
             for event in pygame.event.get():
@@ -169,7 +172,4 @@ class Controller:
 
     def update_highscore(self):
         if self.__player.score > self.__highscore:
-            self.__highscore = self.__player.score  
-
-    def get_highscores(self):
-        return self.__hsDAO.getAllScores()
+            self.__highscore = self.__player.score

@@ -159,17 +159,17 @@ class RightArrowButton(ImageButton):
 class RestartButton(ImageButton):
     def __init__(self, width, height, pos, next_state='endgame', elevation=6):
         filename = 'replay.png'
-        scale = (100, 100)
+        scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
 class ConfirmButton(ImageButton):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         filename = 'confirm.png'
-        scale = (100, 100)
+        scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
 class DeclineButton(ImageButton):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         filename = 'decline.png'
-        scale = (100, 100)
+        scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
