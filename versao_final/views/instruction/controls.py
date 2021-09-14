@@ -26,6 +26,7 @@ class ControlsContent(Content):
         slide_txt = GameFonts.REGULAR_SMALL.render('DESLIZAR: Tecla "S" ou seta para baixo', False, GameColors.BRANCO)
         slide_txt_pos = (slide_pos[0] + slide_img.get_rect().width + 15, slide_pos[1] + 70)
 
+        screen.blit(self.title, self.title_rect)
         screen.blit(jump_img, jump_pos)
         screen.blit(jump_txt, jump_txt_pos)
         screen.blit(slide_img, slide_pos)

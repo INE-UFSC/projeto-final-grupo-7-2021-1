@@ -10,29 +10,30 @@ from views.buttons import RightArrowButton, LeftArrowButton
 class InstructionView(ViewWithHomeButton):
     def __init__(self):
         super().__init__(GameColors.AZUL)
-        self.__contents = [PowersContent(), ControlsContent(), ObjectivesContent()]
+        self.__contents = [ObjectivesContent(), ControlsContent(), PowersContent()]
         self.__pos = 0
         self.__currentContent = self.__contents[self.__pos]
-        self.__buttons = [LeftArrowButton(150, 50, (100, GameSettings.HEIGHT/2)),
-                          RightArrowButton(150, 50, (GameSettings.WIDTH - 150 - 100, GameSettings.HEIGHT/2)) ]
+        self.__buttons = [LeftArrowButton(100, 90, (50, GameSettings.HEIGHT/2)),
+                          RightArrowButton(100, 90, (GameSettings.WIDTH - 100 - 50, GameSettings.HEIGHT/2)) ]
 
     def display(self, screen, mouse_up):
-        super().display(screen)
+        s0 = super().display(screen, mouse_up)
         self.__currentContent.display(screen)
-        self.manage_buttons(screen)
+        self.manage_buttons(screen, mouse_up)
         self.__currentContent = self.__contents[self.__pos]
+        return self.button_states_handler('instrucoes',[s0])
 
-    def manage_buttons(self, screen):
+    def manage_buttons(self, screen, mouse_up):
         if self.__pos == 0:
             self.__buttons[1].draw(screen)
             self.__buttons[1].hover()
-            self.__pos = self.__buttons[1].click(self.__pos)
+            self.__pos = self.__buttons[1].click(self.__pos, mouse_up)
         elif self.__pos == len(self.__contents) - 1:
             self.__buttons[0].draw(screen)
             self.__buttons[0].hover()
-            self.__pos = self.__buttons[0].click(self.__pos)
+            self.__pos = self.__buttons[0].click(self.__pos, mouse_up)
         else:
             for btn in self.__buttons:
                 btn.draw(screen)
                 btn.hover()
-                self.__pos = btn.click(self.__pos)
+                self.__pos = btn.click(self.__pos, mouse_up)

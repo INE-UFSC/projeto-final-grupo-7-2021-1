@@ -10,7 +10,6 @@ PATH = os.path.join(os.getcwd(),'assets','buttons')
 class Button(ABC):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         self.__top_rect = pygame.Rect((pos),(width, height))
-        self.__top_rect.center = pos
         self.__top_color = GameColors.AMARELO
 
         self.__hover_color = GameColors.ROXO
@@ -77,9 +76,13 @@ class TextButton(Button):
         screen.blit(self.__text, self.__text_rect)
 
     def click(self, mouse_up):
-        if self.top_rect.collidepoint(pygame.mouse.get_pos()) and mouse_up:
-            self.dynamic_elevation = 0
-            return self.next_state
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0]:
+                self.dynamic_elevation = 0
+            else:
+                self.dynamic_elevation = self.elevation
+            if mouse_up:
+                return self.next_state
         else:
             self.dynamic_elevation = self.elevation
 
@@ -91,12 +94,17 @@ class ImageButton(Button):
 
     def draw(self, screen):
         super().draw(screen)
+        self.__image_rect.center = self.top_rect.center
         screen.blit(self.__image, self.__image_rect)
 
     def click(self, mouse_up):
-        if self.top_rect.collidepoint(pygame.mouse.get_pos()) and mouse_up:
-            self.dynamic_elevation = 0
-            return self.next_state
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0]:
+                self.dynamic_elevation = 0
+            else:
+                self.dynamic_elevation = self.elevation
+            if mouse_up:
+                return self.next_state
         else:
             self.dynamic_elevation = self.elevation
 
@@ -109,51 +117,59 @@ class MenuButton(TextButton):
 class HomeButton(ImageButton):
     def __init__(self, width, height, pos, next_state='menu', elevation=6):
         filename = 'home.png'
-        scale = (77, 61)
+        scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
 class LeftArrowButton(ImageButton):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         filename = 'arrow_left.png'
-        scale = (87, 58)
+        scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
     def click(self, pos, mouse_up):
-        if self.top_rect.collidepoint(pygame.mouse.get_pos()) and mouse_up:
-            self.dynamic_elevation = 0
-            return pos - 1
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0]:
+                self.dynamic_elevation = 0
+            else:
+                self.dynamic_elevation = self.elevation
+            if mouse_up:
+                return pos - 1
         else:
             self.dynamic_elevation = self.elevation
-            return pos
+        return pos
 
 class RightArrowButton(ImageButton):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         filename = 'arrow_right.png'
-        scale = (87, 58)
+        scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
     def click(self, pos, mouse_up):
-        if self.top_rect.collidepoint(pygame.mouse.get_pos()) and mouse_up:
-            self.dynamic_elevation = 0
-            return pos + 1
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0]:
+                self.dynamic_elevation = 0
+            else:
+                self.dynamic_elevation = self.elevation
+            if mouse_up:
+                return pos + 1
         else:
             self.dynamic_elevation = self.elevation
-            return pos
+        return pos
 
 class RestartButton(ImageButton):
     def __init__(self, width, height, pos, next_state='endgame', elevation=6):
         filename = 'replay.png'
-        scale = (77, 61)
+        scale = (100, 100)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
 class ConfirmButton(ImageButton):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         filename = 'confirm.png'
-        scale = (77, 61)
+        scale = (100, 100)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
 class DeclineButton(ImageButton):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         filename = 'decline.png'
-        scale = (77, 61)
+        scale = (100, 100)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)

@@ -37,6 +37,8 @@ class PowersContent(Content):
         for text in star_wrap_text:
             star_txt.append(GameFonts.REGULAR_SMALL.render(text, False, GameColors.BRANCO))
         
+        screen.blit(self.title, self.title_rect)
+
         screen.blit(slow_img, slow_pos)
         for pos, text_surf in enumerate(slow_txt):
             text_pos = (slow_pos[0] + slow_img.get_rect().width + 15, slow_pos[1] + (pos)*30)

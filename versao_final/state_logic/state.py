@@ -15,5 +15,5 @@ class State(ABC):
         return self.__nome
 
     @abstractmethod
-    def perform_actions(self):
+    def perform_actions(self, screen):
         raise NotImplementedError

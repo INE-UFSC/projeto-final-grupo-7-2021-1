@@ -8,7 +8,7 @@ from settings.gameSettings import GameSettings
 class ViewWithHomeButton(BaseView, ABC):
     def __init__(self, color, title=' '):
         super().__init__(color)
-        self.__homeButton = HomeButton(100, 100, (50,50))
+        self.__homeButton = HomeButton(90, 90, (50,50))
         self.__title = GameFonts.SEMIBOLD_LARGE.render(title, False, GameColors.BRANCO)
         pos = (GameSettings.WIDTH/2, GameSettings.HEIGHT/2 - 170)
         self.__title_rect = self.__title.get_rect(center=pos)

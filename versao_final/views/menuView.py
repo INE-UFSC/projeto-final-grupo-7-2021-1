@@ -9,10 +9,10 @@ menu_bg_x = 0
 class MenuView(BaseView):
     def __init__(self):
         self.__buttons = [
-                         MenuButton('JOGAR', (GameSettings.WIDTH/2, GameSettings.HEIGHT/2 - 120), 'jogando'),
-                         MenuButton('INSTRUÇÕES', (GameSettings.WIDTH/2, GameSettings.HEIGHT/2 - 60), 'instrucoes'),
-                         MenuButton('CONFIGURAÇÕES', (GameSettings.WIDTH/2, GameSettings.HEIGHT/2), 'configuracoes'),
-                         MenuButton('RANKING', (GameSettings.WIDTH/2, GameSettings.HEIGHT/2 + 60), 'ranking')
+                         MenuButton('JOGAR', (GameSettings.WIDTH/2 - 100, GameSettings.HEIGHT/2 - 120), 'jogando'),
+                         MenuButton('INSTRUÇÕES', (GameSettings.WIDTH/2 - 100, GameSettings.HEIGHT/2 - 60), 'instrucoes'),
+                         MenuButton('CONFIGURAÇÕES', (GameSettings.WIDTH/2 - 100, GameSettings.HEIGHT/2), 'configuracoes'),
+                         MenuButton('RANKING', (GameSettings.WIDTH/2 - 100, GameSettings.HEIGHT/2 + 60), 'ranking')
                         ]
         self.__bg = pygame.transform.scale(pygame.image.load(os.path.join(os.getcwd(),'assets\\backgrounds\\background4.png')),
                                           (GameSettings.WIDTH, GameSettings.HEIGHT))
