@@ -7,8 +7,8 @@ from views.instruction.content import Content
 
 
 GAME_SETTINGS = GameSettings()
-JUMP_PATH = os.path.join(os.getcwd(), 'assets', 'characters', 'ninja_girl', 'jump2.png')
-SLIDE_PATH = os.path.join(os.getcwd(), 'assets', 'characters', 'robot', 'slide3.png')
+JUMP_PATH = os.path.join(os.getcwd(), 'assets', 'characters', 'ninja_girl', 'jump', 'jump2.png')
+SLIDE_PATH = os.path.join(os.getcwd(), 'assets', 'characters', 'robot', 'slide', 'slide3.png')
 
 class ControlsContent(Content):
     def __init__(self):

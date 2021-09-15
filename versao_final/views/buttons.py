@@ -161,7 +161,7 @@ class RightArrowButton(ImageButton):
         return pos
 
 class RestartButton(ImageButton):
-    def __init__(self, width, height, pos, next_state='endgame', elevation=6):
+    def __init__(self, width, height, pos, next_state='jogando', elevation=6):
         filename = 'replay.png'
         scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)

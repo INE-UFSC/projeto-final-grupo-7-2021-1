@@ -4,6 +4,7 @@ from views.menuView import MenuView
 from views.gameView import GameView
 from state_logic.state import State
 from views.avatarView import AvatarView
+from views.endgameView import EndgameView
 from views.rankingView import RankingView
 from views.settingsView import SettingsView
 from views.backgroundView import BackgroundView
@@ -91,3 +92,12 @@ class PlayingState(State):
         if now - self.__pause_tempo >= GAME_SETTINGS.TEMPO_PAUSE:
             self.__pause_tempo = now
             return True
+
+class EndgameState(State):
+    def __init__(self):
+        super().__init__(EndgameView(), 'endgame')
+
+    def perform_actions(self, screen, **kwargs):
+        final_score = kwargs['final_score']
+        mouse_up = kwargs['mouse_up']
+        return self.view.display(screen, final_score, mouse_up)

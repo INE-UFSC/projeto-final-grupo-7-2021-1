@@ -31,6 +31,7 @@ class Controller:
         #ponteiros que controlam o jogo
         self.__habilitaColisao = True
         self.__mouse_pressed = False
+        self.__colidiu = False
 
     @property
     def player(self):
@@ -56,7 +57,7 @@ class Controller:
 
             now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
 
-            self.__state_machine.run(self.__window, self.__mouse_pressed, now)
+            self.__state_machine.run(self.__window, self.__mouse_pressed, now, self.__colidiu)
             self.perform_actions(now)
 
             self.__mouse_pressed = False
@@ -82,6 +83,8 @@ class Controller:
                 self.checar_colissoes(now)
         elif self.__state_machine.currentState == 'menu':
             self.reiniciar()
+        else:
+            self.__colidiu = False
 
     def key_handler(self):
         keys = pygame.key.get_pressed()
@@ -162,6 +165,7 @@ class Controller:
         self.__final_score = self.__player.score
         self.__hsDAO.add(self.__player.score)
         self.__highscore = self.__hsDAO.getHighScore()
+        self.__colidiu = True
         self.reiniciar()
 
     def reiniciar(self):

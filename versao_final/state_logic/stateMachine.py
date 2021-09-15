@@ -4,20 +4,23 @@ from state_logic.gameStates import *
 class StateMachine:
     def __init__(self, controlador):
         self.__controlador = controlador
+
         self.__map = {'menu':MenuState(),
                       'instrucoes':InstructionState(),
                       'configuracoes':SettingsState(),
                       'ranking':RankingState(),
                       'sel_avatar':SelAvatarState(),
                       'sel_bg':SelBgState(),
-                      'jogando':PlayingState()}
+                      'jogando':PlayingState(),
+                      'endgame':EndgameState()}
+
         self.__currentState = self.__map['menu']
 
     @property
     def currentState(self):
         return self.__currentState.nome
 
-    def run(self, screen, mouse_up, now):
+    def run(self, screen, mouse_up, now, colidiu):
         next_state = self.__currentState.perform_actions(screen,
                                                          poderes=self.__controlador.cenario.poderes,
                                                          obstaculos=self.__controlador.cenario.obstaculos,
@@ -29,8 +32,10 @@ class StateMachine:
                                                          top_scores=self.__controlador.get_highscores(),
                                                          mouse_up=mouse_up,
                                                          now=now)
-        self.next_state_logic(next_state)
+        self.next_state_logic(next_state, colidiu)
 
-    def next_state_logic(self, next_state):
-        if next_state != None and next_state != self.__currentState.nome:
+    def next_state_logic(self, next_state, colidiu):
+        if colidiu:
+            self.__currentState = self.__map['endgame']
+        elif next_state != None and next_state != self.__currentState.nome:
             self.__currentState = self.__map[next_state]
