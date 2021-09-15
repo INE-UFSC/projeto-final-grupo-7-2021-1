@@ -4,7 +4,10 @@ from abc import ABC, abstractmethod
 from settings.gameFonts import GameFonts
 from settings.gameColors import GameColors
 from settings.gameSettings import GameSettings
+from settings.playerSettings import PlayerSettings
 
+
+PLAYER_SETTINGS = PlayerSettings()
 GAME_SETTINGS = GameSettings()
 PATH = os.path.join(os.getcwd(),'assets','buttons')
 
@@ -163,13 +166,6 @@ class RestartButton(ImageButton):
         scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
-class BgSetButton(ImageButton):
-    def __init__(self, width, height, pos, filename, scale, next_state=None, elevation=6):
-        super().__init__(width, height, pos, filename, scale, next_state, elevation)
-
-    def click(self, filepath, mouse_up):
-        raise NotImplementedError
-
 class ConfirmButtonBg(ImageButton):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         filename = 'confirm.png'
@@ -211,8 +207,31 @@ class ConfirmButtonAvatar(ImageButton):
         scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
+    def click(self, filepath, mouse_up):
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0]:
+                self.dynamic_elevation = 0
+            else:
+                self.dynamic_elevation = self.elevation
+            if mouse_up:
+                PLAYER_SETTINGS.set_new_avatar(filepath)
+                return self.next_state
+        else:
+            self.dynamic_elevation = self.elevation
+
 class DeclineButtonAvatar(ImageButton):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         filename = 'decline.png'
         scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
+
+    def click(self, filepath, mouse_up):
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0]:
+                self.dynamic_elevation = 0
+            else:
+                self.dynamic_elevation = self.elevation
+            if mouse_up:
+                return self.next_state
+        else:
+            self.dynamic_elevation = self.elevation

@@ -4,14 +4,15 @@ from settings.playerSettings import PlayerSettings
 
 
 GAME_SETTINGS = GameSettings()
+PLAYER_SETTINGS = PlayerSettings()
 
 class Player(Rect):
     def __init__(self):
-        super().__init__(PlayerSettings.DEFAULT_X_POS,
-                         GAME_SETTINGS.COMECO_CHAO-PlayerSettings.SIZE,
-                         PlayerSettings.SIZE,
-                         PlayerSettings.SIZE)
-        self.__cor = PlayerSettings.DEFAULT_COLOR
+        super().__init__(PLAYER_SETTINGS.DEFAULT_X_POS,
+                         GAME_SETTINGS.COMECO_CHAO-PLAYER_SETTINGS.SIZE,
+                         PLAYER_SETTINGS.SIZE,
+                         PLAYER_SETTINGS.SIZE)
+        self.__cor = PLAYER_SETTINGS.DEFAULT_COLOR
         self.__pulando = False
         self.__agachando = False
         self.__direcao_pulo = 'UP'
@@ -56,23 +57,23 @@ class Player(Rect):
 
     def agachar(self):
         self.__agachando = True
-        self.height -= PlayerSettings.SIZE/2
-        self.y += PlayerSettings.SIZE/2
+        self.height -= PLAYER_SETTINGS.SIZE/2
+        self.y += PLAYER_SETTINGS.SIZE/2
         self.__atualizar()
 
     def soltar(self):
         self.__agachando = False
-        self.height = PlayerSettings.SIZE
-        self.y -= PlayerSettings.SIZE/2
+        self.height = PLAYER_SETTINGS.SIZE
+        self.y -= PLAYER_SETTINGS.SIZE/2
         self.__atualizar()
     
     def resetarCor(self):
-        self.cor = PlayerSettings.DEFAULT_COLOR
+        self.cor = PLAYER_SETTINGS.DEFAULT_COLOR
 
     def resetar(self):
         self.resetarCor()
-        self.x = PlayerSettings.DEFAULT_X_POS
-        self.y = GAME_SETTINGS.COMECO_CHAO - PlayerSettings.SIZE
+        self.x = PLAYER_SETTINGS.DEFAULT_X_POS
+        self.y = GAME_SETTINGS.COMECO_CHAO - PLAYER_SETTINGS.SIZE
         self.__score = 0
         self.__pulando = False
         self.__agachando = False
