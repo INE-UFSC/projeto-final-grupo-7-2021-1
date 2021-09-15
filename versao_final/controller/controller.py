@@ -31,6 +31,7 @@ class Controller:
         #ponteiros que controlam o jogo
         self.__habilitaColisao = True
         self.__mouse_pressed = False
+        self.__keydown = False
         self.__colidiu = False
 
     @property
@@ -57,16 +58,19 @@ class Controller:
 
             now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
 
-            self.__state_machine.run(self.__window, self.__mouse_pressed, now, self.__colidiu)
+            self.__state_machine.run(self.__window, self.__mouse_pressed, self.__keydown, self.__colidiu)
             self.perform_actions(now)
 
             self.__mouse_pressed = False
+            self.__keydown = False
             for event in pygame.event.get():
                 if event.type == WINDOWCLOSE:
                     running = False
                 elif event.type == MOUSEBUTTONUP:
                     if event.button == 1:
                         self.__mouse_pressed = True
+                elif event.type == KEYDOWN:
+                    self.__keydown = True
 
             pygame.display.update()
 

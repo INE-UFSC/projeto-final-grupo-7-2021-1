@@ -12,7 +12,8 @@ class StateMachine:
                       'sel_avatar':SelAvatarState(),
                       'sel_bg':SelBgState(),
                       'jogando':PlayingState(),
-                      'endgame':EndgameState()}
+                      'endgame':EndgameState(),
+                      'pausado':PausedState()}
 
         self.__currentState = self.__map['menu']
 
@@ -20,7 +21,7 @@ class StateMachine:
     def currentState(self):
         return self.__currentState.nome
 
-    def run(self, screen, mouse_up, now, colidiu):
+    def run(self, screen, mouse_up, keydown, colidiu):
         next_state = self.__currentState.perform_actions(screen,
                                                          poderes=self.__controlador.cenario.poderes,
                                                          obstaculos=self.__controlador.cenario.obstaculos,
@@ -31,7 +32,7 @@ class StateMachine:
                                                          final_score=self.__controlador.get_final_score(),
                                                          top_scores=self.__controlador.get_highscores(),
                                                          mouse_up=mouse_up,
-                                                         now=now)
+                                                         keydown=keydown)
         self.next_state_logic(next_state, colidiu)
 
     def next_state_logic(self, next_state, colidiu):

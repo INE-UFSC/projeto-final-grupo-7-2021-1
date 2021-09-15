@@ -1,5 +1,5 @@
 import pygame
-from pygame.constants import *
+from pygame.constants import K_ESCAPE
 from views.menuView import MenuView
 from views.gameView import GameView
 from state_logic.state import State
@@ -9,6 +9,7 @@ from views.rankingView import RankingView
 from views.settingsView import SettingsView
 from views.backgroundView import BackgroundView
 from views.instructionView import InstructionView
+from views.pauseView import PauseView
 from settings.gameSettings import GameSettings
 
 
@@ -78,20 +79,15 @@ class PlayingState(State):
         player_color = kwargs['player_color']
         self.view.display(screen, score, highscore, poderes, obstaculos, player_rect, player_color)
 
-        now = kwargs['now']
-        next_state = self.key_handler(now)
+        keydown = kwargs['keydown']
+        next_state = self.key_handler(keydown)
 
         return next_state
 
-    def key_handler(self, now):
+    def key_handler(self, keydown):
         keys = pygame.key.get_pressed()
-        if keys[K_ESCAPE] and self.__pauseTimer(now):
+        if keys[K_ESCAPE] and keydown:
             return 'pausado'
-
-    def __pauseTimer(self, now):
-        if now - self.__pause_tempo >= GAME_SETTINGS.TEMPO_PAUSE:
-            self.__pause_tempo = now
-            return True
 
 class EndgameState(State):
     def __init__(self):
@@ -101,3 +97,23 @@ class EndgameState(State):
         final_score = kwargs['final_score']
         mouse_up = kwargs['mouse_up']
         return self.view.display(screen, final_score, mouse_up)
+
+class PausedState(State):
+    def __init__(self):
+        super().__init__(PauseView(), 'pausado')
+        self.__pause_tempo = 1000
+
+    def perform_actions(self, screen, **kwargs):
+        keydown = kwargs['keydown']
+        mouse_up = kwargs['mouse_up']
+        next_state0 = self.key_handler(keydown)
+        next_state1 = self.view.display(screen, mouse_up)
+        if next_state0 != None:
+            return next_state0
+        else:
+            return next_state1
+
+    def key_handler(self, keydown):
+        keys = pygame.key.get_pressed()
+        if keys[K_ESCAPE] and keydown:
+            return 'jogando'
