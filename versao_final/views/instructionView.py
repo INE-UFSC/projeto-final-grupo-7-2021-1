@@ -1,3 +1,4 @@
+from views.avatarView import GAME_SETTINGS
 from settings.gameColors import GameColors
 from settings.gameSettings import GameSettings
 from views.backHomeView import ViewWithHomeButton
@@ -7,14 +8,16 @@ from views.instruction.objectives import ObjectivesContent
 from views.buttons import RightArrowButton, LeftArrowButton
 
 
+GAME_SETTINGS = GameSettings()
+
 class InstructionView(ViewWithHomeButton):
     def __init__(self):
         super().__init__(GameColors.AZUL)
         self.__contents = [ObjectivesContent(), ControlsContent(), PowersContent()]
         self.__pos = 0
         self.__currentContent = self.__contents[self.__pos]
-        self.__buttons = [LeftArrowButton(100, 70, (20, GameSettings.HEIGHT/2)),
-                          RightArrowButton(100, 70, (GameSettings.WIDTH - 100 - 30, GameSettings.HEIGHT/2)) ]
+        self.__buttons = [LeftArrowButton(100, 70, (20, GAME_SETTINGS.HEIGHT/2)),
+                          RightArrowButton(100, 70, (GAME_SETTINGS.WIDTH - 100 - 30, GAME_SETTINGS.HEIGHT/2)) ]
 
     def display(self, screen, mouse_up):
         s0 = super().display(screen, mouse_up)

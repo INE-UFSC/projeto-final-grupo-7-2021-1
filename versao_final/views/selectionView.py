@@ -1,40 +1,28 @@
 import os
 import pygame
+from abc import ABC, abstractmethod
 from views.baseView import BaseView
 from settings.gameColors import GameColors
 from settings.gameSettings import GameSettings
-from abc import ABC, abstractmethod
-from views.buttons import DeclineButton, ConfirmButton, LeftArrowButton, RightArrowButton
+from views.buttons import LeftArrowButton, RightArrowButton
 
+
+GAME_SETTINGS = GameSettings()
 
 class SelectionView(BaseView, ABC):
     def __init__(self):
         super().__init__(GameColors.AZUL)
-        self.__arrow_buttons = [LeftArrowButton(100, 70, (20, GameSettings.HEIGHT/2)),
-                                RightArrowButton(100, 70, (GameSettings.WIDTH - 100 - 30, GameSettings.HEIGHT/2)),]
-        self.__buttons = [DeclineButton(90, 90, (GameSettings.WIDTH/2 - 100 - 45, GameSettings.HEIGHT/2 + 150), 'configuracoes'),
-                          ConfirmButton(90, 90, (GameSettings.WIDTH/2 + 100 - 45, GameSettings.HEIGHT/2 + 150))]
+        self.__arrow_buttons = [LeftArrowButton(100, 70, (20, GAME_SETTINGS.HEIGHT/2)),
+                                RightArrowButton(100, 70, (GAME_SETTINGS.WIDTH - 100 - 30, GAME_SETTINGS.HEIGHT/2)),]
         self.__pos = 0
 
     @property
     def pos(self):
         return self.__pos
 
-    @property
-    def buttons(self):
-        return self.__buttons
-
     @abstractmethod
-    def display(self, screen, mouse_up):
-        screen.fill(self.color)
-
-        states = []
-        for btn in self.__buttons:
-            btn.draw(screen)
-            btn.hover()
-            states.append(btn.click(mouse_up))
-        
-        return states
+    def display(self, screen):
+        return super().display(screen)
 
     def manage_arrow_buttons(self, screen, mouse_up, lista):
         if self.__pos == 0:

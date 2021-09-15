@@ -1,10 +1,11 @@
 import os
 import pygame
+from abc import ABC, abstractmethod
 from settings.gameFonts import GameFonts
 from settings.gameColors import GameColors
-from abc import ABC, abstractmethod
+from settings.gameSettings import GameSettings
 
-
+GAME_SETTINGS = GameSettings()
 PATH = os.path.join(os.getcwd(),'assets','buttons')
 
 class Button(ABC):
@@ -162,13 +163,55 @@ class RestartButton(ImageButton):
         scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
-class ConfirmButton(ImageButton):
+class BgSetButton(ImageButton):
+    def __init__(self, width, height, pos, filename, scale, next_state=None, elevation=6):
+        super().__init__(width, height, pos, filename, scale, next_state, elevation)
+
+    def click(self, filepath, mouse_up):
+        raise NotImplementedError
+
+class ConfirmButtonBg(ImageButton):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         filename = 'confirm.png'
         scale = (60, 60)
         super().__init__(width, height, pos, filename, scale, next_state, elevation)
 
-class DeclineButton(ImageButton):
+    def click(self, filepath, mouse_up):
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0]:
+                self.dynamic_elevation = 0
+            else:
+                self.dynamic_elevation = self.elevation
+            if mouse_up:
+                GAME_SETTINGS.set_bg(filepath)
+                return self.next_state
+        else:
+            self.dynamic_elevation = self.elevation
+
+class DeclineButtonBg(ImageButton):
+    def __init__(self, width, height, pos, next_state=None, elevation=6):
+        filename = 'decline.png'
+        scale = (60, 60)
+        super().__init__(width, height, pos, filename, scale, next_state, elevation)
+
+    def click(self, filepath, mouse_up):
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0]:
+                self.dynamic_elevation = 0
+            else:
+                self.dynamic_elevation = self.elevation
+            if mouse_up:
+                return self.next_state
+        else:
+            self.dynamic_elevation = self.elevation
+
+class ConfirmButtonAvatar(ImageButton):
+    def __init__(self, width, height, pos, next_state=None, elevation=6):
+        filename = 'confirm.png'
+        scale = (60, 60)
+        super().__init__(width, height, pos, filename, scale, next_state, elevation)
+
+class DeclineButtonAvatar(ImageButton):
     def __init__(self, width, height, pos, next_state=None, elevation=6):
         filename = 'decline.png'
         scale = (60, 60)

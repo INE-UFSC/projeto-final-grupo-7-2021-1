@@ -4,6 +4,8 @@ from settings.gameSettings import GameSettings
 from views.backHomeView import ViewWithHomeButton
 
 
+GAME_SETTINGS = GameSettings()
+
 class RankingView(ViewWithHomeButton):
     def __init__(self):
         super().__init__(GameColors.AZUL, 'RANKING')
@@ -16,7 +18,7 @@ class RankingView(ViewWithHomeButton):
             highscores_txt.append(GameFonts.REGULAR_LARGE.render(f'{pos+1}. {value}', False, GameColors.BRANCO))
     
         for pos, text_surface in enumerate(highscores_txt):
-            text_pos  = (GameSettings.WIDTH/2 - 50, GameSettings.HEIGHT/3 + (pos*40))
+            text_pos  = (GAME_SETTINGS.WIDTH/2 - 50, GAME_SETTINGS.HEIGHT/3 + (pos*40))
             screen.blit(text_surface, text_pos)
         
         return self.button_states_handler('ranking', [s0])

@@ -6,6 +6,7 @@ from settings.gameFonts import GameFonts
 from settings.gameColors import GameColors
 
 
+GAME_SETTINGS = GameSettings()
 SLOW_PATH = os.path.join(os.getcwd(), 'assets', 'powers', 'slow.png')
 STAR_PATH = os.path.join(os.getcwd(), 'assets', 'powers', 'star.png')
 
@@ -15,7 +16,7 @@ class PowersContent(Content):
 
     def display(self, screen):
         slow_img = pygame.transform.scale(pygame.image.load(SLOW_PATH), (42, 106))
-        slow_pos = (GameSettings.WIDTH/2 - 200, GameSettings.HEIGHT/2 - 90)
+        slow_pos = (GAME_SETTINGS.WIDTH/2 - 200, GAME_SETTINGS.HEIGHT/2 - 90)
 
         slow_wrap_text = ["LENTIDÃO: Diminui a velocidade",
                           "do jogo por um breve período de",
@@ -27,7 +28,7 @@ class PowersContent(Content):
             slow_txt.append(GameFonts.REGULAR_SMALL.render(text, False, GameColors.BRANCO))
         
         star_img = pygame.transform.scale(pygame.image.load(STAR_PATH), (82, 76))
-        star_pos = (GameSettings.WIDTH/2 - 230, GameSettings.HEIGHT/2 + 120)
+        star_pos = (GAME_SETTINGS.WIDTH/2 - 230, GAME_SETTINGS.HEIGHT/2 + 120)
 
         star_wrap_text = ["INVENCIBILIDADE: Desativa as",
                           "colisões e aumenta a pontuação",

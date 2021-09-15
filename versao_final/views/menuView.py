@@ -3,28 +3,32 @@ from views.baseView import BaseView
 from views.buttons import MenuButton
 from settings.gameSettings import GameSettings
 
+
+GAME_SETTINGS = GameSettings()
+
 #variavel auxilar
 menu_bg_x = 0
 
 class MenuView(BaseView):
     def __init__(self):
         self.__buttons = [
-                         MenuButton('JOGAR', (GameSettings.WIDTH/2 - 100, GameSettings.HEIGHT/2 - 120), 'jogando'),
-                         MenuButton('INSTRUÇÕES', (GameSettings.WIDTH/2 - 100, GameSettings.HEIGHT/2 - 60), 'instrucoes'),
-                         MenuButton('CONFIGURAÇÕES', (GameSettings.WIDTH/2 - 100, GameSettings.HEIGHT/2), 'configuracoes'),
-                         MenuButton('RANKING', (GameSettings.WIDTH/2 - 100, GameSettings.HEIGHT/2 + 60), 'ranking')
+                         MenuButton('JOGAR', (GAME_SETTINGS.WIDTH/2 - 100, GAME_SETTINGS.HEIGHT/2 - 120), 'jogando'),
+                         MenuButton('INSTRUÇÕES', (GAME_SETTINGS.WIDTH/2 - 100, GAME_SETTINGS.HEIGHT/2 - 60), 'instrucoes'),
+                         MenuButton('CONFIGURAÇÕES', (GAME_SETTINGS.WIDTH/2 - 100, GAME_SETTINGS.HEIGHT/2), 'configuracoes'),
+                         MenuButton('RANKING', (GAME_SETTINGS.WIDTH/2 - 100, GAME_SETTINGS.HEIGHT/2 + 60), 'ranking')
                         ]
-        self.__bg = pygame.transform.scale(pygame.image.load(os.path.join(os.getcwd(),'assets\\backgrounds\\background4.png')),
-                                          (GameSettings.WIDTH, GameSettings.HEIGHT))
+        self.__bg = None
         super().__init__()
 
     def display(self, screen, mouse_up):
         global menu_bg_x
 
+        self.__bg = pygame.transform.scale(pygame.image.load(os.path.join(GAME_SETTINGS.background)),
+                                          (GAME_SETTINGS.WIDTH, GAME_SETTINGS.HEIGHT))
         #background infinito
         rel_x = menu_bg_x % self.__bg.get_rect().width
         screen.blit(self.__bg, (rel_x - self.__bg.get_rect().width, 0))
-        if rel_x < GameSettings.WIDTH:
+        if rel_x < GAME_SETTINGS.WIDTH:
             screen.blit(self.__bg, (rel_x, 0))
         menu_bg_x -= 1
 

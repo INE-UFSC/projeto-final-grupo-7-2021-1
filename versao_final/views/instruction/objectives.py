@@ -4,6 +4,8 @@ from views.instruction.content import Content
 from settings.gameSettings import GameSettings
 
 
+GAME_SETTINGS = GameSettings()
+
 class ObjectivesContent(Content):
     def __init__(self):
         super().__init__('OBJETIVO DO JOGO')
@@ -22,5 +24,5 @@ class ObjectivesContent(Content):
         
         screen.blit(self.title, self.title_rect)
         for pos,text_surface in enumerate(description_text[::-1]):
-            text_pos = ((GameSettings.WIDTH/2 - 200), GameSettings.HEIGHT/1.5 - (pos*30))
+            text_pos = ((GAME_SETTINGS.WIDTH/2 - 200), GAME_SETTINGS.HEIGHT/1.5 - (pos*30))
             screen.blit(text_surface, text_pos)

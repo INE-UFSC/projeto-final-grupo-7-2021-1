@@ -1,6 +1,6 @@
-from pygame.sprite import Sprite
-import pygame
 import os
+import pygame
+from pygame.sprite import Sprite
 from abc import ABC, abstractmethod
 
 

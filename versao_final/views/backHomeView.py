@@ -5,12 +5,15 @@ from settings.gameColors import GameColors
 from settings.gameFonts import GameFonts
 from settings.gameSettings import GameSettings
 
+
+GAME_SETTINGS = GameSettings()
+
 class ViewWithHomeButton(BaseView, ABC):
     def __init__(self, color, title=' '):
         super().__init__(color)
-        self.__homeButton = HomeButton(90, 90, (30,30))
+        self.__homeButton = HomeButton(100, 80, (30,30))
         self.__title = GameFonts.SEMIBOLD_LARGE.render(title, False, GameColors.BRANCO)
-        pos = (GameSettings.WIDTH/2, GameSettings.HEIGHT/2 - 170)
+        pos = (GAME_SETTINGS.WIDTH/2, GAME_SETTINGS.HEIGHT/2 - 170)
         self.__title_rect = self.__title.get_rect(center=pos)
 
     @abstractmethod

@@ -17,12 +17,13 @@ pause_tempo = 0 #registra o tempo que a tecla de pause foi pressionada (para evi
 ultimo_acres_score = 0
 ultimo_acres_vel = 0 #a cada 100 pontos a velocidade aumenta em 0.5
 
+GAME_SETTINGS = GameSettings()
 
 class Controller:
     def __init__(self):
         self.__player = Player()
         self.__cenario = Cenario()
-        self.__window = pygame.display.set_mode((GameSettings.WIDTH, GameSettings.HEIGHT))
+        self.__window = pygame.display.set_mode((GAME_SETTINGS.WIDTH, GAME_SETTINGS.HEIGHT))
         self.__state_machine = StateMachine()
         self.__hsDAO = HighScoreDAO('highScores.pkl')
         self.__highscore = self.__hsDAO.getHighScore()
@@ -51,7 +52,7 @@ class Controller:
         clock = pygame.time.Clock()
         running = True
         while running:
-            clock.tick(GameSettings.FPS)
+            clock.tick(GAME_SETTINGS.FPS)
 
             mouse_pos = pygame.mouse.get_pos()
             now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
@@ -93,7 +94,7 @@ class Controller:
 
     def __pauseTimer(self,now):
         global pause_tempo
-        if now - pause_tempo >= GameSettings.TEMPO_PAUSE:
+        if now - pause_tempo >= GAME_SETTINGS.TEMPO_PAUSE:
             pause_tempo = now
             return True
 
@@ -136,7 +137,7 @@ class Controller:
 
     def contador_score(self, now):
         global ultimo_acres_score, poder_usado
-        if now - ultimo_acres_score > GameSettings.TEMPO_ACRES_SCORE:
+        if now - ultimo_acres_score > GAME_SETTINGS.TEMPO_ACRES_SCORE:
             self.__player.score += 1
             ultimo_acres_score = now
             if poder_usado == None:

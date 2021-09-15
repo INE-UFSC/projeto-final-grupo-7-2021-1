@@ -1,7 +1,7 @@
 from model.gerador import Gerador
 from settings.gameSettings import GameSettings
 
-
+GAME_SETTINGS = GameSettings()
 #variavel auxiliar
 tempo_ultimo_poder = 0
 
@@ -28,7 +28,7 @@ class Cenario:
         global tempo_ultimo_poder
         try:
             ultimo_obs = self.__obstaculos[-1]
-            if ultimo_obs.x + ultimo_obs.width < GameSettings.WIDTH - ultimo_obs.margem:
+            if ultimo_obs.x + ultimo_obs.width < GAME_SETTINGS.WIDTH - ultimo_obs.margem:
                 obs = self.__gerador.gerarObs()
                 self.__obstaculos.append(obs)
         except IndexError:
@@ -39,7 +39,7 @@ class Cenario:
 
     def __gerarPoder(self, now):
         global tempo_ultimo_poder
-        if now - tempo_ultimo_poder > GameSettings.TEMPO_GERA_PODER:
+        if now - tempo_ultimo_poder > GAME_SETTINGS.TEMPO_GERA_PODER:
             tempo_ultimo_poder = now
             poder = self.__gerador.gerarPoder()
             self.__poderes.append(poder)

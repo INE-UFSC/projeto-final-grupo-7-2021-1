@@ -1,11 +1,14 @@
 from pygame import Rect
-from settings.playerSettings import PlayerSettings
 from settings.gameSettings import GameSettings
+from settings.playerSettings import PlayerSettings
+
+
+GAME_SETTINGS = GameSettings()
 
 class Player(Rect):
     def __init__(self):
         super().__init__(PlayerSettings.DEFAULT_X_POS,
-                         GameSettings.COMECO_CHAO-PlayerSettings.SIZE,
+                         GAME_SETTINGS.COMECO_CHAO-PlayerSettings.SIZE,
                          PlayerSettings.SIZE,
                          PlayerSettings.SIZE)
         self.__cor = PlayerSettings.DEFAULT_COLOR
@@ -42,11 +45,11 @@ class Player(Rect):
         self.__pulando = True
         if self.__direcao_pulo == 'UP':
             self.y -= vel_pulo
-            if self.y + self.height <= GameSettings.PULO_MAX:
+            if self.y + self.height <= GAME_SETTINGS.PULO_MAX:
                 self.__direcao_pulo = 'DOWN'
         else:
             self.y += vel_pulo
-            if self.y + self.height >= GameSettings.COMECO_CHAO:
+            if self.y + self.height >= GAME_SETTINGS.COMECO_CHAO:
                 self.__direcao_pulo = 'UP'
                 self.__pulando = False
         self.__atualizar()
@@ -69,7 +72,7 @@ class Player(Rect):
     def resetar(self):
         self.resetarCor()
         self.x = PlayerSettings.DEFAULT_X_POS
-        self.y = GameSettings.COMECO_CHAO - PlayerSettings.SIZE
+        self.y = GAME_SETTINGS.COMECO_CHAO - PlayerSettings.SIZE
         self.__score = 0
         self.__pulando = False
         self.__agachando = False
