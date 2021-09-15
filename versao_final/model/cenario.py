@@ -1,7 +1,9 @@
 from model.gerador import Gerador
 from settings.gameSettings import GameSettings
 
+
 GAME_SETTINGS = GameSettings()
+
 #variavel auxiliar
 tempo_ultimo_poder = 0
 

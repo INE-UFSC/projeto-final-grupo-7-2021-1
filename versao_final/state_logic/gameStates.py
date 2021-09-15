@@ -1,10 +1,17 @@
+import pygame
+from pygame.constants import *
 from views.menuView import MenuView
+from views.gameView import GameView
 from state_logic.state import State
+from views.avatarView import AvatarView
 from views.rankingView import RankingView
 from views.settingsView import SettingsView
-from views.instructionView import InstructionView
-from views.avatarView import AvatarView
 from views.backgroundView import BackgroundView
+from views.instructionView import InstructionView
+from settings.gameSettings import GameSettings
+
+
+GAME_SETTINGS = GameSettings()
 
 
 class MenuState(State):
@@ -55,3 +62,32 @@ class SelBgState(State):
     def perform_actions(self, screen, **kwargs):
         mouse_up = kwargs['mouse_up']
         return self.view.display(screen, mouse_up)
+
+class PlayingState(State):
+    def __init__(self):
+        super().__init__(GameView(), 'jogando')
+        self.__pause_tempo = 0
+
+    def perform_actions(self, screen, **kwargs):
+        score = kwargs['score']
+        highscore = kwargs['highscore']
+        poderes = kwargs['poderes']
+        obstaculos = kwargs['obstaculos']
+        player_rect = kwargs['player_rect']
+        player_color = kwargs['player_color']
+        self.view.display(screen, score, highscore, poderes, obstaculos, player_rect, player_color)
+
+        now = kwargs['now']
+        next_state = self.key_handler(now)
+
+        return next_state
+
+    def key_handler(self, now):
+        keys = pygame.key.get_pressed()
+        if keys[K_ESCAPE] and self.__pauseTimer(now):
+            return 'pausado'
+
+    def __pauseTimer(self, now):
+        if now - self.__pause_tempo >= GAME_SETTINGS.TEMPO_PAUSE:
+            self.__pause_tempo = now
+            return True

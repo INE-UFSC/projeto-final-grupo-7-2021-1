@@ -24,7 +24,7 @@ class Controller:
         self.__player = Player()
         self.__cenario = Cenario()
         self.__window = pygame.display.set_mode((GAME_SETTINGS.WIDTH, GAME_SETTINGS.HEIGHT))
-        self.__state_machine = StateMachine()
+        self.__state_machine = StateMachine(self)
         self.__hsDAO = HighScoreDAO('highScores.pkl')
         self.__highscore = self.__hsDAO.getHighScore()
         self.__final_score = 0
@@ -54,13 +54,10 @@ class Controller:
         while running:
             clock.tick(GAME_SETTINGS.FPS)
 
-            mouse_pos = pygame.mouse.get_pos()
             now = pygame.time.get_ticks() #conta o numero de ticks desde que o programa começou
 
-            self.__state_machine.run(self.__window,
-                                     now=now,
-                                     mouse_up=self.__mouse_pressed,
-                                     top_scores=self.__hsDAO.getAllScores())
+            self.__state_machine.run(self.__window, self.__mouse_pressed, now)
+            self.perform_actions(now)
 
             self.__mouse_pressed = False
             for event in pygame.event.get():
@@ -72,12 +69,22 @@ class Controller:
 
             pygame.display.update()
 
-    def key_handler(self, now):
+    def perform_actions(self, now):
+        if self.__state_machine.currentState == 'jogando':
+            self.key_handler()
+            self.checar_pulando()
+            self.__cenario.gerar_elementos(now)
+            self.__cenario.mover_elementos(vel_jogo)
+            self.contador_score(now)
+            self.terminar_efeito(now)
+            self.update_highscore()
+            if self.__habilitaColisao:
+                self.checar_colissoes(now)
+        elif self.__state_machine.currentState == 'menu':
+            self.reiniciar()
+
+    def key_handler(self):
         keys = pygame.key.get_pressed()
-        self.__keys_player(keys)
-        self.__key_escape(keys, now)
-        
-    def __keys_player(self, keys):
         if keys[K_w] or keys[K_UP]:
             if not self.__player.pulando:
                 self.__player.pular(vel_pulo)
@@ -87,16 +94,6 @@ class Controller:
         else:
             if self.__player.agachando:
                 self.__player.soltar()
-    
-    def __key_escape(self, keys, now):
-        if keys[K_ESCAPE] and self.__pauseTimer(now):
-            pass
-
-    def __pauseTimer(self,now):
-        global pause_tempo
-        if now - pause_tempo >= GAME_SETTINGS.TEMPO_PAUSE:
-            pause_tempo = now
-            return True
 
     def checar_pulando(self):
         if self.__player.pulando:
@@ -150,6 +147,9 @@ class Controller:
 
     def get_final_score(self):
         return self.__final_score
+
+    def get_highscores(self):
+        return self.__hsDAO.getAllScores()
 
     def incrementar_vel(self):
         global vel_jogo, vel_jogo_salvo, ultimo_acres_vel
