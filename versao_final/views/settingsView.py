@@ -1,4 +1,4 @@
-from views.buttons import TextButton
+from views.buttons import MusicButton, SfxButton, TextButton
 from settings.gameColors import GameColors
 from settings.gameSettings import GameSettings
 from views.backHomeView import ViewWithHomeButton
@@ -9,8 +9,8 @@ GAME_SETTINGS = GameSettings()
 class SettingsView(ViewWithHomeButton):
     def __init__(self):
         super().__init__(GameColors.AZUL, 'CONFIGURAÇÕES')
-        self.__buttons = [TextButton('Música: ON', 160, 40, (GAME_SETTINGS.WIDTH/2 - 150 - 80, GAME_SETTINGS.HEIGHT/2 - 50)),
-                          TextButton('SFX: OFF', 160, 40, (GAME_SETTINGS.WIDTH/2 + 150 - 80, GAME_SETTINGS.HEIGHT/2 - 50)),
+        self.__buttons = [MusicButton(160, 40, (GAME_SETTINGS.WIDTH/2 - 150 - 80, GAME_SETTINGS.HEIGHT/2 - 50)),
+                          SfxButton(160, 40, (GAME_SETTINGS.WIDTH/2 + 150 - 80, GAME_SETTINGS.HEIGHT/2 - 50)),
                           TextButton('Selecionar Avatar', 220, 40, (GAME_SETTINGS.WIDTH/2 - 110, GAME_SETTINGS.HEIGHT/2 + 50), 'sel_avatar'),
                           TextButton('Selecionar Cenário', 220, 40, (GAME_SETTINGS.WIDTH/2 - 110, GAME_SETTINGS.HEIGHT/2 + 110), 'sel_bg')]
 

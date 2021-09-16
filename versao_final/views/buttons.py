@@ -5,10 +5,12 @@ from settings.gameFonts import GameFonts
 from settings.gameColors import GameColors
 from settings.gameSettings import GameSettings
 from settings.playerSettings import PlayerSettings
+from settings.soundSettings import SoundSettings
 
 
 PLAYER_SETTINGS = PlayerSettings()
 GAME_SETTINGS = GameSettings()
+SOUND_SETTINGS = SoundSettings()
 PATH = os.path.join(os.getcwd(),'assets','buttons')
 
 class Button(ABC):
@@ -73,6 +75,14 @@ class TextButton(Button):
         super().__init__(width, height, pos, next_state, elevation)
         self.__text = GameFonts.SEMIBOLD_SMALL.render(text, True, GameColors.BRANCO)
         self.__text_rect = self.__text.get_rect(center=self.top_rect.center)
+
+    @property
+    def text(self):
+        return self.__text
+
+    @text.setter
+    def text(self, textValue):
+        self.__text = textValue
 
     def draw(self, screen):
         super().draw(screen)
@@ -235,3 +245,65 @@ class DeclineButtonAvatar(ImageButton):
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
+
+class MusicButton(TextButton):
+    def __init__(self, width, height, pos, next_state = None, elevation = 6):
+        self.__state = 'on'
+        text = 'Musica: ' + self.__state
+        super().__init__(text, width, height, pos, next_state, elevation)
+
+    
+    def click(self, mouse_up):
+
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0]:
+                self.dynamic_elevation = 0
+            else:
+                self.dynamic_elevation = self.elevation
+            if mouse_up:
+                self.__action()
+                return self.next_state
+        else:
+            self.dynamic_elevation = self.elevation
+
+    def __action(self):
+        if self.__state == 'on':
+            self.__state = 'off'
+            SOUND_SETTINGS.music_off()
+            self.__text = GameFonts.SEMIBOLD_SMALL.render('Musica: ' + self.__state, True, GameColors.BRANCO)
+
+        else:
+            self.__state = 'on'
+            SOUND_SETTINGS.music_on()
+            self.__text = GameFonts.SEMIBOLD_SMALL.render('Musica: ' + self.__state, True, GameColors.BRANCO)   
+
+class SfxButton(TextButton):
+    def __init__(self, width, height, pos, next_state = None, elevation = 6):
+        self.__state = 'on'
+        text = 'SFX: ' + self.__state
+        super().__init__(text, width, height, pos, next_state, elevation)
+
+    
+    def click(self, mouse_up):
+
+        if self.top_rect.collidepoint(pygame.mouse.get_pos()):
+            if pygame.mouse.get_pressed()[0]:
+                self.dynamic_elevation = 0
+            else:
+                self.dynamic_elevation = self.elevation
+            if mouse_up:
+                self.__action()
+                return self.next_state
+        else:
+            self.dynamic_elevation = self.elevation
+
+    def __action(self):
+        if self.__state == 'on':
+            self.__state = 'off'
+            SOUND_SETTINGS.sfx_off()
+            self.__text = GameFonts.SEMIBOLD_SMALL.render('SFX: ' + self.__state, True, GameColors.BRANCO)
+
+        else:
+            self.__state = 'on'
+            SOUND_SETTINGS.sfx_on()
+            self.__text = GameFonts.SEMIBOLD_SMALL.render('SFX: ' + self.__state, True, GameColors.BRANCO)   
