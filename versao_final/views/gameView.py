@@ -14,11 +14,11 @@ class GameView(BaseView):
     def __init__(self):
         super().__init__()
 
-    def display(self, screen, score, highscore, poderes, obstaculos, player_rect, player_color):
+    def display(self, screen, score, highscore, poderes, obstaculos, player_rect, player_image):
         pygame.mouse.set_visible(False)
         self.__desenhar_cenario(screen)
         self.__desenhar_obstaculos(screen, obstaculos)
-        self.__desenhar_player(screen, player_rect, player_color)
+        self.__desenhar_player(screen, player_rect, player_image)
         self.__desenhar_poderes(screen, poderes)
         self.__desenhar_scores(screen, score, highscore)
     
@@ -42,8 +42,8 @@ class GameView(BaseView):
         for poder in poderes:
             screen.blit(poder.image, (poder.rect.x, poder.rect.y))
     
-    def __desenhar_player(self, screen, player_rect, player_color):
-        pygame.draw.rect(screen, player_color, player_rect)
+    def __desenhar_player(self, screen, player_rect, player_image):
+        screen.blit(player_image, player_rect)
 
     def __desenhar_scores(self, screen, score, highscore):
         texto_score = GameFonts.SEMIBOLD_SMALL.render(f'Score: {score}', False, GameColors.BRANCO)

@@ -76,8 +76,8 @@ class PlayingState(State):
         poderes = kwargs['poderes']
         obstaculos = kwargs['obstaculos']
         player_rect = kwargs['player_rect']
-        player_color = kwargs['player_color']
-        self.view.display(screen, score, highscore, poderes, obstaculos, player_rect, player_color)
+        player_image = kwargs['player_image']
+        self.view.display(screen, score, highscore, poderes, obstaculos, player_rect, player_image)
 
         keydown = kwargs['keydown']
         next_state = self.key_handler(keydown)

@@ -4,12 +4,11 @@ from settings.singleton import Singleton
 
 class PlayerSettings(Singleton):
     def __init__(self):
-        self.SIZE = 40 #quadrado
-        self.JUMP_SCALE = ()
-        self.RUN_SCALE = ()
-        self.SLIDE_SCALE = ()
+        self.ANIMACAOTEMPO = 100
+        self.JUMP_SCALE = (122,160)
+        self.RUN_SCALE = (124,152)
+        self.SLIDE_SCALE = (118,116)
         self.DEFAULT_X_POS = 300
-        self.DEFAULT_COLOR = (255,0,0)
         self.__path = os.path.join(os.getcwd(), 'assets', 'characters', 'adventurer_boy')
         self.__run_images = os.listdir(os.path.join(self.__path, 'run'))
         self.__jump_images = os.listdir(os.path.join(self.__path, 'jump'))

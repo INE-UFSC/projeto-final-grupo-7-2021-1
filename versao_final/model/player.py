@@ -1,30 +1,31 @@
-from pygame import Rect
+import pygame
+import os
+from pygame.sprite import Sprite
 from settings.gameSettings import GameSettings
 from settings.playerSettings import PlayerSettings
 
 
 GAME_SETTINGS = GameSettings()
 PLAYER_SETTINGS = PlayerSettings()
+#variável auxiliar animação
+temporizador_animacao = 0
 
-class Player(Rect):
+class Player(Sprite):
     def __init__(self):
-        super().__init__(PLAYER_SETTINGS.DEFAULT_X_POS,
-                         GAME_SETTINGS.COMECO_CHAO-PLAYER_SETTINGS.SIZE,
-                         PLAYER_SETTINGS.SIZE,
-                         PLAYER_SETTINGS.SIZE)
-        self.__cor = PLAYER_SETTINGS.DEFAULT_COLOR
         self.__pulando = False
         self.__agachando = False
         self.__direcao_pulo = 'UP'
         self.__score = 0
+        self.__images = []
+        self.__scale = PLAYER_SETTINGS.RUN_SCALE
+        for image in PLAYER_SETTINGS.run_images:
+            img = pygame.transform.scale(pygame.image.load(os.path.join(PLAYER_SETTINGS.path,'run',image)), self.__scale)
+            self.__images.append(img)
 
-    @property
-    def cor(self):
-        return self.__cor
-    
-    @cor.setter
-    def cor(self,cor):
-        self.__cor = cor
+        self.image = None
+        self.rect = None
+        self.__posImgs = 0
+
 
     @property
     def pulando(self):
@@ -44,41 +45,53 @@ class Player(Rect):
 
     def pular(self, vel_pulo):
         self.__pulando = True
+        self.__images = PLAYER_SETTINGS.jump_images
+        self.__scale = PLAYER_SETTINGS.JUMP_SCALE
+
         if self.__direcao_pulo == 'UP':
-            self.y -= vel_pulo
-            if self.y + self.height <= GAME_SETTINGS.PULO_MAX:
+            self.rect.y -= vel_pulo
+            if self.rect.y + self.rect.height <= GAME_SETTINGS.PULO_MAX:
                 self.__direcao_pulo = 'DOWN'
         else:
-            self.y += vel_pulo
-            if self.y + self.height >= GAME_SETTINGS.COMECO_CHAO:
+            self.rect.y += vel_pulo
+            if self.rect.y + self.rect.height >= GAME_SETTINGS.COMECO_CHAO:
                 self.__direcao_pulo = 'UP'
                 self.__pulando = False
-        self.__atualizar()
+                self.__images = PLAYER_SETTINGS.run_images
+                self.__scale = PLAYER_SETTINGS.RUN_SCALE
 
     def agachar(self):
         self.__agachando = True
-        self.height -= PLAYER_SETTINGS.SIZE/2
-        self.y += PLAYER_SETTINGS.SIZE/2
-        self.__atualizar()
+        self.__images = PLAYER_SETTINGS.slide_images
+        self.__scale = PLAYER_SETTINGS.SLIDE_SCALE
+
 
     def soltar(self):
         self.__agachando = False
-        self.height = PLAYER_SETTINGS.SIZE
-        self.y -= PLAYER_SETTINGS.SIZE/2
-        self.__atualizar()
-    
-    def resetarCor(self):
-        self.cor = PLAYER_SETTINGS.DEFAULT_COLOR
+        self.__images = PLAYER_SETTINGS.run_images
+        self.__scale = PLAYER_SETTINGS.RUN_SCALE
+
 
     def resetar(self):
-        self.resetarCor()
-        self.x = PLAYER_SETTINGS.DEFAULT_X_POS
-        self.y = GAME_SETTINGS.COMECO_CHAO - PLAYER_SETTINGS.SIZE
         self.__score = 0
         self.__pulando = False
         self.__agachando = False
-        self.__atualizar()
 
-    def __atualizar(self):
-        self.update(self)
+    # função animação player
+    def animaPlayer(self, now):
+        global temporizador_animacao
+        if now - temporizador_animacao >=  PLAYER_SETTINGS.ANIMACAOTEMPO:
+            temporizador_animacao = now
+            #self.image = pygame.transform.scale(pygame.image.load(os.path.join(PLAYER_SETTINGS.path,'run',self.__images[self.__posImgs])), self.__scale)
+            self.image = self.__images[self.__posImgs]
+            self.rect = self.image.get_rect()
+            self.rect.x = PLAYER_SETTINGS.DEFAULT_X_POS
+            self.rect.y = GAME_SETTINGS.COMECO_CHAO - self.__scale[1]
+
+
+            if self.__posImgs >= len(self.__images) -1:
+                self.__posImgs = 0
+            else:
+                self.__posImgs += 1
+
 

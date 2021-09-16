@@ -83,6 +83,8 @@ class Controller:
             self.contador_score(now)
             self.terminar_efeito(now)
             self.update_highscore()
+            self.__player.animaPlayer(now)
+
             if self.__habilitaColisao:
                 self.checar_colissoes(now)
         elif self.__state_machine.currentState == 'menu':
@@ -114,14 +116,14 @@ class Controller:
     # colisão para obstaculos x player    
     def __checar_obstaculo_colide(self):
         for obstaculo in self.__cenario.obstaculos:
-            if self.__player.colliderect(obstaculo):
+            if self.__player.rect.colliderect(obstaculo):
                 self.end_game()
 
     # colisão entre player x poder
     def __checar_poder_colide(self, now):
         global vel_jogo, poder_usado, poder_tempo, vel_pulo
         for poder in self.__cenario.poderes:
-            if self.__player.colliderect(poder.rect):
+            if self.__player.rect.colliderect(poder.rect):
                 poder_usado = poder
                 poder_tempo = now
                 self.__habilitaColisao, vel_jogo, vel_pulo = poder.efeito(vel_jogo, vel_pulo)
@@ -137,8 +139,7 @@ class Controller:
                 poder_tempo = now
                 vel_pulo = 4
                 self.__habilitaColisao = True
-                self.__player.resetarCor()
-
+   
     def contador_score(self, now):
         global ultimo_acres_score, poder_usado
         if now - ultimo_acres_score > GAME_SETTINGS.TEMPO_ACRES_SCORE:
