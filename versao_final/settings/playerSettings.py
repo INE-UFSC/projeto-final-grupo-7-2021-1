@@ -8,12 +8,12 @@ class PlayerSettings(Singleton):
         self.JUMP_SCALE = (122,160)
         self.RUN_SCALE = (124,152)
         self.SLIDE_SCALE = (118,116)
-        self.DEFAULT_X_POS = 300
+        self.DEFAULT_X_POS = 200
         self.__path = os.path.join(os.getcwd(), 'assets', 'characters', 'adventurer_boy')
-        self.__run_images = os.listdir(os.path.join(self.__path, 'run'))
-        self.__jump_images = os.listdir(os.path.join(self.__path, 'jump'))
-        self.__slide_images = os.listdir(os.path.join(self.__path, 'slide'))
-        self.__dead_images = os.listdir(os.path.join(self.__path, 'dead'))
+        self.__run_images = sorted(os.listdir(os.path.join(self.__path, 'run')))
+        self.__jump_images = sorted(os.listdir(os.path.join(self.__path, 'jump')))
+        self.__slide_images = sorted(os.listdir(os.path.join(self.__path, 'slide')))
+        self.__dead_images = sorted(os.listdir(os.path.join(self.__path, 'dead')))
 
     @property
     def path(self):
@@ -37,7 +37,7 @@ class PlayerSettings(Singleton):
 
     def set_new_avatar(self, new_avatar_path):
         self.__path = new_avatar_path
-        self.__run_images = os.listdir(os.path.join(self.__path, 'run'))
-        self.__jump_images = os.listdir(os.path.join(self.__path, 'jump'))
-        self.__slide_images = os.listdir(os.path.join(self.__path, 'slide'))
-        self.__dead_images = os.listdir(os.path.join(self.__path, 'dead'))
+        self.__run_images = sorted(os.listdir(os.path.join(self.__path, 'run')))
+        self.__jump_images = sorted(os.listdir(os.path.join(self.__path, 'jump')))
+        self.__slide_images = sorted(os.listdir(os.path.join(self.__path, 'slide')))
+        self.__dead_images = sorted(os.listdir(os.path.join(self.__path, 'dead')))
