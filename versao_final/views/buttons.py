@@ -267,19 +267,19 @@ class MusicButton(TextButton):
             self.dynamic_elevation = self.elevation
 
     def __action(self):
-        if self.__state == 'on':
-            self.__state = 'off'
+        if self.__state == 'ON':
+            self.__state = 'OFF'
             SOUND_SETTINGS.music_off()
-            self.__text = GameFonts.SEMIBOLD_SMALL.render('Musica: ' + self.__state, True, GameColors.BRANCO)
+            self.text = GameFonts.SEMIBOLD_SMALL.render('Musica: ' + self.__state, True, GameColors.BRANCO)
 
         else:
-            self.__state = 'on'
+            self.__state = 'ON'
             SOUND_SETTINGS.music_on()
-            self.__text = GameFonts.SEMIBOLD_SMALL.render('Musica: ' + self.__state, True, GameColors.BRANCO)   
+            self.text = GameFonts.SEMIBOLD_SMALL.render('Musica: ' + self.__state, True, GameColors.BRANCO)   
 
 class SfxButton(TextButton):
     def __init__(self, width, height, pos, next_state = None, elevation = 6):
-        self.__state = 'on'
+        self.__state = 'ON'
         text = 'SFX: ' + self.__state
         super().__init__(text, width, height, pos, next_state, elevation)
 
@@ -298,12 +298,12 @@ class SfxButton(TextButton):
             self.dynamic_elevation = self.elevation
 
     def __action(self):
-        if self.__state == 'on':
-            self.__state = 'off'
+        if self.__state == 'ON':
+            self.__state = 'OFF'
             SOUND_SETTINGS.sfx_off()
-            self.__text = GameFonts.SEMIBOLD_SMALL.render('SFX: ' + self.__state, True, GameColors.BRANCO)
+            self.text = GameFonts.SEMIBOLD_SMALL.render('SFX: ' + self.__state, True, GameColors.BRANCO)
 
         else:
-            self.__state = 'on'
+            self.__state = 'ON'
             SOUND_SETTINGS.sfx_on()
-            self.__text = GameFonts.SEMIBOLD_SMALL.render('SFX: ' + self.__state, True, GameColors.BRANCO)   
+            self.text = GameFonts.SEMIBOLD_SMALL.render('SFX: ' + self.__state, True, GameColors.BRANCO)   
