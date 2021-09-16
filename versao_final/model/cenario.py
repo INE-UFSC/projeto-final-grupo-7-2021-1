@@ -30,7 +30,7 @@ class Cenario:
         global tempo_ultimo_poder
         try:
             ultimo_obs = self.__obstaculos[-1]
-            if ultimo_obs.x + ultimo_obs.width < GAME_SETTINGS.WIDTH - ultimo_obs.margem:
+            if ultimo_obs.rect.x + ultimo_obs.rect.width < GAME_SETTINGS.WIDTH - ultimo_obs.margem:
                 obs = self.__gerador.gerarObs()
                 self.__obstaculos.append(obs)
         except IndexError:
@@ -54,7 +54,7 @@ class Cenario:
     def __moverObs(self, vel):
         for obs in self.__obstaculos[:]:
             obs.mover(vel)
-            if obs.x + obs.width < 0:
+            if obs.rect.x + obs.rect.width < 0:
                 self.__obstaculos.remove(obs)
 
     def __moverPoderes(self, vel):

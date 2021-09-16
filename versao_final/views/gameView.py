@@ -36,11 +36,11 @@ class GameView(BaseView):
 
     def __desenhar_obstaculos(self, screen, obstaculos):
         for obs in obstaculos:
-            pygame.draw.rect(screen, GameColors.AMARELO, obs)
+            screen.blit(obs.image, obs.rect)
 
     def __desenhar_poderes(self, screen, poderes):
         for poder in poderes:
-            screen.blit(poder.image, (poder.rect.x, poder.rect.y))
+            screen.blit(poder.image, poder.rect)
     
     def __desenhar_player(self, screen, player_rect, player_image):
         screen.blit(player_image, player_rect)

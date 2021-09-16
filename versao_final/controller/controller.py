@@ -116,7 +116,7 @@ class Controller:
     # colisão para obstaculos x player    
     def __checar_obstaculo_colide(self):
         for obstaculo in self.__cenario.obstaculos:
-            if self.__player.rect.colliderect(obstaculo):
+            if self.__player.rect.colliderect(obstaculo.rect):
                 self.end_game()
 
     # colisão entre player x poder
