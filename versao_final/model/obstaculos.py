@@ -10,9 +10,6 @@ class Obstaculo( Sprite, ABC):
     def __init__(self, x, y, margem, filename, scale):
         super().__init__()
         self.__margem = margem
-        print('--------------------------')
-        print(os.path.join(GAME_SETTINGS.obstacle_path, filename))
-        print('--------------------------')
         self.image = pygame.transform.scale(pygame.image.load(os.path.join(GAME_SETTINGS.obstacle_path, filename)), scale)
         
         self.rect = self.image.get_rect()

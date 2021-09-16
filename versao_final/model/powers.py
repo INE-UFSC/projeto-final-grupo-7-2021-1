@@ -4,7 +4,6 @@ from pygame.sprite import Sprite
 from abc import ABC, abstractmethod
 
 
-TAMANHO = 10
 SLOW = (34, 55)
 STAR = (47, 45) 
 
