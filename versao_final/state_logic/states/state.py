@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 
 
 class State(ABC):
-    def __init__(self, view, nome):
+    def __init__(self, view, nome, music):
         self.__view = view
-        self.__nome = nome
-    
+        self.__nome = nome        
+
     @property
     def view(self):
         return self.__view
@@ -17,3 +17,4 @@ class State(ABC):
     @abstractmethod
     def perform_actions(self, screen):
         raise NotImplementedError
+    

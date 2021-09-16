@@ -12,7 +12,6 @@ from state_logic.states.pauseState import PauseState
 class StateMachine:
     def __init__(self, controlador):
         self.__controlador = controlador
-
         self.__map = {'menu':MenuState(),
                       'instrucoes':InstructionState(),
                       'configuracoes':SettingsState(),
@@ -24,6 +23,7 @@ class StateMachine:
                       'pausado':PauseState()}
 
         self.__currentState = self.__map['menu']
+        
 
     @property
     def currentState(self):

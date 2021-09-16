@@ -96,6 +96,7 @@ class TextButton(Button):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
+                SOUND_SETTINGS.button_sfx.play()
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
@@ -118,6 +119,7 @@ class ImageButton(Button):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
+                SOUND_SETTINGS.button_sfx.play()
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
@@ -147,6 +149,7 @@ class LeftArrowButton(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
+                SOUND_SETTINGS.button_sfx.play()
                 return pos - 1
         else:
             self.dynamic_elevation = self.elevation
@@ -165,6 +168,7 @@ class RightArrowButton(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
+                SOUND_SETTINGS.button_sfx.play()
                 return pos + 1
         else:
             self.dynamic_elevation = self.elevation
@@ -189,6 +193,7 @@ class ConfirmButtonBg(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
+                SOUND_SETTINGS.button_sfx.play()
                 GAME_SETTINGS.set_bg(filepath)
                 return self.next_state
         else:
@@ -207,6 +212,7 @@ class DeclineButtonBg(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
+                SOUND_SETTINGS.button_sfx.play()
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
@@ -224,6 +230,7 @@ class ConfirmButtonAvatar(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
+                SOUND_SETTINGS.button_sfx.play()
                 PLAYER_SETTINGS.set_new_avatar(filepath)
                 return self.next_state
         else:
@@ -242,6 +249,7 @@ class DeclineButtonAvatar(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
+                SOUND_SETTINGS.button_sfx.play()
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
@@ -262,6 +270,7 @@ class MusicButton(TextButton):
                 self.dynamic_elevation = self.elevation
             if mouse_up:
                 self.__action()
+                SOUND_SETTINGS.button_sfx.play()
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
@@ -292,6 +301,7 @@ class SfxButton(TextButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
+                SOUND_SETTINGS.button_sfx.play()
                 self.__action()
                 return self.next_state
         else:

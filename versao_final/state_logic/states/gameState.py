@@ -2,10 +2,15 @@ import pygame
 from pygame.constants import K_ESCAPE
 from views.gameView import GameView
 from state_logic.states.state import State
+from settings.soundSettings import SoundSettings;
+
+
+SOUND_SETTINGS = SoundSettings()
 
 class GameState(State):
     def __init__(self):
         super().__init__(GameView(), 'jogando')
+
 
     def perform_actions(self, screen, **kwargs):
         score = kwargs['score']

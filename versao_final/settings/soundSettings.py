@@ -32,8 +32,8 @@ class SoundSettings(Singleton):
     return self.__game_music
 
   def music_on(self):
-    self.__game_music.set_volume(1)
-    self.__menu_music.set_volume(1)
+    self.__game_music.set_volume(0.3)
+    self.__menu_music.set_volume(0.3)
 
 
   def music_off(self):
@@ -41,9 +41,9 @@ class SoundSettings(Singleton):
     self.__menu_music.set_volume(0)
 
   def sfx_on(self):
-    self.__button_sfx.set_volume(1)
-    self.__jump_sfx.set_volume(1)
-    self.__game_over.set_volume(1)
+    self.__button_sfx.set_volume(0.3)
+    self.__jump_sfx.set_volume(0.3)
+    self.__game_over.set_volume(0.3)
 
   def sfx_off(self):
     self.__button_sfx.set_volume(0)

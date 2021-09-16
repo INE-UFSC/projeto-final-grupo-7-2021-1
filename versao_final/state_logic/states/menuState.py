@@ -1,6 +1,8 @@
 from state_logic.states.state import State
 from views.menuView import MenuView
+from settings.soundSettings import SoundSettings
 
+SOUND_SETTINGS = SoundSettings()
 
 class MenuState(State):
     def __init__(self):
