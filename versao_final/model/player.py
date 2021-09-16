@@ -1,5 +1,5 @@
-import pygame
 import os
+import pygame
 from pygame.sprite import Sprite
 from settings.gameSettings import GameSettings
 from settings.playerSettings import PlayerSettings
@@ -17,13 +17,14 @@ class Player(Sprite):
         self.__agachando = False
         self.__direcao_pulo = 'UP'
         self.__score = 0
+        #relacionado ao sprite do player
         self.__images = PLAYER_SETTINGS.run_images
         self.__scale = PLAYER_SETTINGS.RUN_SCALE
         self.__relative_y = GAME_SETTINGS.COMECO_CHAO - self.__scale[1]
         self.__folder = 'run'
+        self.__posImgs = 0
         self.image = None
         self.rect = None
-        self.__posImgs = 0
 
 
     @property
@@ -44,12 +45,11 @@ class Player(Sprite):
 
     def pular(self, vel_pulo):
         self.__pulando = True
-        self.setJump()
+        if self.__folder != 'jump':
+            self.setJump()
         if self.__direcao_pulo == 'UP':
             self.__relative_y -= vel_pulo
-
             if self.__relative_y + self.rect.height <= GAME_SETTINGS.PULO_MAX:
-
                 self.__direcao_pulo = 'DOWN'
         else:
             self.__relative_y += vel_pulo
@@ -67,7 +67,6 @@ class Player(Sprite):
 
     
     def soltar(self):
-        print('entrou aqui')
         self.__agachando = False
         self.__relative_y -= self.__scale[1]/2
         self.setRun()
@@ -90,7 +89,6 @@ class Player(Sprite):
             self.rect = self.image.get_rect()
             self.rect.y = self.__relative_y
             self.rect.x = PLAYER_SETTINGS.DEFAULT_X_POS
-
             if self.__posImgs >= len(self.__images) -1:
                 self.__posImgs = 0
             else:

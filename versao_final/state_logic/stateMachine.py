@@ -1,4 +1,12 @@
-from state_logic.gameStates import *
+from state_logic.states.menuState import MenuState
+from state_logic.states.instructionState import InstructionState
+from state_logic.states.endgameState import EndgameState
+from state_logic.states.rankingState import RankingState
+from state_logic.states.settingsState import SettingsState
+from state_logic.states.gameState import GameState
+from state_logic.states.selBgState import SelBgState
+from state_logic.states.selAvatarState import SelAvatarState
+from state_logic.states.pauseState import PauseState
 
 
 class StateMachine:
@@ -11,9 +19,9 @@ class StateMachine:
                       'ranking':RankingState(),
                       'sel_avatar':SelAvatarState(),
                       'sel_bg':SelBgState(),
-                      'jogando':PlayingState(),
+                      'jogando':GameState(),
                       'endgame':EndgameState(),
-                      'pausado':PausedState()}
+                      'pausado':PauseState()}
 
         self.__currentState = self.__map['menu']
 
