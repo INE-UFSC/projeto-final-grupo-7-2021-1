@@ -95,7 +95,7 @@ class Controller:
     def key_handler(self):
         keys = pygame.key.get_pressed()
         if keys[K_w] or keys[K_UP]:
-            if not self.__player.pulando:
+            if not self.__player.pulando and not self.__player.agachando:
                 self.__player.pular(vel_pulo)
         if keys[K_s] or keys[K_DOWN]:
             if not self.__player.pulando and not self.__player.agachando:
