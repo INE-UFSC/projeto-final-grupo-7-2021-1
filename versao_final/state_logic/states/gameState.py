@@ -2,10 +2,10 @@ import pygame
 from pygame.constants import K_ESCAPE
 from views.gameView import GameView
 from state_logic.states.state import State
-from settings.soundSettings import SoundSettings;
+from sound_logic.musicManager import MusicManager
 
 
-SOUND_SETTINGS = SoundSettings()
+MUSIC_MANAGER = MusicManager()
 
 class GameState(State):
     def __init__(self):
@@ -13,6 +13,8 @@ class GameState(State):
 
 
     def perform_actions(self, screen, **kwargs):
+        MUSIC_MANAGER.menu_music.stop_sound()
+        MUSIC_MANAGER.game_music.play_sound()
         score = kwargs['score']
         highscore = kwargs['highscore']
         poderes = kwargs['poderes']

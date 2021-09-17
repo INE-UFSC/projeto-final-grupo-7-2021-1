@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class State(ABC):
-    def __init__(self, view, nome, music):
+    def __init__(self, view, nome):
         self.__view = view
         self.__nome = nome        
 

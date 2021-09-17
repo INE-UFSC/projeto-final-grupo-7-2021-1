@@ -5,12 +5,14 @@ from settings.gameFonts import GameFonts
 from settings.gameColors import GameColors
 from settings.gameSettings import GameSettings
 from settings.playerSettings import PlayerSettings
-from settings.soundSettings import SoundSettings
+from sound_logic.sfxManager import SFXManager
+from sound_logic.musicManager import MusicManager
 
 
 PLAYER_SETTINGS = PlayerSettings()
 GAME_SETTINGS = GameSettings()
-SOUND_SETTINGS = SoundSettings()
+SFX_MANAGER = SFXManager()
+MUSIC_MANAGER = MusicManager()
 PATH = os.path.join(os.getcwd(),'assets','buttons')
 
 class Button(ABC):
@@ -96,7 +98,7 @@ class TextButton(Button):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
-                SOUND_SETTINGS.button_sfx.play()
+                SFX_MANAGER.button_sfx.play()
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
@@ -119,7 +121,7 @@ class ImageButton(Button):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
-                SOUND_SETTINGS.button_sfx.play()
+                SFX_MANAGER.button_sfx.play()
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
@@ -149,7 +151,7 @@ class LeftArrowButton(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
-                SOUND_SETTINGS.button_sfx.play()
+                SFX_MANAGER.button_sfx.play()
                 return pos - 1
         else:
             self.dynamic_elevation = self.elevation
@@ -168,7 +170,7 @@ class RightArrowButton(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
-                SOUND_SETTINGS.button_sfx.play()
+                SFX_MANAGER.button_sfx.play()
                 return pos + 1
         else:
             self.dynamic_elevation = self.elevation
@@ -193,7 +195,7 @@ class ConfirmButtonBg(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
-                SOUND_SETTINGS.button_sfx.play()
+                SFX_MANAGER.button_sfx.play()
                 GAME_SETTINGS.set_bg(filepath)
                 return self.next_state
         else:
@@ -212,7 +214,7 @@ class DeclineButtonBg(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
-                SOUND_SETTINGS.button_sfx.play()
+                SFX_MANAGER.button_sfx.play()
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
@@ -230,7 +232,7 @@ class ConfirmButtonAvatar(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
-                SOUND_SETTINGS.button_sfx.play()
+                SFX_MANAGER.button_sfx.play()
                 PLAYER_SETTINGS.set_new_avatar(filepath)
                 return self.next_state
         else:
@@ -249,14 +251,14 @@ class DeclineButtonAvatar(ImageButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
-                SOUND_SETTINGS.button_sfx.play()
+                SFX_MANAGER.button_sfx.play()
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
 
 class MusicButton(TextButton):
     def __init__(self, width, height, pos, next_state = None, elevation = 6):
-        self.__state = 'on'
+        self.__state = 'ON'
         text = 'Musica: ' + self.__state
         super().__init__(text, width, height, pos, next_state, elevation)
 
@@ -270,7 +272,7 @@ class MusicButton(TextButton):
                 self.dynamic_elevation = self.elevation
             if mouse_up:
                 self.__action()
-                SOUND_SETTINGS.button_sfx.play()
+                SFX_MANAGER.button_sfx.play()
                 return self.next_state
         else:
             self.dynamic_elevation = self.elevation
@@ -278,12 +280,12 @@ class MusicButton(TextButton):
     def __action(self):
         if self.__state == 'ON':
             self.__state = 'OFF'
-            SOUND_SETTINGS.music_off()
+            MUSIC_MANAGER.music_off()
             self.text = GameFonts.SEMIBOLD_SMALL.render('Musica: ' + self.__state, True, GameColors.BRANCO)
 
         else:
             self.__state = 'ON'
-            SOUND_SETTINGS.music_on()
+            MUSIC_MANAGER.music_on()
             self.text = GameFonts.SEMIBOLD_SMALL.render('Musica: ' + self.__state, True, GameColors.BRANCO)   
 
 class SfxButton(TextButton):
@@ -301,7 +303,7 @@ class SfxButton(TextButton):
             else:
                 self.dynamic_elevation = self.elevation
             if mouse_up:
-                SOUND_SETTINGS.button_sfx.play()
+                SFX_MANAGER.button_sfx.play()
                 self.__action()
                 return self.next_state
         else:
@@ -310,10 +312,10 @@ class SfxButton(TextButton):
     def __action(self):
         if self.__state == 'ON':
             self.__state = 'OFF'
-            SOUND_SETTINGS.sfx_off()
+            SFX_MANAGER.sfx_off()
             self.text = GameFonts.SEMIBOLD_SMALL.render('SFX: ' + self.__state, True, GameColors.BRANCO)
 
         else:
             self.__state = 'ON'
-            SOUND_SETTINGS.sfx_on()
+            SFX_MANAGER.sfx_on()
             self.text = GameFonts.SEMIBOLD_SMALL.render('SFX: ' + self.__state, True, GameColors.BRANCO)   
