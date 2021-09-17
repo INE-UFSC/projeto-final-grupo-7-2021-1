@@ -5,7 +5,10 @@ from model.cenario import Cenario
 from controller.highScore import HighScoreDAO
 from settings.gameSettings import GameSettings
 from state_logic.stateMachine import StateMachine
+from sound_logic.sfxManager import SFXManager
 
+
+SFX_MANAGER = SFXManager()
 
 #variaveis auxiliares
 vel_jogo = 4
@@ -95,6 +98,7 @@ class Controller:
         keys = pygame.key.get_pressed()
         if keys[K_w] or keys[K_UP]:
             if not self.__player.pulando and not self.__player.agachando:
+                SFX_MANAGER.jump_sfx.play()
                 self.__player.pular(vel_pulo)
         if keys[K_s] or keys[K_DOWN]:
             if not self.__player.pulando and not self.__player.agachando:
