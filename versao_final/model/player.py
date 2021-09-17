@@ -25,6 +25,7 @@ class Player(Sprite):
         self.__posImgs = 0
         self.image = None
         self.rect = None
+        self.mask = None
 
 
     @property
@@ -89,6 +90,7 @@ class Player(Sprite):
             self.rect = self.image.get_rect()
             self.rect.y = self.__relative_y
             self.rect.x = PLAYER_SETTINGS.DEFAULT_X_POS
+            self.mask = pygame.mask.from_surface(self.image)
             if self.__posImgs >= len(self.__images) -1:
                 self.__posImgs = 0
             else:

@@ -14,6 +14,7 @@ class Obstaculo( Sprite, ABC):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y - self.rect.height
+        self.mask = pygame.mask.from_surface(self.image)
 
     @property
     def margem(self):

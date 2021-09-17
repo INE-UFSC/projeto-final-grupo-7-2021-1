@@ -15,6 +15,7 @@ class Poder(Sprite,ABC):
         self.__tempo = tempo
         self.image = pygame.transform.scale(pygame.image.load(os.path.join('assets','powers',filename)), scale)
         self.rect = self.image.get_rect(center = (x,y))
+        self.mask = pygame.mask.from_surface(self.image)
         
         
     
