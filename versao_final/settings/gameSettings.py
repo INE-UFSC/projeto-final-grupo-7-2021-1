@@ -29,4 +29,4 @@ class GameSettings(Singleton):
     def set_bg(self, new_bg):
         self.__background = new_bg
         path = os.path.basename(os.path.normpath(self.__background))
-        self.__obstacle_path = self.__map_obstacle[path]
+        self.__obstacle_path = os.path.join(os.getcwd(), 'assets','obstacles', self.__map_obstacle[path])
