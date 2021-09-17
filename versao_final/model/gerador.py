@@ -20,7 +20,7 @@ class Gerador:
         obs_escolhido = random.choice(OBSTACULOS)
         margin = random.randrange(600,800,10)
         if obs_escolhido == Passaro:
-            y = random.randrange(GAME_SETTINGS.COMECO_CHAO-120, GAME_SETTINGS.COMECO_CHAO-90)
+            y = random.randrange(GAME_SETTINGS.COMECO_CHAO-130, GAME_SETTINGS.COMECO_CHAO-100)
             obs = obs_escolhido(GAME_SETTINGS.WIDTH, y, margin)
             return obs
         else:

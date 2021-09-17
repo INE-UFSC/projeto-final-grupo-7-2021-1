@@ -7,7 +7,9 @@ from state_logic.states.gameState import GameState
 from state_logic.states.selBgState import SelBgState
 from state_logic.states.selAvatarState import SelAvatarState
 from state_logic.states.pauseState import PauseState
+from sound_logic.sfxManager import SFXManager
 
+SFX_MANAGER = SFXManager()
 
 class StateMachine:
     def __init__(self, controlador):
@@ -46,5 +48,6 @@ class StateMachine:
     def next_state_logic(self, next_state, colidiu):
         if colidiu:
             self.__currentState = self.__map['endgame']
+            SFX_MANAGER.game_over_sfx.play()
         elif next_state != None and next_state != self.__currentState.nome:
             self.__currentState = self.__map[next_state]

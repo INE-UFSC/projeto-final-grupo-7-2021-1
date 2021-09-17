@@ -84,7 +84,6 @@ class Controller:
             self.terminar_efeito(now)
             self.update_highscore()
             self.__player.animaPlayer(now)
-
             if self.__habilitaColisao:
                 self.checar_colissoes(now)
         elif self.__state_machine.currentState == 'menu':

@@ -1,7 +1,8 @@
-from abc import ABC, abstractmethod
-from pygame.sprite import Sprite
 import os, pygame
+from pygame.sprite import Sprite
+from abc import ABC, abstractmethod
 from settings.gameSettings import GameSettings
+
 
 GAME_SETTINGS = GameSettings()
 
@@ -22,4 +23,3 @@ class Obstaculo( Sprite, ABC):
     
     def mover(self,vel):
         self.rect.x -= vel
-

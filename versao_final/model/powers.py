@@ -26,11 +26,6 @@ class Poder(Sprite,ABC):
 
     def mover(self, vel):
         self.rect.x -= vel + 2
-        self.__atualizar()
-
-    # Atualiza o Rect 
-    def __atualizar(self):
-        self.update(self)
 
     #Efeito gerado pelo poder
     @abstractmethod
@@ -46,7 +41,7 @@ class PoderLento(Poder):
 
     
     def efeito(self, velocidadeJogo, velocidadePulo):
-        return True, 2, 2 
+        return True, 3, 3 
 
 
 class PoderInvulnerabilidade(Poder):

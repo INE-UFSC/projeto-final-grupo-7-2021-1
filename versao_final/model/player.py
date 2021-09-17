@@ -54,7 +54,7 @@ class Player(Sprite):
                 self.__direcao_pulo = 'DOWN'
         else:
             self.__relative_y += vel_pulo
-            if self.__relative_y + self.rect.height >= GAME_SETTINGS.COMECO_CHAO:
+            if self.__relative_y + self.rect.height > GAME_SETTINGS.COMECO_CHAO:
                 self.setRun()
                 self.__direcao_pulo = 'UP'
                 self.__pulando = False
