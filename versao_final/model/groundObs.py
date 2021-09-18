@@ -4,7 +4,7 @@ from model.obstaculos import Obstaculo
 class ObsPequeno(Obstaculo):
     def __init__(self, x, y, margem):
         filename = 'obsPequeno.png'
-        scale = (52, 52)
+        scale = (72, 72)
         super().__init__(x, y, margem, filename, scale)
 
 class ObsGrande(Obstaculo):

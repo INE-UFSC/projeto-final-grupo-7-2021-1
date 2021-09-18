@@ -7,7 +7,7 @@ from settings.gameSettings import GameSettings
 from state_logic.stateMachine import StateMachine
 from sound_logic.sfxManager import SFXManager
 
-
+pygame.display.set_caption('A Random Game')
 SFX_MANAGER = SFXManager()
 
 #variaveis auxiliares
