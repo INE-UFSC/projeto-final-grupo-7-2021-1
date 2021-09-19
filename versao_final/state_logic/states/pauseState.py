@@ -7,7 +7,6 @@ from views.pauseView import PauseView
 class PauseState(State):
     def __init__(self):
         super().__init__(PauseView(), 'pausado')
-        self.__pause_tempo = 1000
 
     def perform_actions(self, screen, **kwargs):
         keydown = kwargs['keydown']

@@ -1,32 +1,35 @@
 import pygame
-from pygame.constants import *
+from pygame.constants import WINDOWCLOSE, MOUSEBUTTONUP, KEYDOWN, K_UP, K_DOWN, K_w, K_s
+
 from model.player import Player
 from model.cenario import Cenario
 from controller.highScore import HighScoreDAO
-from settings.gameSettings import GameSettings
 from state_logic.stateMachine import StateMachine
+
+from settings.gameSettings import GameSettings
 from sound_logic.sfxManager import SFXManager
 
-pygame.display.set_caption('A Random Game')
+
 SFX_MANAGER = SFXManager()
+GAME_SETTINGS = GameSettings()
 
 #variaveis auxiliares
 vel_jogo = 4
 vel_jogo_salvo = vel_jogo
 vel_pulo = 5
+
 poder_usado = None
 poder_tempo = 0 #registra o tempo que o player colidiu com o poder
-pause_tempo = 0 #registra o tempo que a tecla de pause foi pressionada (para evitar bugs)
+
 ultimo_acres_score = 0
 ultimo_acres_vel = 0 #a cada 100 pontos a velocidade aumenta em 0.5
-
-GAME_SETTINGS = GameSettings()
 
 class Controller:
     def __init__(self):
         self.__player = Player()
         self.__cenario = Cenario()
         self.__window = pygame.display.set_mode((GAME_SETTINGS.WIDTH, GAME_SETTINGS.HEIGHT))
+        pygame.display.set_caption('A Random Game')
         self.__state_machine = StateMachine(self)
         self.__hsDAO = HighScoreDAO('highScores.pkl')
         self.__highscore = self.__hsDAO.getHighScore()
@@ -44,10 +47,6 @@ class Controller:
     @property
     def cenario(self):
         return self.__cenario
-
-    @property
-    def gameState(self):
-        return self.__gameState
 
     @property
     def highscore(self):
@@ -149,7 +148,7 @@ class Controller:
             self.__player.score += 1
             ultimo_acres_score = now
             if poder_usado == None:
-                #como alguns poderes mexem com a velocidade do jogo
+                #como os poderes mexem com a velocidade do jogo
                 #não podemos afetar essa velocidade durante o tempo de uso do poder
                 self.incrementar_vel()
 

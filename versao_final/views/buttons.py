@@ -1,10 +1,12 @@
 import os
 import pygame
+
 from abc import ABC, abstractmethod
 from settings.gameFonts import GameFonts
 from settings.gameColors import GameColors
 from settings.gameSettings import GameSettings
 from settings.playerSettings import PlayerSettings
+
 from sound_logic.sfxManager import SFXManager
 from sound_logic.musicManager import MusicManager
 

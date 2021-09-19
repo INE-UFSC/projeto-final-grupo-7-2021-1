@@ -8,7 +8,7 @@ GAME_SETTINGS = GameSettings()
 
 class RankingView(ViewWithHomeButton):
     def __init__(self):
-        super().__init__(GameColors.AZUL, 'RANKING')
+        super().__init__('RANKING')
 
     def display(self, screen, mouse_up, top_scores):
         s0 = super().display(screen, mouse_up)

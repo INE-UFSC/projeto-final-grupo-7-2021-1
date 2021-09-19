@@ -1,12 +1,12 @@
 from state_logic.states.menuState import MenuState
-from state_logic.states.instructionState import InstructionState
+from state_logic.states.gameState import GameState
+from state_logic.states.selBgState import SelBgState
+from state_logic.states.pauseState import PauseState
 from state_logic.states.endgameState import EndgameState
 from state_logic.states.rankingState import RankingState
 from state_logic.states.settingsState import SettingsState
-from state_logic.states.gameState import GameState
-from state_logic.states.selBgState import SelBgState
 from state_logic.states.selAvatarState import SelAvatarState
-from state_logic.states.pauseState import PauseState
+from state_logic.states.instructionState import InstructionState
 from sound_logic.sfxManager import SFXManager
 
 SFX_MANAGER = SFXManager()

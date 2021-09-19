@@ -12,7 +12,7 @@ GAME_SETTINGS = GameSettings()
 
 class InstructionView(ViewWithHomeButton):
     def __init__(self):
-        super().__init__(GameColors.AZUL)
+        super().__init__()
         self.__contents = [ObjectivesContent(), ControlsContent(), PowersContent()]
         self.__pos = 0
         self.__currentContent = self.__contents[self.__pos]

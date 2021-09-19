@@ -19,6 +19,7 @@ class AvatarView(SelectionView):
         
         self.__buttons = [DeclineButtonAvatar(90, 90, (GAME_SETTINGS.WIDTH/2 - 100 - 45, GAME_SETTINGS.HEIGHT/2 + 150), 'configuracoes'),
                           ConfirmButtonAvatar(90, 90, (GAME_SETTINGS.WIDTH/2 + 100 - 45, GAME_SETTINGS.HEIGHT/2 + 150), 'configuracoes')]
+        
         self.__avatar_path = None
 
     def display(self, screen, mouse_up):

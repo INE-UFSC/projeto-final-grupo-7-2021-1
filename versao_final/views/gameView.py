@@ -21,10 +21,9 @@ class GameView(BaseView):
         self.__desenhar_player(screen, player_rect, player_image)
         self.__desenhar_poderes(screen, poderes)
         self.__desenhar_scores(screen, score, highscore)
-    
+
     def __desenhar_cenario(self, screen):
         global bg_x
-        
         bg = pygame.transform.scale(pygame.image.load(GAME_SETTINGS.background), (GAME_SETTINGS.WIDTH, GAME_SETTINGS.HEIGHT))
         #background infinito
         rel_x = bg_x % bg.get_rect().width
@@ -32,7 +31,6 @@ class GameView(BaseView):
         if rel_x < GAME_SETTINGS.WIDTH:
             screen.blit(bg, (rel_x, 0))
         bg_x -= 2
-
 
     def __desenhar_obstaculos(self, screen, obstaculos):
         for obs in obstaculos:

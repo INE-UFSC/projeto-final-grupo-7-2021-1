@@ -1,5 +1,4 @@
-import os
-import pygame
+import pygame, os
 from pygame.sprite import Sprite
 from settings.gameSettings import GameSettings
 from settings.playerSettings import PlayerSettings
@@ -7,9 +6,9 @@ from settings.playerSettings import PlayerSettings
 
 GAME_SETTINGS = GameSettings()
 PLAYER_SETTINGS = PlayerSettings()
+
 #variável auxiliar animação
 temporizador_animacao = 0
-
 
 class Player(Sprite):
     def __init__(self):
@@ -26,7 +25,6 @@ class Player(Sprite):
         self.image = None
         self.rect = None
         self.mask = None
-
 
     @property
     def pulando(self):
@@ -96,7 +94,6 @@ class Player(Sprite):
             else:
                 self.__posImgs += 1
     
-
     def setJump(self):
         self.__posImgs = 0
         self.__folder = 'jump'

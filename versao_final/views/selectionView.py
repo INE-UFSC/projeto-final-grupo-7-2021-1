@@ -11,7 +11,7 @@ GAME_SETTINGS = GameSettings()
 
 class SelectionView(BaseView, ABC):
     def __init__(self):
-        super().__init__(GameColors.AZUL)
+        super().__init__()
         self.__arrow_buttons = [LeftArrowButton(100, 70, (20, GAME_SETTINGS.HEIGHT/2)),
                                 RightArrowButton(100, 70, (GAME_SETTINGS.WIDTH - 100 - 30, GAME_SETTINGS.HEIGHT/2)),]
         self.__pos = 0

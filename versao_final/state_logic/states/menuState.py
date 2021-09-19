@@ -1,5 +1,5 @@
-from state_logic.states.state import State
 from views.menuView import MenuView
+from state_logic.states.state import State
 from sound_logic.musicManager import MusicManager
 
 

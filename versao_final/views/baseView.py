@@ -1,9 +1,9 @@
-import pygame
 from abc import ABC, abstractmethod
+from settings.gameColors import GameColors
 
 class BaseView(ABC):
-    def __init__(self, color=None):
-        self.__color = color
+    def __init__(self, color = GameColors.AZUL):
+        self.__color = color #cor default do jogo
 
     @property
     def color(self):
