@@ -51,4 +51,4 @@ class PoderInvulnerabilidade(Poder):
         super().__init__(x, y, 4000, filename, STAR)
     
     def efeito(self, velocidadeJogo, velocidadePulo):
-        return False, velocidadeJogo + 20 , velocidadePulo
+        return False, velocidadeJogo + 25 , velocidadePulo
